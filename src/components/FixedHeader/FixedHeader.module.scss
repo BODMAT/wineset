@@ -1,0 +1,163 @@
+.header {
+    position: relative;
+    
+        &__container {
+            @include mixins.container;
+        }
+
+        &__body_top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 84px;
+        }
+
+        &__top {
+            z-index: 10;
+            position: fixed;
+            width: 100%;
+            height: 84px;
+            top: 0;
+            left: 0;
+            background-color: #121212;
+        }
+
+		&__logo {
+		}
+
+        &__form {
+            flex: 0 1 32%;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 10px;
+
+            display: flex;
+            justify-content: space-between;
+
+            &_input{
+                width: 100%;
+                color: #fff;
+                background-color: transparent;
+            }
+
+            &_btn {
+                padding-left: 10px;
+                background-color: transparent;
+            }
+        }
+
+		&__buttons {
+            display: flex;
+            gap: 10px;
+
+            & > * {
+                font-weight: 600;
+                max-width: 220px;
+                padding: 10px 34px;
+                border-radius: 3px;
+                color: #fff;
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            }
+		}
+
+		&__order {
+            background-color: #7A0000;
+            border: 2px solid #7A0000;
+            &:hover {
+                background-color: transparent;
+            }
+		}
+
+		&__contact {
+            background-color: transparent;
+            position: relative;
+            &::after {
+                content: "";
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                bottom: 40%;
+                right: 10%;
+                background-image: url('./../../assets/arr-to-bottom.svg'); 
+                background-size: cover; 
+                background-repeat: no-repeat; 
+                background-position: center;
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            }
+            &:hover::after{
+                transform: rotate(-90deg);
+            }
+		}
+
+        //==============
+
+        &__bottom {
+            padding-top: 84px;
+            background-color: #E5E5E5;
+        }
+
+        &__body_bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+    
+        &__menu {
+        }
+    
+        &__ul {
+            display: flex;
+            gap: 40px;
+        }
+    
+        &__li {
+        }
+    
+        &__a {
+            padding-right: 20px;
+            color: #121212;
+            position: relative;
+            &::after {
+                content: "";
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                bottom: 38%;
+                right: 0;
+                background-image: url('./../../assets/arr-to-bottom-gray.svg'); 
+                background-size: cover; 
+                background-repeat: no-repeat; 
+                background-position: center;
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            }
+            &:hover::after{
+                opacity: 0;
+                transform: translate(0, 150%);
+            }
+        }
+    
+        &__buy {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        &__wish {
+            background-color: transparent;
+            transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+
+        &__cart {
+            background-color: transparent;
+            transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+}
+
+
+    
