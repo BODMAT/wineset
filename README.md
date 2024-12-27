@@ -1,6 +1,6 @@
 # WINESET
 ## The purpose of this project:
-- practice with OOP (polymorphism, encaplation, inheritance);
+- practice with OOP (polymorphism, encapsulation, inheritance);
 - repeate the layout structure of React components;
 - add interactive (filters, search, imitation of purchase);
 - consolidate the studied theory of the React (states, hooks, routing);

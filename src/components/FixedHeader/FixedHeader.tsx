@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styles from "./FixedHeader.module.scss"
 export function FixedHeader() {
     return (
@@ -5,9 +6,9 @@ export function FixedHeader() {
             <div className={styles.header__top}>
                 <div className={styles.header__container}>
                     <div className={styles.header__body_top}>
-                        <a href="#" className={styles.header__logo}>
+                        <Link to="/" className={styles.header__logo}>
                             <img src="./public/logo.svg" alt="logo" />
-                        </a>
+                        </Link>
                         <form action="#" className={styles.header__form}>
                             <input className={styles.header__form_input} type="text" placeholder="Find a drink..." />
                             <button className={styles.header__form_btn} type="submit">
