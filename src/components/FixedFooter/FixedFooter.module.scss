@@ -13,6 +13,13 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
+            @media (max-width: 767.98px) {
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 30px;
+            }
 		}
 
 		&__first {
@@ -23,7 +30,11 @@
 
 		&__navigation {
             display: flex;
-            gap: 70px;
+            column-gap: 70px;
+            @media (max-width: 991.98px) {
+                flex-direction: column;
+                row-gap: 25px;
+            }
 		}
 
 		&__menu {
@@ -73,13 +84,16 @@
             margin-bottom: 20px;
             display: flex;
             gap: 13px;
-            width: 30px;
+            //width: 30px;
             align-items: center;
             & > *{
                 transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
                 &:hover {
                     transform: scale(1.1);
                 }
+            }
+            @media (max-width: 767.98px) {
+                justify-self: center;
             }
 		}
 
