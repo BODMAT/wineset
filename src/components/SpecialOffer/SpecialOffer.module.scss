@@ -1,0 +1,95 @@
+.special {
+    height: 424px;
+    width: 100%;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+    @media (max-width: 767.98px) {
+        height: 300px;
+    }
+
+    @media (min-width: 850px) {
+        &:hover{
+            .special__content {
+                padding: 0 20vw;
+            }
+        }
+    }
+    
+		&__img {
+            width: 100%; 
+            height: 100%;
+            overflow: hidden; 
+            position: relative;
+                & img {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    min-width: 100%;
+                    min-height: 100%;
+                    object-fit: cover;
+            }
+		}
+
+		&__content {
+            transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+
+            position: absolute;
+            z-index: 5;
+            width: auto;
+            height: 100%;
+            top: 0;
+            right: -5vw;
+
+            background: linear-gradient(to left, #780A2B, #4e061c); 
+            clip-path: polygon(150px 0, 100% 0, 100% 100%, 0 100%);
+            box-shadow: -10px 5px 30px rgba(0, 0, 0, 0.9);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            padding: 20px 13vw;
+            text-align: center;
+            @media (max-width: 444.98px) {
+                background: linear-gradient(to left, #780a2b66, #4e061c72); 
+                clip-path: none;
+                box-shadow: none;
+            }
+		}
+
+		&__suptitle {
+            color: #ffffffa0;
+            font-family: "Alex Brush",serif;
+            font-weight: 400;
+            margin-bottom: 10px;
+
+            @include mixins.adaptiv-font (53, 30);
+		}
+
+		&__title {
+            max-width: 381px;
+            color: #fff;
+            font-family: "Inter",sans-serif;
+            font-weight: 500;
+            margin-bottom: 50px;
+            line-height: 78px;
+            text-transform: uppercase;
+
+            @include mixins.adaptiv-font (56, 39);
+		}
+
+		&__subtitle {
+            color: #fff;
+            font-family: "Inter",sans-serif;
+            font-weight: 600;
+            line-height: normal;
+            letter-spacing: 4px;
+
+            @include mixins.adaptiv-font (14, 12);
+            &:hover{
+                text-decoration: underline;
+            }
+		}
+}
