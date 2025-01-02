@@ -1,3 +1,4 @@
+import { ForWhom } from "../ForWhom/ForWhom";
 import { Links } from "../Links/Links";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { WhatMakesUsSpecial } from "../WhatMakesUsSpecial/WhatMakesUsSpecial";
@@ -9,6 +10,7 @@ export function HomePage() {
                 title="glasses & сandles" subTitle="CREATE YOUR OWN WINE SET" subTitleLink="/wine" />
             <Links />
             <WhatMakesUsSpecial />
+            <ForWhom />
         </div>
     )
 }
