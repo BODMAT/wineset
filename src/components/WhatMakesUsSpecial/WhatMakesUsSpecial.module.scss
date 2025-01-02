@@ -1,0 +1,138 @@
+.special {
+    padding: 100px 0;
+    position: relative;
+    @media (max-width: 767.98px) {
+        padding: 50px 0;
+    }
+        &__container {
+            position: relative;
+            z-index: 2;
+            @include mixins.container;
+        }
+
+		&__title {
+            max-width: 419px;
+            color: #121212;
+            font-style: normal;
+            font-family: "Cormorant",serif;
+            font-weight: 700;
+            line-height: normal;
+            text-transform: uppercase;
+            padding-bottom: 40px;
+            @include mixins.adaptiv-font (48, 30);
+            @media (max-width: 1399.98px) {
+                text-align: center;
+                margin: 0 auto;
+            }
+		}
+
+		&__content {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+
+            @media (max-width: 1399.98px) {
+                gap: 50px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+
+            & > * {
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+                &:hover {
+                    & img {
+                        border-radius: 40px;
+                    }
+                    & .special__label {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            & img {
+                max-width: 100%;
+            }
+		}
+
+		&__help {
+            max-width: 640px;
+
+			&_img img{
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+			}
+
+            @media (max-width: 1399.98px) {
+                order: 3;
+            }
+		}
+
+		&__label {
+            padding-top: 10px;
+            color: #000;
+            font-style: normal;
+            font-family: "Inter",sans-serif;
+            font-weight: 500;
+            line-height: normal;
+            @include mixins.adaptiv-font (20, 18);
+            @media (max-width: 767.98px) {
+                text-align: center;   
+            }
+		}
+
+		&__text {
+            color: #121212;
+            font-style: normal;
+            font-family: "Inter",sans-serif;
+            font-weight: 400;
+            line-height: 22px;
+            margin-bottom: 200px;
+            @media (max-width: 1399.98px) {
+                margin-bottom: 100px;
+            }
+            @media (max-width: 767.98px) {
+                margin-bottom: 50px;
+                text-align: center;
+            }
+		}
+
+		&__sommelier {
+            max-width: 321px;
+			&_img img{
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+			}
+            @media (max-width: 1399.98px) {
+                order: 2;
+            }
+		}
+
+		&__store {
+            transform: translate(0, -10%);
+            max-width: 321px;
+			&_img img{
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+			}
+            @media (max-width: 1399.98px) {
+                order: 1;
+                transform: translate(0,0);
+            }
+		}
+
+		&__winespot {
+            position: absolute;
+            width: 360px;
+            height: 380px;
+            bottom: 25%;
+            right: -4%;
+            @media (max-width: 1399.98px) {
+                bottom: 35%;
+            }
+		}
+        &__winespot2 {
+            position: absolute;
+            width: 360px;
+            height: 380px;
+            bottom: 60%;
+            left: -4%;
+		}
+}
