@@ -64,7 +64,7 @@ export function FixedHeader() {
                     <div className={styles.header__body_top}>
                         <div className={styles.header__logo}>
                             <Link to="/" >
-                                <img src="./public/logo.svg" alt="logo" />
+                                <img src="/logo.svg" alt="logo" />
                             </Link>
                             {!isLargeScreen && (<button
                                 onClick={() => { setIsBurgerActive(prev => !prev) }}
