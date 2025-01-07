@@ -1,3 +1,4 @@
+import { Delivery } from "../Delivery/Delivery";
 import { ForWhom } from "../ForWhom/ForWhom";
 import { Links } from "../Links/Links";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
@@ -11,6 +12,7 @@ export function HomePage() {
             <Links />
             <WhatMakesUsSpecial />
             <ForWhom />
+            <Delivery />
         </div>
     )
 }
