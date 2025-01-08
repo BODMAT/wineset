@@ -36,7 +36,7 @@ export function FixedFooter() {
                         </div>
                         <div className={styles.footer__loc}>
                             <img src={mapPinIcon} alt="map" />
-                            <span>Kyiv, Khimikov Avenue, 13</span>
+                            <span>Zabuttsia Sahakanskiy, 25, Kyiv</span>
                         </div>
                     </div>
                     <div className={styles.footer__socials}>
