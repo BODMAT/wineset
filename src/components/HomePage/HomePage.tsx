@@ -1,3 +1,4 @@
+import { ContactUs } from "../ContactUs/ContactUs";
 import { Delivery } from "../Delivery/Delivery";
 import { ForWhom } from "../ForWhom/ForWhom";
 import { LeafletMap } from "../LeafletMap/LeafletMap";
@@ -14,6 +15,7 @@ export function HomePage() {
             <WhatMakesUsSpecial />
             <ForWhom />
             <Delivery />
+            <ContactUs />
             <LeafletMap />
         </div>
     )

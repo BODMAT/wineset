@@ -3,11 +3,11 @@ import styles from "./LeafletMap.module.scss";
 
 export function LeafletMap() {
     const mapContainerRef = useMap({
-        lat: 50.44579985406559,
-        lng: 30.515033164800435,
+        lat: 50.43675236189238,
+        lng: 30.514976398846958,
         zoom: 17,
-        markerLat: 50.44499985406559,
-        markerLng: 30.515033164800435,
+        markerLat: 50.43575236189238,
+        markerLng: 30.514976398846958,
         popupContent: "<b>Wineset</b><br>Zabuttsia Sahakanskiy, 25, Kyiv",
     });
 

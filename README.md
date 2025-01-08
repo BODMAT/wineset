@@ -2,7 +2,7 @@
 ## The purpose of this project:
 - practice with OOP (polymorphism, encapsulation, inheritance);
 - repeate the layout structure of React components;
-- add interactive (filters, search, imitation of purchase);
+- add interactive (filters, search, imitation of purchase, map with location);
 - consolidate the studied theory of the React (states, hooks, routing);
 - additionally make authorization using JWT token;
 
