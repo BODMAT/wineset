@@ -1,6 +1,7 @@
 import { ContactUs } from "../ContactUs/ContactUs";
 import { Delivery } from "../Delivery/Delivery";
 import { ForWhom } from "../ForWhom/ForWhom";
+import { GiftBackets } from "../GiftBaskets/GiftBackets";
 import { LeafletMap } from "../LeafletMap/LeafletMap";
 import { Links } from "../Links/Links";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
@@ -17,6 +18,7 @@ export function HomePage() {
             <Delivery />
             <ContactUs />
             <LeafletMap />
+            <GiftBackets />
         </div>
     )
 }

@@ -1,0 +1,107 @@
+.gift {
+    padding-bottom: 90px;
+
+		&__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 47px;
+            
+		}
+
+        &__container{
+            @include mixins.container;
+        }
+
+		&__title {
+            color: #121212;
+            font-style: normal;
+            font-family: "Cormorant",serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            @include mixins.adaptiv-font (48, 30);
+
+		}
+
+		&__buttons {
+            display: flex;
+            gap: 20px;
+            & > button {
+                background-color: transparent;
+            }
+            @media (max-width: 379.98px) {
+                gap: 10px;
+            }
+		}
+
+		&__slider {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            margin-bottom: 30px;
+		}
+
+		&__slide {
+            display: flex;
+            flex-direction: column;
+            padding: 11px 0;
+            border: 3px solid #a4a4a4a0;
+            max-width: 418px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            &:hover{
+                transform: scale(0.95);
+            }
+
+			&_img {
+                max-width: 418px;
+                & img{
+                    width: 100%;
+                }
+			}
+
+			&_content {
+                padding: 15px;
+			}
+
+			&_name {
+                color: #000;
+                @include mixins.adaptiv-font (20, 18);
+                font-style: normal;
+                font-family: "Inter",sans-serif;
+                font-weight: 600;
+                line-height: normal;
+                margin-bottom: 25px;
+			}
+
+			&_structure {
+                color: #000;
+                font-style: normal;
+                font-family: "Inter",sans-serif;
+                font-weight: 400;
+                line-height: normal;
+                flex: 1 1 auto;
+			}
+
+			&_list {
+                padding-left: 20px;
+			}
+
+			&_li {
+                list-style: circle;
+			}
+		}
+
+        &__link {
+            color: #970000;
+            font-style: normal;
+            font-family: "Inter",sans-serif;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: 0;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+}
+
