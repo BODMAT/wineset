@@ -1,12 +1,12 @@
 import styles from "./GiftBackets.module.scss"
-import arrRightSvg from '../../assets/arr-right-red.svg';
-import arrLeftSvg from '../../assets/arr-left-red.svg';
+import arrRightSvg from '../../../assets/arr-right-red.svg';
+import arrLeftSvg from '../../../assets/arr-left-red.svg';
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
 import { boxes } from "./DBExample";
-import { Box, ProductConfig } from "../../data/OOPStructure/Pruduct";
 import { Link } from "react-router-dom";
+import { Box, ProductConfig } from "../../../data/OOPStructure/Pruduct";
 
 export function GiftBackets() {
     const swiperRef = useRef<any>(null);

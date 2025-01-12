@@ -8,8 +8,8 @@ import "swiper/css";
 // @ts-ignore
 import 'swiper/css/effect-coverflow';
 
-import arrRightSvg from '../../assets/arr-right-red.svg';
-import arrLeftSvg from '../../assets/arr-left-red.svg';
+import arrRightSvg from '../../../assets/arr-right-red.svg';
+import arrLeftSvg from '../../../assets/arr-left-red.svg';
 
 export function ForWhom() {
     const swiperRef = useRef<any>(null);

@@ -1,15 +1,19 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@mixins': path.resolve(__dirname, 'src/mixins')
+    }
+  },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use '../../mixins' as mixins;`
+        additionalData: `@use '@mixins' as mixins;`
       }
     }
-  },
-  //base: "/wineset/"
-})
+  }
+});

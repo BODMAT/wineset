@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useOpacity } from "../../customHooks/useOpacity";
 import styles from "./ContactUs.module.scss";
 import emailjs from "@emailjs/browser";
+import { useOpacity } from "../../../customHooks/useOpacity";
 
 interface IData {
     name: string;

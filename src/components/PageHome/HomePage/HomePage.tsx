@@ -1,11 +1,11 @@
+import { LeafletMap } from "../../LeafletMap/LeafletMap";
+import { SpecialOffer } from "../../SpecialOffer/SpecialOffer";
 import { ContactUs } from "../ContactUs/ContactUs";
 import { Delivery } from "../Delivery/Delivery";
 import { ForWhom } from "../ForWhom/ForWhom";
 import { GiftBackets } from "../GiftBaskets/GiftBackets";
 import { Instagram } from "../Instagram/Instagram";
-import { LeafletMap } from "../LeafletMap/LeafletMap";
 import { Links } from "../Links/Links";
-import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { WhatMakesUsSpecial } from "../WhatMakesUsSpecial/WhatMakesUsSpecial";
 import styles from "./HomePage.module.scss";
 export function HomePage() {

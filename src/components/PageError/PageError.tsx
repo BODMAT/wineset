@@ -1,6 +1,6 @@
-import styles from "./ErrorPage.module.scss"
+import styles from "./PageError.module.scss"
 
-export function ErrorPage() {
+export function PageError() {
     return (
         <div className={styles.err}>404 Not Found</div>
     )

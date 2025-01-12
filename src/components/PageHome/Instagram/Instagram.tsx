@@ -1,4 +1,5 @@
-import { useOpacity } from "../../customHooks/useOpacity";
+
+import { useOpacity } from "../../../customHooks/useOpacity";
 import styles from "./Instagram.module.scss";
 
 export function Instagram() {

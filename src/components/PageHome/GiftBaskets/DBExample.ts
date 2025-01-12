@@ -1,4 +1,4 @@
-import { Box, Wine, Cheese, Sauce, Cookies } from "../../data/OOPStructure/Pruduct";
+import { Box, Wine, Cheese, Sauce, Cookies } from "../../../data/OOPStructure/Pruduct";
 
 const winePrimitivo = new Wine({
     name: "Primitivo wine",

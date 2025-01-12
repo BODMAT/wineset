@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FixedHeader } from "../FixedHeader/FixedHeader"
 import styles from "./App.module.scss"
-import { ErrorPage } from "../ErrorPage/ErrorPage";
-import { HomePage } from "../HomePage/HomePage";
+import { PageError } from "../PageError/PageError";
 import { FixedFooter } from "../FixedFooter/FixedFooter";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
+import { HomePage } from "../PageHome/HomePage/HomePage";
 
 export function App() {
   return (
@@ -15,7 +15,7 @@ export function App() {
         <main className={styles.main}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<PageError />} />
           </Routes>
         </main>
         <FixedFooter />
