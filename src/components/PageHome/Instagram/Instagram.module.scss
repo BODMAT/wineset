@@ -71,6 +71,14 @@
                 left: 0;
                 object-fit: cover;
             }
+            @media (max-width: 768.98px) {
+                width: 295px;
+                height: 295px;
+            }
+            @media (max-width: 479.98px) {
+                width: 195px;
+                height: 195px;
+            }
 		}
 
 		&__winespot {

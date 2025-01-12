@@ -3,6 +3,7 @@ import styles from "./FixedHeader.module.scss"
 
 import searchSVG from "../../assets/search.svg";
 import { useEffect, useState } from "react";
+import { Menu, MenuType } from "./Menu";
 
 export function FixedHeader() {
     const [isScrolledDown, setIsScrolledDown] = useState(false);
@@ -93,18 +94,20 @@ export function FixedHeader() {
                     <div className={`${styles.header__body_bottom} ${isBurgerActive ? styles.active_burger : ""}`}>
                         <nav className={styles.header__menu}>
                             <ul className={styles.header__ul}>
-                                <li className={styles.header__li}>
-                                    <a className={styles.header__a} href="#">Gift sets</a>
-                                </li>
-                                <li className={styles.header__li}>
-                                    <a className={styles.header__a} href="#">Wine and alcohol</a>
-                                </li>
-                                <li className={styles.header__li}>
-                                    <a className={styles.header__a} href="#">Delicacies</a>
-                                </li>
-                                <li className={styles.header__li}>
-                                    <a className={styles.header__a} href="#">Glasses and candles</a>
-                                </li>
+                                {Menu.map((el: MenuType) => {
+                                    return (
+                                        <li key={el[0]} className={styles.header__li}>
+                                            <Link className={styles.header__a} key={el[0]} to={el[0]}>{el[0]}</Link>
+                                            <div className={styles.header__hideSubLinks}>
+                                                {/* {el[1].map((subEl: string) => {
+                                                    return (
+                                                        <Link to={subEl} key={`${el[0]}-${subEl}`}>{subEl}</Link>
+                                                    )
+                                                })} */}
+                                            </div>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </nav>
                         <div className={styles.header__buy}>

@@ -19,8 +19,14 @@ export function ContactUs() {
     const [status, setStatus] = useState<string | null>(null);
 
     useEffect(() => {
-        emailjs.init("hqt9CD7I-ql_oArvG");
+        const userId = import.meta.env.VITE_EMAILJS_USER_ID;
+        if (userId) {
+            emailjs.init(userId);
+        } else {
+            console.error("EmailJS user ID is not defined in the environment variables.");
+        }
     }, []);
+
 
     const isValidData = (): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,8 +49,8 @@ export function ContactUs() {
     const sendMail = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if (isValidData()) {
-            const serviceId = "service_6bxbs4a";
-            const templateId = "template_tiwy8bx";
+            const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+            const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
             setStatus("Pending...");
             try {
                 await emailjs.send(serviceId, templateId, {
