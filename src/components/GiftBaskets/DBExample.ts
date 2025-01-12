@@ -27,7 +27,7 @@ const waffleCookie = new Cookies({
     price: 10,
     weight: 200,
 })
-
+//=
 const boxSassicaia = new Box({
     name: "Gift set Sassicaia",
     imageUrl: "/public/GiftBackets/Sassicaia.jpg",
@@ -56,5 +56,33 @@ const boxRestituta = new Box({
     discount: 20,
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
+const boxRestituta1 = new Box({
+    name: "Gift set A.V. Restituta",
+    imageUrl: "/public/GiftBackets/Restituta.jpg",
+    price: 70,
+    discount: 20,
+    structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
+})
+const boxRestituta2 = new Box({
+    name: "Gift set B.V. Restituta",
+    imageUrl: "/public/GiftBackets/Restituta.jpg",
+    price: 70,
+    discount: 20,
+    structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
+})
+const boxRestituta3 = new Box({
+    name: "Gift set D.V. Restituta",
+    imageUrl: "/public/GiftBackets/Restituta.jpg",
+    price: 70,
+    discount: 20,
+    structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
+})
+const boxRestituta4 = new Box({
+    name: "Gift set S.V. Restituta",
+    imageUrl: "/public/GiftBackets/Restituta.jpg",
+    price: 70,
+    discount: 20,
+    structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
+})
 
-export const boxes = [boxSassicaia, boxJuveCamps, boxCesari, boxRestituta, boxSassicaia, boxJuveCamps, boxCesari, boxRestituta]
+export const boxes = [boxSassicaia, boxJuveCamps, boxCesari, boxRestituta, boxRestituta1, boxRestituta2, boxRestituta3, boxRestituta4]

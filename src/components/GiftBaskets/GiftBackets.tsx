@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
 import { boxes } from "./DBExample";
 import { Box, ProductConfig } from "../../data/OOPStructure/Pruduct";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function GiftBackets() {
     const swiperRef = useRef<any>(null);
@@ -36,7 +36,6 @@ export function GiftBackets() {
                 centeredSlides={true}
                 slidesPerView={"auto"}
                 modules={[Navigation]}
-                spaceBetween={15}
                 navigation={{
                     prevEl: ".swiper-button-prev",
                     nextEl: ".swiper-button-next",
@@ -44,8 +43,8 @@ export function GiftBackets() {
                 loop={true}
                 className={styles.gift__slider}>
 
-                {boxes.map((box: Box) => (
-                    <SwiperSlide key={data.name} className={styles.gift__slide}>
+                {boxes.map((box: Box, index: number) => (
+                    <SwiperSlide key={`${box.name}-${index}`} className={styles.gift__slide}>
                         <Link to={box.name.trim().replace(/\s+/g, '-')}>
                             <div className={styles.gift__slide_img}>
                                 <img src={box.imageUrl} alt={box.imageUrl} />
@@ -57,7 +56,7 @@ export function GiftBackets() {
                                     <ul className={styles.gift__slide_list}>
                                         {box.structure.map((item: ProductConfig) => (
                                             <li className={styles.gift__slide_li}
-                                                key={item.name}>
+                                                key={box.name + "-" + item.name}>
                                                 {item.name}, {item.description}, {item.weight ? `${item.weight} g` : `${item.volume} l`}.
                                             </li>
                                         ))}

@@ -42,7 +42,7 @@ export function FixedFooter() {
                     <div className={styles.footer__socials}>
                         <a target="_blank" href="https://www.facebook.com/"><img src={facebookIcon} alt="facebook" /></a>
                         <a target="_blank" href="https://web.telegram.org/"><img src={telegramIcon} alt="tg" /></a>
-                        <a target="_blank" href="https://www.instagram.com/"><img src={instagramIcon} alt="inst" /></a>
+                        <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={instagramIcon} alt="inst" /></a>
                     </div>
                     <button className={styles.footer__btn}>Contact us</button>
                 </div>
