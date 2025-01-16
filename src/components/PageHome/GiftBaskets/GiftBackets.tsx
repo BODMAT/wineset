@@ -45,7 +45,7 @@ export function GiftBackets() {
 
                 {boxes.map((box: Box, index: number) => (
                     <SwiperSlide key={`${box.name}-${index}`} className={styles.gift__slide}>
-                        <Link to={box.name.trim().replace(/\s+/g, '-')}>
+                        <Link to={`Gift-sets/Box/${box.name.trim().replace(/\s+/g, '-')}`}>
                             <div className={styles.gift__slide_img}>
                                 <img src={box.imageUrl} alt={box.imageUrl} />
                             </div>

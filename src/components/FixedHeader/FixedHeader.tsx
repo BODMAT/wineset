@@ -1,79 +1,127 @@
-import { Link } from "react-router-dom"
-import styles from "./FixedHeader.module.scss"
+import { Link, useLocation } from "react-router-dom";
+import styles from "./FixedHeader.module.scss";
 
+import crossSVG from "../../assets/cross.svg";
 import searchSVG from "../../assets/search.svg";
+import InstagramIcon from "../../assets/Header/inst.svg";
+import TelegramIcon from "../../assets/Header/tg.svg";
+import FacebookIcon from "../../assets/Header/facebook.svg";
+
 import { useEffect, useState } from "react";
 import { Menu, MenuType } from "./Menu";
+import { LeafletMap } from "../LeafletMap/LeafletMap";
 
 export function FixedHeader() {
-    const [isScrolledDown, setIsScrolledDown] = useState(false);
-    const [lastScrollTop, setLastScrollTop] = useState(0);
-    const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 767);
-    const [isBurgerActive, setIsBurgerActive] = useState(false);
+    const [state, setState] = useState<{
+        isScrolledDown: boolean;
+        lastScrollTop: number;
+        isLargeScreen: boolean;
+        isBurgerActive: boolean;
+        activeLink: string | null;
+        moreInfo: boolean;
+    }>({
+        isScrolledDown: false,
+        lastScrollTop: 0,
+        isLargeScreen: window.innerWidth > 767,
+        isBurgerActive: false,
+        activeLink: null,
+        moreInfo: false,
+    });
 
+    const location = useLocation();
+
+    //set burger closed
+    useEffect(() => setState(prev => ({ ...prev, isBurgerActive: false })), [location]);
+
+    //burger no-scroll
     useEffect(() => {
         const root = document.getElementById('root');
-        if (isBurgerActive && !isLargeScreen) {
-            root?.classList.add('no-scroll');
-        } else {
-            root?.classList.remove('no-scroll');
-        }
+        root?.classList.toggle('no-scroll', state.isBurgerActive && !state.isLargeScreen);
+        return () => root?.classList.remove('no-scroll');
+    }, [state.isBurgerActive, state.isLargeScreen]);
 
-        return () => {
-            root?.classList.remove('no-scroll');
-        };
-    }, [isBurgerActive, isLargeScreen]);
-
+    //isLargeScreen
     useEffect(() => {
-        const handleResize = () => {
-            setIsLargeScreen(window.innerWidth > 767);
-        };
-
+        const handleResize = () => setState(prev => ({ ...prev, isLargeScreen: window.innerWidth > 767 }));
         window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    //for bottom-header
     useEffect(() => {
-        if (!isLargeScreen) return;
+        if (!state.isLargeScreen) return;
 
         const handleScroll = () => {
             const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-
-            if (currentScroll > lastScrollTop && currentScroll > 59) {
-                setIsScrolledDown(true);
-            } else {
-                setIsScrolledDown(false);
-            }
-
-            setLastScrollTop(currentScroll <= 0 ? 0 : currentScroll);
+            setState(prev => ({
+                ...prev,
+                isScrolledDown: currentScroll > prev.lastScrollTop && currentScroll > 59,
+                lastScrollTop: Math.max(currentScroll, 0)
+            }));
         };
 
         window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [state.lastScrollTop, state.isLargeScreen]);
 
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, [lastScrollTop, isLargeScreen]);
+    //for hovered links
+    useEffect(() => {
+        if (state.isLargeScreen && !state.isScrolledDown) {
+            const handleMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
+                const target = event.target as HTMLElement;
+                const link = target.closest(`.${styles.header__li}`);
+                if (link) {
+                    setState((prev) => ({ ...prev, activeLink: link.getAttribute('data-key') || null }));
+                }
+            };
+
+            const handleMouseLeave = () => {
+                setState((prev) => ({ ...prev, activeLink: null }));
+            };
+
+            const menu = document.querySelector(`.${styles.header__ul}`);
+            if (menu) {
+                menu.addEventListener('mouseover', handleMouseEnter as unknown as EventListener);
+                menu.addEventListener('mouseout', handleMouseLeave as unknown as EventListener);
+            }
+
+            return () => {
+                if (menu) {
+                    menu.removeEventListener('mouseover', handleMouseEnter as unknown as EventListener);
+                    menu.removeEventListener('mouseout', handleMouseLeave as unknown as EventListener);
+                }
+            };
+        }
+    }, [state.isLargeScreen, state.isScrolledDown]);
+
+    //disable links when bottom-header was hidden
+    useEffect(() => {
+        if (state.isScrolledDown) setState(prev => ({ ...prev, activeLink: null }));
+    }, [state.isScrolledDown]);
+
+    //close more info when change isLargeScreen
+    useEffect(() => setState(prev => ({ ...prev, moreInfo: false })), [state.isLargeScreen]);
+
 
     return (
-        <header className={`${styles.header} ${isScrolledDown ? styles.sticky : ""}`}>
+        <header className={`${styles.header} ${state.isScrolledDown ? styles.sticky : ""}`}>
             <div className={styles.header__top}>
                 <div className={styles.header__container}>
                     <div className={styles.header__body_top}>
                         <div className={styles.header__logo}>
-                            <Link to="/" >
+                            <Link to="/">
                                 <img src="/logo.svg" alt="logo" />
                             </Link>
-                            {!isLargeScreen && (<button
-                                onClick={() => { setIsBurgerActive(prev => !prev) }}
-                                className={`${styles.burgerIcon} ${isBurgerActive ? styles.active : ""}`}>
-                                <span></span>
-                            </button>)}
+                            {!state.isLargeScreen && (
+                                <button
+                                    onClick={() => setState(prev => ({ ...prev, isBurgerActive: !prev.isBurgerActive }))}
+                                    className={`${styles.burgerIcon} ${state.isBurgerActive ? styles.active : ""}`}
+                                >
+                                    <span></span>
+                                </button>
+                            )}
                         </div>
-                        <div className={`${styles.header__info} ${isBurgerActive ? styles.active_burger : ""}`}>
+                        <div className={`${styles.header__info} ${state.isBurgerActive ? styles.active_burger : ""}`}>
                             <form action="#" className={styles.header__form}>
                                 <input className={styles.header__form_input} type="text" placeholder="Find a drink..." />
                                 <button className={styles.header__form_btn} type="submit">
@@ -81,33 +129,63 @@ export function FixedHeader() {
                                 </button>
                             </form>
                             <div className={styles.header__buttons}>
-                                <button className={styles.header__order}>Make an order</button>
-                                <button className={styles.header__contact}>Contact us</button>
+                                <Link to="/order" className={styles.header__order}>Make an order</Link>
+                                <div className={styles.header__contact_wrap}>
+                                    {state.isLargeScreen && (
+                                        <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={styles.header__contact}>Contact us</button>
+                                    )}
+                                    {!state.isLargeScreen && (
+                                        <Link to="/about" className={styles.header__contact}>Contact us</Link>
+                                    )}
+                                    <div className={`${styles.header__contactInfo} ${state.moreInfo ? styles.visible : ""}`}>
+                                        <div className={styles.header__contactInfo_top}>
+                                            <h3 className={styles.header__contactInfo_title}>Contacts</h3>
+                                            <button onClick={() => setState(prev => ({ ...prev, moreInfo: false }))} className={styles.header__contactInfo_cross}>
+                                                <img src={crossSVG} alt="cross" />
+                                            </button>
+                                        </div>
+                                        <div className={styles.header__contactInfo_content}>
+                                            <div className={styles.header__contactInfo_contacts}>
+                                                <div className={styles.header__contactInfo_adress}><span>Address:</span> Zabuttsia Sahakanskiy, 25, Kyiv</div>
+                                                <div className={styles.header__contactInfo_phone}><span>Phone:</span>1235123123, 15121231231</div>
+                                                <div className={styles.header__contactInfo_email}><span>Email:</span>delivery@wineset.ua</div>
+                                            </div>
+                                            <LeafletMap height={"180px"} />
+                                            <div className={styles.header__contactInfo_socials}>
+                                                <a target="_blank" href="https://www.facebook.com/"><img src={FacebookIcon} alt="facebook" /></a>
+                                                <a target="_blank" href="https://web.telegram.org/"><img src={TelegramIcon} alt="tg" /></a>
+                                                <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={InstagramIcon} alt="inst" /></a>
+                                            </div>
+                                            <Link className={styles.header__contactInfo_about} to="/about">More information</Link>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className={`${styles.header__bottom} ${isScrolledDown ? styles.stickyBottom : ""} ${isBurgerActive ? styles.active_burger : ""}`}>
-
+            <div className={`${styles.header__bottom} ${state.isScrolledDown ? styles.stickyBottom : ""} ${state.isBurgerActive ? styles.active_burger : ""}`}>
                 <div className={styles.header__container}>
-                    <div className={`${styles.header__body_bottom} ${isBurgerActive ? styles.active_burger : ""}`}>
+                    <div className={`${styles.header__body_bottom} ${state.isBurgerActive ? styles.active_burger : ""}`}>
                         <nav className={styles.header__menu}>
                             <ul className={styles.header__ul}>
-                                {Menu.map((el: MenuType) => {
-                                    return (
-                                        <li key={el[0]} className={styles.header__li}>
-                                            <Link className={styles.header__a} key={el[0]} to={el[0]}>{el[0]}</Link>
-                                            <div className={styles.header__hideSubLinks}>
-                                                {/* {el[1].map((subEl: string) => {
-                                                    return (
-                                                        <Link to={subEl} key={`${el[0]}-${subEl}`}>{subEl}</Link>
-                                                    )
-                                                })} */}
-                                            </div>
-                                        </li>
-                                    );
-                                })}
+                                {Menu.map(([menuKey, subLinks]: MenuType) => (
+                                    <li
+                                        key={menuKey}
+                                        data-key={menuKey}
+                                        className={`${styles.header__li} ${state.activeLink === menuKey ? styles.active : ''}`}
+                                    >
+                                        <Link className={styles.header__a} to={menuKey.trim().replace(/\s+/g, '-')}>{menuKey}</Link>
+                                        <div className={styles.header__subLinks}>
+                                            {subLinks.map((subLink: string) => (
+                                                <Link className={styles.header__subLink} to={`${menuKey.trim().replace(/\s+/g, '-')}/${subLink}`} key={`${menuKey}-${subLink}`}>
+                                                    {subLink}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </li>
+                                ))}
                             </ul>
                         </nav>
                         <div className={styles.header__buy}>

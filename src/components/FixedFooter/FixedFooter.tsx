@@ -18,14 +18,14 @@ export function FixedFooter() {
                 </div>
                 <nav className={styles.footer__navigation}>
                     <ul className={styles.footer__menu}>
-                        <li className={styles.footer__li}><Link to="/gift">Gift sets</Link></li>
-                        <li className={styles.footer__li}><Link to="/wine-alco">Wine and alcohol</Link></li>
-                        <li className={styles.footer__li}><Link to="/delicacys">Delicacys</Link></li>
-                        <li className={styles.footer__li}><Link to="/glasses-candles">Glasses and candles</Link></li>
+                        <li className={styles.footer__li}><Link to="/Gift-sets/Box">Gift sets</Link></li>
+                        <li className={styles.footer__li}><Link to="/Wine-and-alcohol">Wine and alcohol</Link></li>
+                        <li className={styles.footer__li}><Link to="/Delicacys">Delicacys</Link></li>
+                        <li className={styles.footer__li}><Link to="/Glasses-and-candles">Glasses and candles</Link></li>
                     </ul>
                     <div className={styles.footer__privacy}>
-                        <a target="_blank" href="#">Privacy policy</a>
-                        <a target="_blank" href="#">User agreement</a>
+                        <a target="_blank" href="https://en.wikipedia.org/wiki/Privacy_policy">Privacy policy</a>
+                        <a target="_blank" href="https://en.wikipedia.org/wiki/End-user_license_agreement">User agreement</a>
                     </div>
                 </nav>
                 <div className={styles.footer__contacts}>
