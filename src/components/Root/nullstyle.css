@@ -1,8 +1,9 @@
 /* !npm i sass */
-/* {padding: 0;margin: 0;border: 0;}
+/*Обнуление*/
+/* *{padding: 0;margin: 0;border: 0;}
 a,a:visited{text-decoration: none;}
-a:hover{text-decoration: none;}
-conflict with tailwindcss */
+a:hover{text-decoration: none;} */
+/* conflict with tailwindcss */
 
 *,*:before,*:after{-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}
 :focus,:active{outline: none;}

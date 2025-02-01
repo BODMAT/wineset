@@ -9,7 +9,7 @@ export function Delivery() {
                 <h2 className={styles.delivery__title}>Delivery</h2>
                 <div className={styles.delivery__content}>
                     <div className={styles.delivery__img}>
-                        <img src="/public/Delivery/wine-cork.jpg" alt="cork" />
+                        <img src="/HomePage/Delivery/wine-cork.jpg" alt="cork" />
                     </div>
                     <div className={styles.delivery__text}>
                         Wine delivery services provide customers with a convenient way to enjoy their favorite bottles without leaving home. Whether ordering a single bottle or stocking up for an event, stores offer a variety of delivery options to suit different needs. Many shops also provide special packaging to ensure that wines arrive in perfect condition. Some retailers even offer same-day delivery for last-minute plans, adding an extra layer of convenience. Additionally, many services include tracking features, so customers can monitor their order from dispatch to doorstep.

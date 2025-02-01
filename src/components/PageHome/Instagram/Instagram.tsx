@@ -13,23 +13,23 @@ export function Instagram() {
                 </div>
                 <div className={styles.instagram__images}>
                     <div className={styles.instagram__img}>
-                        <img src="/public/Instagram/wine-bottles1.jpeg" alt="wine1" />
+                        <img src="/Instagram/wine-bottles1.jpeg" alt="wine1" />
                     </div>
                     <div className={styles.instagram__img}>
-                        <img src="/public/Instagram/men.jpg" alt="wine2" />
+                        <img src="/Instagram/men.jpg" alt="wine2" />
                     </div>
                     <div className={styles.instagram__img}>
-                        <img src="/public/Instagram/wine-bottles.jpg" alt="wine3" />
+                        <img src="/Instagram/wine-bottles.jpg" alt="wine3" />
                     </div>
                     <div className={styles.instagram__img}>
-                        <img src="/public/Delivery/wine-cork.jpg" alt="wine4" />
+                        <img src="/HomePage/Delivery/wine-cork.jpg" alt="wine4" />
                     </div>
                 </div>
             </div>
             <div style={{
                 opacity: opacity,
             }} className={styles.instagram__winespot}>
-                <img src="/Delivery/wine-spot-3.png" alt="wine-spot-3" />
+                <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
         </section>
     )
