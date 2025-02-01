@@ -3,7 +3,7 @@ import { PageError } from "../PageError/PageError";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
 import { Layout } from "../Layout/Layout";
-import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage/GiftBoxesPage";
+import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
 
 export function App() {
   return (

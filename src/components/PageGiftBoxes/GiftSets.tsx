@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import styles from '../PageGiftBoxesPage.module.scss';
-import { useOpacity } from '../../../customHooks/useOpacity';
+import styles from './PageGiftBoxesPage.module.scss';
+import { useOpacity } from '../../customHooks/useOpacity';
 export function GiftSets() {
     const { opacity, blockRef } = useOpacity();
     return (

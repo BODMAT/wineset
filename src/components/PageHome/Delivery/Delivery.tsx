@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
 import styles from "./Delivery.module.scss"
 import { useOpacity } from "../../../customHooks/useOpacity"
+import { BorderedLink } from "../../BorderedLink/BorderedLink"
 export function Delivery() {
     const { opacity, blockRef } = useOpacity()
     return (
@@ -18,7 +18,7 @@ export function Delivery() {
                         <div className={styles.delivery__text}>
                             In addition to fast delivery, some wine stores offer curated selections tailored to individual tastes. Customers can subscribe to monthly wine boxes or choose from expertly recommended pairings for specific occasions. This combination of quality, convenience, and personalization makes wine delivery an increasingly popular choice.
                         </div>
-                        <Link className={styles.delivery__btn} to="/delivery">DELIVERY DETAILS</Link>
+                        <BorderedLink to="/delivery">DELIVERY DETAILS</BorderedLink>
                     </div>
                 </div>
             </div>

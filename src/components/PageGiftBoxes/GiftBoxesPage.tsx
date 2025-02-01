@@ -1,5 +1,6 @@
-import { SpecialOffer } from "../../SpecialOffer/SpecialOffer";
-import { GiftSets } from "../GiftSets/GiftSets";
+import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
+import { CandleLights } from "./CandleLights";
+import { GiftSets } from "./GiftSets";
 export function GiftBoxesPage() {
     return (
         <div className='relative pt-[143px] max-md:pt-[84px]'>
@@ -10,6 +11,7 @@ export function GiftBoxesPage() {
                 subTitleLink="/order"
                 contentWidth={381} />
             <GiftSets />
+            <CandleLights />
         </div>
     )
 }
