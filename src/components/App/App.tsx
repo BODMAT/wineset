@@ -14,6 +14,7 @@ export function App() {
           <Route index element={<HomePage />} />
           <Route path="*" element={<PageError />} />
           <Route path="Gift-sets" element={<GiftBoxesPage />} />
+          <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
         </Route>
       </Routes>
     </Router>

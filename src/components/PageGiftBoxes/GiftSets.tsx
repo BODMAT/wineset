@@ -29,7 +29,7 @@ export function GiftSets() {
             <div style={{
                 opacity: opacity,
             }}
-                className="absolute w-[902px] h-[509px] bottom-[-5%] right-[-20%] max-xl:top-0">
+                className="absolute w-[902px] h-[509px] bottom-[-5%] right-[-10%] rotate-180 max-xl:top-0">
                 <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
         </section>

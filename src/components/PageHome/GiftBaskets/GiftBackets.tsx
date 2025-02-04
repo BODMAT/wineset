@@ -4,7 +4,7 @@ import arrLeftSvg from '../../../assets/arr-left-red.svg';
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { boxes } from "./DBExample";
+import { boxes } from "../../../data/DataBase/GiftBoxes";
 import { Link } from "react-router-dom";
 import { Box, ProductConfig } from "../../../data/OOPStructure/Pruduct";
 
@@ -45,7 +45,7 @@ export function GiftBackets() {
 
                 {boxes.map((box: Box, index: number) => (
                     <SwiperSlide key={`${box.name}-${index}`} className={styles.gift__slide}>
-                        <Link to={`Gift-sets/Box/${box.name.trim().replace(/\s+/g, '-')}`}>
+                        <Link to={`/Box/${box.id}`}>
                             <div className={styles.gift__slide_img}>
                                 <img src={box.imageUrl} alt={box.imageUrl} />
                             </div>

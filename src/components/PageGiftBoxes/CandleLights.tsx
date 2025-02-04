@@ -2,10 +2,10 @@ import styles from "./PageGiftBoxesPage.module.scss"
 import { BorderedLink } from "../BorderedLink/BorderedLink"
 export function CandleLights() {
     return (
-        <section className="mt-[70px] mb-[70px]">
+        <section className="mt-[70px] mb-[70px] max-md:mb-[50px] max-md:mt-[50px]">
             <div className={styles.container}>
                 <h2 className={styles.basicTitle}>Candles</h2>
-                <div className="flex justify-between gap-[30px] mt-[50px] max-xl:flex-wrap max-xl:justify-evenly">
+                <div className="flex justify-between gap-[30px] mt-[50px] max-xl:flex-wrap max-xl:justify-evenly max-md:mt-[30px]">
                     <div className="w-[640px] max-xl:flex-[1_1_100%]">
                         <img className="relative w-[100%] h-[429px] left-0 top-0 object-cover" src="/GiftBoxesPage/CandleLights/candles.png" alt="candles" />
                     </div>

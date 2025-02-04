@@ -1,28 +1,30 @@
-type KindOfProduct =
+export type KindOfProduct =
     "wine" | "champagne" | "whiskey" | "vodka" |
     "delicacies" | "glasses" | "candles" | "box" |
     "cheese" | "cookies" | "sauce";
 
 export type ProductConfig = {
+    id: string;
     name: string;
     price: number;
     imageUrl?: string;
     quantity?: number;
-    description?: string;
+    description?: string | string[];
     discount?: number;
     volume?: number;  // For Alcohol
     weight?: number;  // For OtherProducts
     structure?: IProduct[];  // For Box
 };
 
-interface IProduct {
+export interface IProduct {
+    id: string;
     name: string;
     price: number;
     imageUrl?: string;
     quantity: number;
     readonly kindOfProduct: KindOfProduct;
 
-    description?: string;
+    description?: string | string[];
     discount?: number;
 
     addToCart(quantity?: number): void;
@@ -32,16 +34,18 @@ interface IProduct {
 }
 
 abstract class Product implements IProduct {
+    protected _id: string;
     protected _name: string;
     protected _price: number;
     protected _quantity: number;
     protected _imageUrl: string;
-    protected _description?: string;
+    protected _description?: string | string[];
     protected _discount?: number;
 
     abstract readonly kindOfProduct: KindOfProduct;
 
     constructor({
+        id,
         name,
         price,
         imageUrl = "/public/DataBase/no-img.jpg",
@@ -49,6 +53,7 @@ abstract class Product implements IProduct {
         description,
         discount,
     }: ProductConfig) {
+        this._id = id;
         this._name = name;
         this._price = price;
         this._quantity = quantity;
@@ -58,10 +63,11 @@ abstract class Product implements IProduct {
     }
 
     // Getters
+    get id(): string { return this._id; }
     get name(): string { return this._name; }
     get price(): number { return this._price; }
     get quantity(): number { return this._quantity; }
-    get description(): string | undefined { return this._description; }
+    get description(): string | string[] | undefined { return this._description; }
     get discount(): number | undefined { return this._discount; }
     get imageUrl(): string { return this._imageUrl; }
 
@@ -75,9 +81,10 @@ abstract class Product implements IProduct {
     }
 
     getDiscountedPrice(): number {
-        return this._discount
+        const discountedPrice = this._discount
             ? this._price - (this._price * this._discount) / 100
             : this._price;
+        return parseFloat(discountedPrice.toFixed(2));
     }
 }
 
@@ -112,18 +119,23 @@ export class Vodka extends AlcoholDrink {
 }
 
 abstract class OtherProducts extends Product {
-    protected _weight: number;
+    protected _weight?: number;
+    protected _volume?: number;
     abstract readonly kindOfProduct: KindOfProduct;
 
     constructor({
         weight,
+        volume,
         ...rest
-    }: ProductConfig & { weight: number }) {
+    }: ProductConfig & ({ weight: number; volume?: never } | { weight?: never; volume: number })) {
+        // weight and volume are exclusive
         super(rest);
         this._weight = weight;
+        this._volume = volume;
     }
 
-    get weight(): number { return this._weight; }
+    get weight(): number | undefined { return this._weight; }
+    get volume(): number | undefined { return this._volume; }
 }
 
 export class Delicacies extends OtherProducts {

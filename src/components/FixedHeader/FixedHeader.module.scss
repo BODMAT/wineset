@@ -234,8 +234,9 @@
 }
 
 .burgerIcon {
+    transform: translate(calc(100vw - 259px), 0);
     background-color: transparent;
-    z-index: 15;
+    z-index: 1000;
     display: block;
     position: absolute;
     bottom: 8px;
@@ -317,6 +318,7 @@
             z-index: 250;
             position: relative;
             top: 25px;
+            max-width: 229px;
         }
 
         &__info.active_burger{

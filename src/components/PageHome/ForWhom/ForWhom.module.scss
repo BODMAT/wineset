@@ -12,6 +12,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
+            margin-bottom: 30px;
 		}
 
 		&__title {
@@ -22,15 +23,17 @@
             font-weight: 700;
             line-height: normal;
             text-transform: uppercase;
-            margin-bottom: 30px;
             @include mixins.adaptiv-font (48, 30);
 		}
 
 		&__navigation {
             display: flex;
             gap: 20px;
-            @media (max-width: 379.98px) {
+            @media (max-width: 479.98px) {
                 gap: 10px;
+            }
+            @media (max-width: 479.98px) {
+                flex-direction: column;
             }
 		}
 

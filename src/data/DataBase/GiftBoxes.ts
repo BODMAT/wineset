@@ -1,6 +1,7 @@
-import { Box, Wine, Cheese, Sauce, Cookies } from "../../../data/OOPStructure/Pruduct";
+import { Box, Wine, Cheese, Sauce, Cookies } from "../OOPStructure/Pruduct";
 
 const winePrimitivo = new Wine({
+    id: "idFromDB1",
     name: "Primitivo wine",
     description: "Feudi di San Gregorio",
     price: 30,
@@ -8,6 +9,7 @@ const winePrimitivo = new Wine({
 })
 
 const cheeseMontanariGruzza = new Cheese({
+    id: "idFromDB2",
     name: "Montanari Gruzza",
     description: "16 months. excerpts",
     price: 25,
@@ -15,6 +17,7 @@ const cheeseMontanariGruzza = new Cheese({
 })
 
 const sauceToCheese = new Sauce({
+    id: "idFromDB3",
     name: "Chutney to the cheese",
     description: "Mrs Bridges",
     price: 5,
@@ -22,6 +25,7 @@ const sauceToCheese = new Sauce({
 })
 
 const waffleCookie = new Cookies({
+    id: "idFromDB4",
     name: "Waffle Cookies",
     description: "Belgian Butters",
     price: 10,
@@ -29,6 +33,7 @@ const waffleCookie = new Cookies({
 })
 //=
 const boxSassicaia = new Box({
+    id: "idFromDB5",
     name: "Gift set Sassicaia",
     imageUrl: "/HomePage/GiftBackets/Sassicaia.jpg",
     price: 70,
@@ -36,6 +41,7 @@ const boxSassicaia = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxJuveCamps = new Box({
+    id: "idFromDB6",
     name: "Gift set Juve Camps",
     imageUrl: "/HomePage/GiftBackets/Juve Camps.jpg",
     price: 70,
@@ -43,6 +49,7 @@ const boxJuveCamps = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxCesari = new Box({
+    id: "idFromDB7",
     name: "Gift set Cesari",
     imageUrl: "/HomePage/GiftBackets/Cesari.jpg",
     price: 70,
@@ -50,6 +57,7 @@ const boxCesari = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxRestituta = new Box({
+    id: "idFromDB8",
     name: "Gift set P.V. Restituta",
     imageUrl: "/HomePage/GiftBackets/Restituta.jpg",
     price: 70,
@@ -57,6 +65,7 @@ const boxRestituta = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxRestituta1 = new Box({
+    id: "idFromDB9",
     name: "Gift set A.V. Restituta",
     imageUrl: "/HomePage/GiftBackets/Restituta.jpg",
     price: 70,
@@ -64,6 +73,7 @@ const boxRestituta1 = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxRestituta2 = new Box({
+    id: "idFromDB10",
     name: "Gift set B.V. Restituta",
     imageUrl: "/HomePage/GiftBackets/Restituta.jpg",
     price: 70,
@@ -71,6 +81,7 @@ const boxRestituta2 = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxRestituta3 = new Box({
+    id: "idFromDB11",
     name: "Gift set D.V. Restituta",
     imageUrl: "/HomePage/GiftBackets/Restituta.jpg",
     price: 70,
@@ -78,6 +89,7 @@ const boxRestituta3 = new Box({
     structure: [winePrimitivo, cheeseMontanariGruzza, sauceToCheese, waffleCookie]
 })
 const boxRestituta4 = new Box({
+    id: "idFromDB12",
     name: "Gift set S.V. Restituta",
     imageUrl: "/HomePage/GiftBackets/Restituta.jpg",
     price: 70,
