@@ -3,17 +3,37 @@ export type KindOfProduct =
     "delicacies" | "glasses" | "candles" | "box" |
     "cheese" | "cookies" | "sauce";
 
+export type FullDescriptionConfig = {
+    region?: string;
+    shugarType?: string;
+    grape?: string;
+    maker?: string;
+    fortress?: string;
+
+    prosentShugar?: string;
+    prosentAcid?: string;
+    prosentAroma?: string;
+    prosentTaste?: string;
+
+    productStyle?: string;
+    tastingCharacteristics?: string;
+    gastronomicCombinations?: string;
+}
+
 export type ProductConfig = {
     id: string;
     name: string;
     price: number;
     imageUrl?: string;
+    kindOfProduct?: KindOfProduct;
     quantity?: number;
-    description?: string | string[];
     discount?: number;
-    volume?: number;  // For Alcohol
+    country?: string;
+    description?: string | string[];
+    volume?: number;  // For Alcohol and Glasses
     weight?: number;  // For OtherProducts
     structure?: IProduct[];  // For Box
+    fullDescription?: FullDescriptionConfig; //For Page to show full description
 };
 
 export interface IProduct {
@@ -22,6 +42,8 @@ export interface IProduct {
     price: number;
     imageUrl?: string;
     quantity: number;
+    country?: string;
+    fullDescription?: FullDescriptionConfig;
     readonly kindOfProduct: KindOfProduct;
 
     description?: string | string[];
@@ -41,6 +63,8 @@ abstract class Product implements IProduct {
     protected _imageUrl: string;
     protected _description?: string | string[];
     protected _discount?: number;
+    protected _country?: string;
+    protected _fullDescription?: FullDescriptionConfig;
 
     abstract readonly kindOfProduct: KindOfProduct;
 
@@ -48,10 +72,12 @@ abstract class Product implements IProduct {
         id,
         name,
         price,
-        imageUrl = "/public/DataBase/no-img.jpg",
+        imageUrl = "/Products/no-img.jpg",
         quantity = Infinity,
         description,
         discount,
+        country,
+        fullDescription,
     }: ProductConfig) {
         this._id = id;
         this._name = name;
@@ -60,6 +86,8 @@ abstract class Product implements IProduct {
         this._imageUrl = imageUrl;
         this._description = description;
         this._discount = discount;
+        this._country = country;
+        this._fullDescription = fullDescription;
     }
 
     // Getters
@@ -70,6 +98,8 @@ abstract class Product implements IProduct {
     get description(): string | string[] | undefined { return this._description; }
     get discount(): number | undefined { return this._discount; }
     get imageUrl(): string { return this._imageUrl; }
+    get country(): string | undefined { return this._country; }
+    get fullDescription(): FullDescriptionConfig | undefined { return this._fullDescription; }
 
     //Methods
     addToCart(quantity?: number): void {
