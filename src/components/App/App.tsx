@@ -7,16 +7,16 @@ import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
 import { useEffect } from "react";
 import { doc, setDoc, collection } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { GLASSES } from "../../data/DataBase/Products/Glasses";
 import { IProduct, ProductConfig } from "../../data/OOPStructure/Pruduct";
+import { COOKIES } from "../../data/DataBase/Products/Cookies";
 
 //!time-limited function
+
 async function uploadInfo() {
   try {
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const glassesRef = collection(db, "Products", "Glasses", "items");
-
-    for (const glass of GLASSES) {
+    const glassesRef = collection(db, "Products", "Cookies", "items");
+    //!
+    for (const glass of COOKIES) {
       const glassRef = doc(glassesRef, glass.id);
 
       const productData: ProductConfig = {
@@ -29,65 +29,88 @@ async function uploadInfo() {
         discount: glass.discount ?? 0,
       };
 
+      // Добавление описания, если оно есть
       if ("description" in glass && glass.description !== undefined) {
         productData.description = glass.description;
       }
 
+      // Добавление объема, если оно есть
       if ("volume" in glass && glass.volume !== undefined) {
         productData.volume = glass.volume;
       }
 
-      if ("weight" in glass && glass.weight !== undefined) {
-        productData.weight = glass.weight;
+      // Добавление веса, если оно есть
+      if ("weight" in glass && glass.weight !== undefined && glass.weight !== null) {
+        productData.weight = typeof glass.weight === 'number' ? glass.weight : 0;
       }
 
+      // Структура, если она есть
       if ('structure' in glass && glass.structure !== undefined) {
         productData.structure = glass.structure as IProduct[] | undefined;
       }
 
+      // Страна, если она есть
       if ('country' in glass && glass.country !== undefined) {
         productData.country = glass.country;
       }
 
+      // Обработка fullDescription с учетом undefined
       if ('fullDescription' in glass && glass.fullDescription !== undefined) {
-        if ("region" in glass.fullDescription && glass.fullDescription.region !== undefined) {
-          glass.fullDescription.region = glass.fullDescription.region;
+        const fullDescription = glass.fullDescription;
+
+        // Добавление свойств в fullDescription только если они заданы (не undefined)
+        productData.fullDescription = {};
+
+        if (fullDescription.region !== undefined) {
+          productData.fullDescription.region = fullDescription.region;
         }
-        if ("shugarType" in glass.fullDescription && glass.fullDescription.shugarType !== undefined) {
-          glass.fullDescription.shugarType = glass.fullDescription.shugarType;
+
+        if (fullDescription.shugarType !== undefined) {
+          productData.fullDescription.shugarType = fullDescription.shugarType;
         }
-        if ("grape" in glass.fullDescription && glass.fullDescription.grape !== undefined) {
-          glass.fullDescription.grape = glass.fullDescription.grape;
+
+        if (fullDescription.grape !== undefined) {
+          productData.fullDescription.grape = fullDescription.grape;
         }
-        if ("maker" in glass.fullDescription && glass.fullDescription.maker !== undefined) {
-          glass.fullDescription.maker = glass.fullDescription.maker;
+
+        if (fullDescription.maker !== undefined) {
+          productData.fullDescription.maker = fullDescription.maker;
         }
-        if ("fortress" in glass.fullDescription && glass.fullDescription.fortress !== undefined) {
-          glass.fullDescription.fortress = glass.fullDescription.fortress;
+
+        if (fullDescription.fortress !== undefined) {
+          productData.fullDescription.fortress = fullDescription.fortress;
         }
-        if ("prosentShugar" in glass.fullDescription && glass.fullDescription.prosentShugar !== undefined) {
-          glass.fullDescription.prosentShugar = glass.fullDescription.prosentShugar;
+
+        if (fullDescription.prosentShugar !== undefined) {
+          productData.fullDescription.prosentShugar = fullDescription.prosentShugar;
         }
-        if ("prosentAcid" in glass.fullDescription && glass.fullDescription.prosentAcid !== undefined) {
-          glass.fullDescription.prosentAcid = glass.fullDescription.prosentAcid;
+
+        if (fullDescription.prosentAcid !== undefined) {
+          productData.fullDescription.prosentAcid = fullDescription.prosentAcid;
         }
-        if ("prosentAroma" in glass.fullDescription && glass.fullDescription.prosentAroma !== undefined) {
-          glass.fullDescription.prosentAroma = glass.fullDescription.prosentAroma;
+
+        if (fullDescription.prosentAroma !== undefined) {
+          productData.fullDescription.prosentAroma = fullDescription.prosentAroma;
         }
-        if ("prosentTaste" in glass.fullDescription && glass.fullDescription.prosentTaste !== undefined) {
-          glass.fullDescription.prosentTaste = glass.fullDescription.prosentTaste;
+
+        if (fullDescription.prosentTaste !== undefined) {
+          productData.fullDescription.prosentTaste = fullDescription.prosentTaste;
         }
-        if ("productStyle" in glass.fullDescription && glass.fullDescription.productStyle !== undefined) {
-          glass.fullDescription.productStyle = glass.fullDescription.productStyle;
+
+        if (fullDescription.productStyle !== undefined) {
+          productData.fullDescription.productStyle = fullDescription.productStyle;
         }
-        if ("tastingCharacteristics" in glass.fullDescription && glass.fullDescription.tastingCharacteristics !== undefined) {
-          glass.fullDescription.tastingCharacteristics = glass.fullDescription.tastingCharacteristics;
+
+        if (fullDescription.tastingCharacteristics !== undefined) {
+          productData.fullDescription.tastingCharacteristics = fullDescription.tastingCharacteristics;
         }
-        if ("gastronomicCombinations" in glass.fullDescription && glass.fullDescription.gastronomicCombinations !== undefined) {
-          glass.fullDescription.gastronomicCombinations = glass.fullDescription.gastronomicCombinations;
+
+        if (fullDescription.gastronomicCombinations !== undefined) {
+          productData.fullDescription.gastronomicCombinations = fullDescription.gastronomicCombinations;
         }
       }
 
+      // Загрузка данных в Firestore
       await setDoc(glassRef, productData);
     }
 

@@ -10,10 +10,10 @@ export type FullDescriptionConfig = {
     maker?: string;
     fortress?: string;
 
-    prosentShugar?: string;
-    prosentAcid?: string;
-    prosentAroma?: string;
-    prosentTaste?: string;
+    prosentShugar?: number;
+    prosentAcid?: number;
+    prosentAroma?: number;
+    prosentTaste?: number;
 
     productStyle?: string;
     tastingCharacteristics?: string;
@@ -21,7 +21,7 @@ export type FullDescriptionConfig = {
 }
 
 export type ProductConfig = {
-    id: string;
+    id?: string;
     name: string;
     price: number;
     imageUrl?: string;
@@ -37,7 +37,7 @@ export type ProductConfig = {
 };
 
 export interface IProduct {
-    id: string;
+    id?: string;
     name: string;
     price: number;
     imageUrl?: string;
@@ -79,7 +79,7 @@ abstract class Product implements IProduct {
         country,
         fullDescription,
     }: ProductConfig) {
-        this._id = id;
+        this._id = id ?? `${name.toLocaleLowerCase().trim().replace(/\s+/g, '-')}`;
         this._name = name;
         this._price = price;
         this._quantity = quantity;
@@ -195,15 +195,35 @@ export class Sauce extends OtherProducts {
 export class Box extends Product {
     protected _structure: IProduct[];
     readonly kindOfProduct: KindOfProduct = "box";
+
     constructor({
         structure,
+        discount,
         ...rest
-    }: ProductConfig & { structure: IProduct[] }) {
-        super(rest);
+    }: Omit<ProductConfig, "price"> & { structure: IProduct[] }) {
+        super({ ...rest, price: Box.calculateTotalPrice(structure), discount });
         this._structure = structure;
     }
 
-    get structure(): IProduct[] { return this._structure; }
+    // Пересчет цены на основе товаров в коробке
+    static calculateTotalPrice(structure: IProduct[]): number {
+        return structure.reduce((total, product) => total + product.getDiscountedPrice(), 0);
+    }
+
+    // Геттер для цены, который всегда пересчитывает значение
+    get price(): number {
+        return Box.calculateTotalPrice(this._structure);
+    }
+
+    // Пересчет цены с учетом скидки
+    getDiscountedPrice(): number {
+        const totalPrice = this.price;
+        return this._discount ? totalPrice - (totalPrice * this._discount) / 100 : totalPrice;
+    }
+
+    get structure(): IProduct[] {
+        return this._structure;
+    }
 
     addToCart(quantity?: number): void {
         console.log(`${quantity ? quantity : 1} ${this._name} - added to cart!`);
@@ -215,22 +235,15 @@ export class Box extends Product {
         this._structure.forEach(product => product.removeFromCart());
     }
 
-    getDiscountedPrice(): number {
-        const totalPrice = this._structure.reduce(
-            (total, product) => total + product.getDiscountedPrice(),
-            0
-        );
-        return this._discount ? totalPrice - (totalPrice * this._discount) / 100 : totalPrice;
-    }
-
     getProductInfo(): string {
         const productsInfo = this._structure
-            .map(product => `- ${product.name}: $${product.price.toFixed(2)}`)
+            .map(product => `- ${product.name}: $${product.getDiscountedPrice().toFixed(2)}`)
             .join("\n");
 
         return `
             Name: ${this._name}
-            Price: $${this._price.toFixed(2)}
+            Original Price: $${this.price.toFixed(2)}
+            Discounted Price: $${this.getDiscountedPrice().toFixed(2)}
             Quantity: ${this._quantity}
             Description: ${this._description ?? "No description available"}
             Discount: ${this._discount ? `${this._discount}%` : "No discount"}
@@ -240,3 +253,4 @@ export class Box extends Product {
         `;
     }
 }
+
