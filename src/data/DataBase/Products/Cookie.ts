@@ -1,12 +1,12 @@
-import { Cookies } from "../../OOPStructure/Pruduct";
+import { Cookie } from "../../OOPStructure/Pruduct";
 
-const C1 = new Cookies({
+const C1 = new Cookie({
     name: "Chocolate Chip Cookie",
     description: "Classic soft cookie with rich chocolate chips",
     price: 13,
     discount: 20,
     weight: 0.35,
-    imageUrl: "/Products/Cookies/ChocolateChip.png",
+    imageUrl: "/Products/Cookie/ChocolateChip.png",
     country: "USA",
     quantity: 500,
     fullDescription: {
@@ -23,12 +23,12 @@ const C1 = new Cookies({
     }
 });
 
-const C2 = new Cookies({
+const C2 = new Cookie({
     name: "Oatmeal Raisin Cookie",
     description: "Chewy cookie with oats and sweet raisins",
     price: 12,
     weight: 0.3,
-    imageUrl: "/Products/Cookies/OatmealRaisin.png",
+    imageUrl: "/Products/Cookie/OatmealRaisin.png",
     country: "USA",
     quantity: 450,
     fullDescription: {
@@ -45,12 +45,12 @@ const C2 = new Cookies({
     }
 });
 
-const C3 = new Cookies({
+const C3 = new Cookie({
     name: "Peanut Butter Cookie",
-    description: "Rich, nutty cookies with a soft texture",
+    description: "Rich, nutty Cookie with a soft texture",
     price: 10,
     weight: 0.25,
-    imageUrl: "/Products/Cookies/PeanutButter.png",
+    imageUrl: "/Products/Cookie/PeanutButter.png",
     country: "USA",
     quantity: 400,
     fullDescription: {
@@ -67,13 +67,13 @@ const C3 = new Cookies({
     }
 });
 
-const C4 = new Cookies({
+const C4 = new Cookie({
     name: "Sugar Cookie",
     description: "Simple, sweet cookie with a buttery flavor",
     price: 9,
     weight: 0.2,
     discount: 30,
-    imageUrl: "/Products/Cookies/Sugar.png",
+    imageUrl: "/Products/Cookie/Sugar.png",
     country: "USA",
     quantity: 600,
     fullDescription: {
@@ -90,12 +90,12 @@ const C4 = new Cookies({
     }
 });
 
-const C5 = new Cookies({
+const C5 = new Cookie({
     name: "Snickerdoodle Cookie",
     description: "Soft, cinnamon-sugar coated cookie",
     price: 11,
     weight: 0.25,
-    imageUrl: "/Products/Cookies/Snickerdoodle.png",
+    imageUrl: "/Products/Cookie/Snickerdoodle.png",
     country: "USA",
     quantity: 500,
     fullDescription: {
@@ -112,12 +112,12 @@ const C5 = new Cookies({
     }
 });
 
-const C6 = new Cookies({
+const C6 = new Cookie({
     name: "Double Chocolate Chip Cookie",
     description: "Rich chocolate cookie with chocolate chips",
     price: 14,
     weight: 0.3,
-    imageUrl: "/Products/Cookies/DoubleChocolate.png",
+    imageUrl: "/Products/Cookie/DoubleChocolate.png",
     country: "USA",
     quantity: 350,
     fullDescription: {
@@ -134,13 +134,13 @@ const C6 = new Cookies({
     }
 });
 
-const C7 = new Cookies({
+const C7 = new Cookie({
     name: "Macadamia Nut Cookie",
     description: "Crunchy cookie with macadamia nuts and white chocolate chips",
     price: 15,
     discount: 10,
     weight: 0.35,
-    imageUrl: "/Products/Cookies/Macadamia.png",
+    imageUrl: "/Products/Cookie/Macadamia.png",
     country: "Australia",
     quantity: 300,
     fullDescription: {
@@ -151,18 +151,18 @@ const C7 = new Cookies({
         prosentAcid: 5,
         prosentAroma: 60,
         prosentTaste: 85,
-        productStyle: "Crispy cookies filled with macadamia nuts and white chocolate chips.",
+        productStyle: "Crispy Cookie filled with macadamia nuts and white chocolate chips.",
         tastingCharacteristics: "Crunchy, nutty with a creamy and slightly sweet flavor.",
         gastronomicCombinations: "Pairs well with coffee, milk, and tropical fruits."
     }
 });
 
-const C8 = new Cookies({
+const C8 = new Cookie({
     name: "White Chocolate Raspberry Cookie",
-    description: "Sweet cookies with white chocolate and raspberry pieces",
+    description: "Sweet Cookie with white chocolate and raspberry pieces",
     price: 13,
     weight: 0.3,
-    imageUrl: "/Products/Cookies/WhiteChocolateRaspberry.png",
+    imageUrl: "/Products/Cookie/WhiteChocolateRaspberry.png",
     country: "USA",
     quantity: 400,
     fullDescription: {
@@ -179,13 +179,13 @@ const C8 = new Cookies({
     }
 });
 
-const C9 = new Cookies({
+const C9 = new Cookie({
     name: "Lemon Cookie",
-    description: "Zesty cookies with a tangy lemon flavor",
+    description: "Zesty Cookie with a tangy lemon flavor",
     price: 10,
     discount: 10,
     weight: 0.2,
-    imageUrl: "/Products/Cookies/Lemon.png",
+    imageUrl: "/Products/Cookie/Lemon.png",
     country: "USA",
     quantity: 550,
     fullDescription: {

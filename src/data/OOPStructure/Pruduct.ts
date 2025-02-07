@@ -1,7 +1,10 @@
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+
 export type KindOfProduct =
     "wine" | "champagne" | "whiskey" | "vodka" |
-    "delicacies" | "glasses" | "candles" | "box" |
-    "cheese" | "cookies" | "sauce";
+    "delicacy" | "glass" | "candle" | "box" |
+    "cheese" | "cookie" | "sauce";
 
 export type FullDescriptionConfig = {
     region?: string;
@@ -20,6 +23,9 @@ export type FullDescriptionConfig = {
     gastronomicCombinations?: string;
 }
 
+export type StructureConfig = Partial<Record<KindOfProduct, string[]>>;
+
+
 export type ProductConfig = {
     id?: string;
     name: string;
@@ -31,8 +37,8 @@ export type ProductConfig = {
     country?: string;
     description?: string | string[];
     volume?: number;  // For Alcohol and Glasses
-    weight?: number;  // For OtherProducts
-    structure?: IProduct[];  // For Box
+    weight?: number;  // For OtherProducts and Box
+    structure?: StructureConfig;  // For Box (id-s)
     fullDescription?: FullDescriptionConfig; //For Page to show full description
 };
 
@@ -48,6 +54,7 @@ export interface IProduct {
 
     description?: string | string[];
     discount?: number;
+    structure?: StructureConfig;
 
     addToCart(quantity?: number): void;
     removeFromCart(quantity?: number): void;
@@ -79,7 +86,7 @@ abstract class Product implements IProduct {
         country,
         fullDescription,
     }: ProductConfig) {
-        this._id = id ?? `${name.toLocaleLowerCase().trim().replace(/\s+/g, '-')}`;
+        this._id = id ?? `${name.toLowerCase().trim().replace(/\s+/g, '-')}`;
         this._name = name;
         this._price = price;
         this._quantity = quantity;
@@ -168,24 +175,24 @@ abstract class OtherProducts extends Product {
     get volume(): number | undefined { return this._volume; }
 }
 
-export class Delicacies extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "delicacies";
+export class Delicacy extends OtherProducts {
+    readonly kindOfProduct: KindOfProduct = "delicacy";
 }
 
-export class Glasses extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "glasses";
+export class Glass extends OtherProducts {
+    readonly kindOfProduct: KindOfProduct = "glass";
 }
 
-export class Candles extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "candles";
+export class Candle extends OtherProducts {
+    readonly kindOfProduct: KindOfProduct = "candle";
 }
 
 export class Cheese extends OtherProducts {
     readonly kindOfProduct: KindOfProduct = "cheese";
 }
 
-export class Cookies extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "cookies";
+export class Cookie extends OtherProducts {
+    readonly kindOfProduct: KindOfProduct = "cookie";
 }
 
 export class Sauce extends OtherProducts {
@@ -193,64 +200,159 @@ export class Sauce extends OtherProducts {
 }
 
 export class Box extends Product {
-    protected _structure: IProduct[];
+    protected _structure: StructureConfig;
+    protected _weight?: number;
     readonly kindOfProduct: KindOfProduct = "box";
 
     constructor({
         structure,
+        weight,
         discount,
         ...rest
-    }: Omit<ProductConfig, "price"> & { structure: IProduct[] }) {
-        super({ ...rest, price: Box.calculateTotalPrice(structure), discount });
+    }: Omit<ProductConfig, "price"> & { structure: StructureConfig }) {
+        super({ ...rest, price: 0, discount }); // Price will be calculated separately as the sum of prices of products
         this._structure = structure;
+        this._weight = weight;
+    }
+    get weight(): number | undefined { return this._weight }
+    get structure(): StructureConfig { return this._structure }
+
+    // Method to obtain the total value of goods in a box
+    async fetchTotalPrice(): Promise<number> {
+        const products = await this.fetchDetailedStructure();
+        return products.reduce((total, product) => total + product.getDiscountedPrice(), 0);
     }
 
-    // Пересчет цены на основе товаров в коробке
-    static calculateTotalPrice(structure: IProduct[]): number {
-        return structure.reduce((total, product) => total + product.getDiscountedPrice(), 0);
-    }
-
-    // Геттер для цены, который всегда пересчитывает значение
-    get price(): number {
-        return Box.calculateTotalPrice(this._structure);
-    }
-
-    // Пересчет цены с учетом скидки
+    // Synchronous field (plug) to match the basic class
     getDiscountedPrice(): number {
-        const totalPrice = this.price;
+        console.warn("Use fetchDiscountedPrice() instead of getDiscountedPrice() for async behavior.");
+        return 0; // Clogged, as the real price is calculated asynchronously
+    }
+
+    // Asynchronous method to get the discount price
+    async fetchDiscountedPrice(): Promise<number> {
+        const totalPrice = await this.fetchTotalPrice();
         return this._discount ? totalPrice - (totalPrice * this._discount) / 100 : totalPrice;
     }
 
-    get structure(): IProduct[] {
-        return this._structure;
+    // Method to get full information about the goods in the box
+    async fetchDetailedStructure(): Promise<IProduct[]> {
+        const products: IProduct[] = [];
+
+        for (const [kind, ids] of Object.entries(this._structure) as unknown as [KindOfProduct, string[]][]) {
+            const kindUpper = kind.charAt(0).toUpperCase() + kind.slice(1)
+            const fetchedProducts = await Promise.all(ids.map(id => fetchProductById(kindUpper, id)));
+            products.push(...fetchedProducts.filter((product): product is IProduct => product !== null));
+        }
+        return products;
     }
 
-    addToCart(quantity?: number): void {
-        console.log(`${quantity ? quantity : 1} ${this._name} - added to cart!`);
-        this._structure.forEach(product => product.addToCart());
+
+    getWeightOrVolume(product: IProduct): string {
+        if (product instanceof AlcoholDrink) {
+            return `${product.volume}L`;
+        } else if (product instanceof OtherProducts) {
+            return product.weight ? `${product.weight}kg` : `${product.volume}l`;
+        }
+        return "not specified";
     }
 
-    removeFromCart(quantity?: number): void {
-        console.log(`${quantity ? quantity : 1} ${this._name} - removed from cart!`);
-        this._structure.forEach(product => product.removeFromCart());
+    async fetchProductInfo(): Promise<any> {
+        const products = await this.fetchDetailedStructure();
+        const productsInfo = await Promise.all(
+            products.map(async (product) => {
+                const productInfo = {
+                    name: product.name,
+                    description: product.description ?? "no description available",
+                    maker: product.fullDescription?.maker ?? "unknown maker",
+                    weightOrVolume: this.getWeightOrVolume(product),
+                };
+                return productInfo;
+            })
+        );
+
+        return {
+            nameInfo: this.name,
+            structureInfo: productsInfo,
+        };
     }
 
-    getProductInfo(): string {
-        const productsInfo = this._structure
-            .map(product => `- ${product.name}: $${product.getDiscountedPrice().toFixed(2)}`)
-            .join("\n");
 
-        return `
-            Name: ${this._name}
-            Original Price: $${this.price.toFixed(2)}
-            Discounted Price: $${this.getDiscountedPrice().toFixed(2)}
-            Quantity: ${this._quantity}
-            Description: ${this._description ?? "No description available"}
-            Discount: ${this._discount ? `${this._discount}%` : "No discount"}
-            ImageUrl: ${this._imageUrl ?? "No image"}
-            Products:
-            ${productsInfo}
-        `;
-    }
 }
 
+//! to create an instance of a product when I make a request with DB
+
+export const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {
+    wine: Wine,
+    champagne: Champagne,
+    whiskey: Whiskey,
+    vodka: Vodka,
+    delicacy: Delicacy,
+    glass: Glass,
+    candle: Candle,
+    cheese: Cheese,
+    cookie: Cookie,
+    sauce: Sauce,
+    box: Box,
+};
+
+export function createProductInstance(data: any): new (...args: any[]) => IProduct {
+    const { kindOfProduct } = data as { kindOfProduct: KindOfProduct };
+
+    const ProductClass = productClassesMap[kindOfProduct];
+
+    if (!ProductClass) {
+        throw new Error(`Unsupported product type: ${kindOfProduct}`);
+    }
+    return ProductClass;
+}
+
+export const fetchProductsByNameClass = async (filter: string): Promise<any[]> => {
+    const productsList: any[] = [];
+
+    try {
+        const querySnapshot = await getDocs(collection(db, "Products", filter, "items"));
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            try {
+                const ProductClass = createProductInstance(data);
+                const productInstance = new ProductClass(data)
+                if (productInstance.discount !== undefined && productInstance.discount > 0) {
+                    productsList.push(productInstance);
+                }
+            } catch (error) {
+                console.error("Error creating product instance");
+            }
+        });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+
+    return productsList;
+};
+
+export const fetchProductById = async (productClass: string, productId: string): Promise<any | null> => {
+    try {
+        const productsRef = collection(db, "Products", productClass, "items");
+        const q = query(productsRef, where("id", "==", productId));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const doc = querySnapshot.docs[0];
+            const data = doc.data();
+            try {
+                const ProductClass = createProductInstance(data);
+                const productInstance = new ProductClass(data)
+                return productInstance;
+            } catch (error) {
+                console.error("Error creating product instance:", error);
+                return null;
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching product by ID:", error);
+    }
+
+    return null;
+};

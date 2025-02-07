@@ -14,7 +14,7 @@ export function GiftBoxesPage() {
                 contentWidth={381} />
             <GiftSets />
             <CandleLights />
-            <Recommended productFilter="glasses" />
+            <Recommended productFilter="glass" />
             <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                 supTitle="Sommelier Choice"
                 title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"

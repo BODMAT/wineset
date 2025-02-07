@@ -5,40 +5,11 @@ import arrLeftSvg from '../../assets/arr-left-red.svg';
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { KindOfProduct, IProduct, Wine, Champagne, Whiskey, Vodka, Delicacies, Glasses, Candles, Cheese, Cookies, Sauce, Box } from "../../data/OOPStructure/Pruduct";
+import { KindOfProduct, IProduct, fetchProductsByNameClass } from "../../data/OOPStructure/Pruduct";
 
 import descriptionSVG0 from "../../assets/Product/glass.svg";
 import descriptionSVG1 from "../../assets/Product/structure.svg";
 import { Link } from "react-router-dom";
-
-import { db, collection, getDocs } from '../../firebaseConfig';
-
-//to create an instance of a product
-const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {
-    wine: Wine,
-    champagne: Champagne,
-    whiskey: Whiskey,
-    vodka: Vodka,
-    delicacies: Delicacies,
-    glasses: Glasses,
-    candles: Candles,
-    cheese: Cheese,
-    cookies: Cookies,
-    sauce: Sauce,
-    box: Box,
-};
-
-function createProductInstance(data: any): IProduct {
-    const { kindOfProduct, ...rest } = data as { kindOfProduct: KindOfProduct };
-
-    const ProductClass = productClassesMap[kindOfProduct];
-
-    if (!ProductClass) {
-        throw new Error(`Unsupported product type: ${kindOfProduct}`);
-    }
-
-    return new ProductClass(rest);
-}
 
 export function Recommended({ productFilter }: { productFilter: KindOfProduct }) {
     const swiperRef = useRef<any>(null);
@@ -47,26 +18,12 @@ export function Recommended({ productFilter }: { productFilter: KindOfProduct })
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            const querySnapshot = await getDocs(collection(db, 'Products', FilterProductsUpper, 'items'));
-            const productsList: IProduct[] = [];
-
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                try {
-                    const productInstance = createProductInstance(data);
-                    if (productInstance.discount !== undefined && productInstance.discount > 0) {
-                        productsList.push(productInstance);
-                    }
-                } catch (error) {
-                    console.error(`Error creating product instance`);
-                }
-            });
-
-            setProducts(productsList);
+        const loadProducts = async () => {
+            const productsData = await fetchProductsByNameClass(FilterProductsUpper);
+            setProducts(productsData);
         };
 
-        fetchProducts();
+        loadProducts();
     }, [productFilter]);
 
     return (

@@ -1,15 +1,36 @@
-import styles from "./GiftBackets.module.scss"
+import styles from "./GiftBackets.module.scss";
 import arrRightSvg from '../../../assets/arr-right-red.svg';
 import arrLeftSvg from '../../../assets/arr-left-red.svg';
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { boxes } from "../../../data/DataBase/GiftBoxes";
 import { Link } from "react-router-dom";
-import { Box, ProductConfig } from "../../../data/OOPStructure/Pruduct";
+import { Box, fetchProductsByNameClass } from "../../../data/OOPStructure/Pruduct";
 
 export function GiftBackets() {
     const swiperRef = useRef<any>(null);
+    const FilterProductsUpper = "Box";
+    const [products, setProducts] = useState<any[] | undefined>(undefined);
+    const [productsInfo, setProductsInfo] = useState<any[] | undefined>(undefined);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const productsData = await fetchProductsByNameClass(FilterProductsUpper);
+            setProducts(productsData);
+
+            const productsInfoData = await Promise.all(
+                productsData.map(async (product) => {
+                    const productInfo = await product.fetchProductInfo();
+                    console.log(productInfo);
+                    return productInfo;
+                })
+            );
+            setProductsInfo(productsInfoData);
+        };
+
+        loadProducts();
+    }, []);
+
     return (
         <section className={styles.gift}>
             <div className={styles.gift__container}>
@@ -42,34 +63,37 @@ export function GiftBackets() {
                 }}
                 loop={true}
                 className={styles.gift__slider}>
+                {!products && <p>Loading...</p>}
+                {products && products.map((box: Box, index: number) => {
+                    const productInfo = productsInfo ? productsInfo[index] : null;
 
-                {boxes.map((box: Box, index: number) => (
-                    <SwiperSlide key={`${box.name}-${index}`} className={styles.gift__slide}>
-                        <Link to={`/Box/${box.id}`}>
-                            <div className={styles.gift__slide_img}>
-                                <img src={box.imageUrl} alt={box.imageUrl} />
-                            </div>
-                            <div className={styles.gift__slide_content}>
-                                <h3 className={styles.gift__slide_name}>{box.name}</h3>
-                                <div className={styles.gift__slide_structure}>
-                                    <span>Composition: </span>
-                                    <ul className={styles.gift__slide_list}>
-                                        {box.structure.map((item: ProductConfig) => (
-                                            <li className={styles.gift__slide_li}
-                                                key={box.name + "-" + item.name}>
-                                                {item.name}, {item.description}, {item.weight ? `${item.weight} g` : `${item.volume} l`}.
-                                            </li>
-                                        ))}
-                                    </ul>
+                    return (
+                        <SwiperSlide key={index} className={styles.gift__slide}>
+                            <Link to={`/Box/${box.id}`}>
+                                <div className={styles.gift__slide_img}>
+                                    <img src={box.imageUrl} alt={box.imageUrl} />
                                 </div>
-                            </div>
-                        </Link>
-                    </SwiperSlide>
-                ))}
+                                <div className={styles.gift__slide_content}>
+                                    <h3 className={styles.gift__slide_name}>{box.name}</h3>
+                                    <div className={styles.gift__slide_structure}>
+                                        <span>Composition: </span>
+                                        <ul className={styles.gift__slide_list}>
+                                            {productInfo?.structureInfo?.map((info: any, idx: number) => (
+                                                <li key={idx}>
+                                                    <strong>{info.name}</strong>: {info.description} (Maker: {info.maker}, {info.weightOrVolume})
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </Link>
+                        </SwiperSlide>
+                    );
+                })}
             </Swiper>
             <div className={styles.gift__container}>
                 <Link to="/boxes" className={styles.gift__link}>View all</Link>
             </div>
-        </section >
-    )
+        </section>
+    );
 }
