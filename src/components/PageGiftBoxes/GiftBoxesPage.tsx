@@ -15,6 +15,16 @@ export function GiftBoxesPage() {
             <GiftSets />
             <CandleLights />
             <Recommended productFilter="glass" />
+            <Recommended productFilter="wine" />
+            <Recommended productFilter="cheese" />
+            <Recommended productFilter="whiskey" />
+            <Recommended productFilter="candle" />
+            <Recommended productFilter="champagne" />
+            <Recommended productFilter="vodka" />
+            <Recommended productFilter="delicacy" />
+            <Recommended productFilter="cookie" />
+            <Recommended productFilter="sauce" />
+
             <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                 supTitle="Sommelier Choice"
                 title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"

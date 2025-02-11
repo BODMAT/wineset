@@ -50,53 +50,54 @@ export function GiftBackets() {
                         </button>
                     </div>
                 </div>
-                <Swiper
-                    ref={swiperRef}
-                    spaceBetween={30}
-                    slidesPerView={3}
-                    modules={[Navigation]}
-                    navigation={{
-                        prevEl: ".swiper-button-prev",
-                        nextEl: ".swiper-button-next",
-                    }}
-                    loop={true}
-                    breakpoints={{
-                        1280: { slidesPerView: 3 },
-                        1024: { slidesPerView: 2 },
-                        480: { slidesPerView: 1 },
-                        0: { slidesPerView: 1 },
-                    }} className={styles.gift__slider}>
-                    {!products && <p>Loading...</p>}
-                    {products && products.map((box: Box, index: number) => {
-                        const productInfo = productsInfo ? productsInfo[index] : null;
+                {!products && <p>Loading...</p>}
+                {products && (
+                    <Swiper
+                        ref={swiperRef}
+                        spaceBetween={50}
+                        slidesPerView={2}
+                        modules={[Navigation]}
+                        navigation={{
+                            prevEl: ".swiper-button-prev",
+                            nextEl: ".swiper-button-next",
+                        }}
+                        loop={true}
+                        breakpoints={{
+                            970: { slidesPerView: 2 },
+                            480: { slidesPerView: 1 },
+                            0: { slidesPerView: 1 },
+                        }} className={styles.gift__slider}>
+                        {products.map((box: Box, index: number) => {
+                            const productInfo = productsInfo ? productsInfo[index] : null;
 
-                        return (
-                            <SwiperSlide key={index} className={styles.gift__slide}>
-                                <Link to={`/Box/${box.id}`}>
-                                    <div className="">
-                                        <div className={styles.gift__slide_img}>
-                                            <img src={box.imageUrl} alt={box.imageUrl} />
-                                        </div>
-                                        <div className={styles.gift__slide_content}>
-                                            <h3 className={styles.gift__slide_name}>{box.name}</h3>
-                                            <div className={styles.gift__slide_structure}>
-                                                <span>Composition: </span>
-                                                <ul className={styles.gift__slide_list}>
-                                                    {!productInfo && <p>Loading...</p>}
-                                                    {productInfo?.structureInfo?.map((info: any, idx: number) => (
-                                                        <li className={styles.gift__slide_li} key={idx}>
-                                                            <strong>{info.name}</strong>: {info.description} (Maker: {info.maker}, {info.weightOrVolume})
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                            return (
+                                <SwiperSlide key={index} className={styles.gift__slide}>
+                                    <Link className={styles.gift__slide_wrap} to={`/Box/${box.id}`}>
+                                        <div className="">
+                                            <div className={styles.gift__slide_img}>
+                                                <img src={box.imageUrl} alt={box.imageUrl} />
+                                            </div>
+                                            <div className={styles.gift__slide_content}>
+                                                <h3 className={styles.gift__slide_name}>{box.name}</h3>
+                                                <div className={styles.gift__slide_structure}>
+                                                    <span>Composition: </span>
+                                                    <ul className={styles.gift__slide_list}>
+                                                        {!productInfo && <p>Loading...</p>}
+                                                        {productInfo?.structureInfo?.map((info: any, idx: number) => (
+                                                            <li className={styles.gift__slide_li} key={idx}>
+                                                                <strong>{info.name}</strong>: {info.description} (Maker: {info.maker}, {info.weightOrVolume})
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
-                            </SwiperSlide>
-                        );
-                    })}
-                </Swiper>
+                                    </Link>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                )}
                 <Link to="/boxes" className={styles.gift__link}>View all</Link>
             </div>
         </section>

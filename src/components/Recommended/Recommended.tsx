@@ -7,19 +7,25 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
 import { KindOfProduct, IProduct, fetchProductsByNameClass } from "../../data/OOPStructure/Pruduct";
 
-import descriptionSVG0 from "../../assets/Product/glass.svg";
-import descriptionSVG1 from "../../assets/Product/structure.svg";
+import descriptionGlassSVG from "../../assets/Product/glass.svg";
+import descriptionOthersSVG from "../../assets/Product/structure.svg";
+import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { Link } from "react-router-dom";
+import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 
-export function Recommended({ productFilter }: { productFilter: KindOfProduct }) {
+const alcoTypes: KindOfProduct[] = ["wine", "champagne", "whiskey", "vodka", "glass"];
+const othersTypes: KindOfProduct[] = ["delicacy", "candle", "box", "cheese", "cookie", "sauce"];
+
+
+export function Recommended({ productFilter, filterByDiscount = false }: { productFilter: KindOfProduct, filterByDiscount?: boolean }) {
     const swiperRef = useRef<any>(null);
     const FilterProductsUpper = productFilter.charAt(0).toUpperCase() + productFilter.slice(1)
-
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
 
     useEffect(() => {
         const loadProducts = async () => {
             const productsData = await fetchProductsByNameClass(FilterProductsUpper);
+            filterByDiscount ? productsData.filter(el => el.discount > 0) : productsData;
             setProducts(productsData);
         };
 
@@ -33,13 +39,13 @@ export function Recommended({ productFilter }: { productFilter: KindOfProduct })
                     <h2 className={styles.title}>Recommended products</h2>
                     <div className="flex gap-[20px] max-[400px]:flex-col">
                         <button
-                            className="swiper-button-prev"
+                            className={`swiper-button-prev-${productFilter}`}
                             onClick={() => swiperRef.current.swiper.slidePrev()}
                         >
                             <img src={arrLeftSvg} alt="prev" />
                         </button>
                         <button
-                            className="swiper-button-next"
+                            className={`swiper-button-next-${productFilter}`}
                             onClick={() => swiperRef.current.swiper.slideNext()}
                         >
                             <img src={arrRightSvg} alt="next" />
@@ -54,48 +60,45 @@ export function Recommended({ productFilter }: { productFilter: KindOfProduct })
                         slidesPerView={4}
                         modules={[Navigation]}
                         navigation={{
-                            prevEl: ".swiper-button-prev",
-                            nextEl: ".swiper-button-next",
+                            prevEl: `.swiper-button-prev-${productFilter}`,
+                            nextEl: `.swiper-button-next-${productFilter}`,
                         }}
                         loop={true}
                         breakpoints={{
                             1280: { slidesPerView: 4 },
                             1024: { slidesPerView: 3 },
-                            768: { slidesPerView: 2 },
+                            608: { slidesPerView: 2 },
                             480: { slidesPerView: 1 },
                             0: { slidesPerView: 1 },
                         }}>
                         {products.map((product: IProduct, index: number) => (
-                            <SwiperSlide key={index} className="p-[18px]">
-                                <div className="mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
+                            <SwiperSlide key={index} className="!flex !flex-col !items-stretch !p-[18px] !h-auto">
+                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
                                     <Link to={`/${FilterProductsUpper}/${product.id}`}>
-                                        <div className="">
-                                            <div className="relative flex justify-center mx-auto w-[100%] h-[305px] mb-[33px]">
-                                                <img className="absolute w-[182px] h-[305px] object-cover" src={product.imageUrl} alt={product.imageUrl} />
-                                                {product.discount !== undefined && product.discount > 0 && (
-                                                    <div className="absolute z-2 w-[48px] h-[48px] right-0 top-0 rounded-[50%] bg-[#7A0000] text-white flex justify-center items-center">-{product.discount}%</div>
+                                        <ProductPhoto product={product} />
+                                        <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
+                                            <h3 className={styles.label}>{product.name}</h3>
+                                            <div className="flex flex-col gap-[7px] flex-1">
+                                                <p className="flex gap-2" key={index + "i"}>
+                                                    <span>
+                                                        {alcoTypes.includes(product.kindOfProduct) && <img src={descriptionGlassSVG} alt="descriptionGlassSVG" />}
+                                                        {othersTypes.includes(product.kindOfProduct) && <img src={descriptionFoodSVG} alt="descriptionFoodSVG" />}
+                                                    </span>
+                                                    <span className={styles.description}>{Array.isArray(product.description) ? product.description[0] : product.description}</span>
+                                                </p>
+                                                {Array.isArray(product.description) && (
+                                                    <p className="flex gap-2" key={index + "j"}>
+                                                        <span>
+                                                            <img src={descriptionOthersSVG} alt="descriptionOthersSVG" />
+                                                        </span>
+                                                        <span className={styles.description}>{product.description[1]}</span>
+                                                    </p>
                                                 )}
-                                                {/* Textures */}
-                                                {product.country === "France" && (<img src="/Products/TextureFrance.png" alt="Texture" className="absolute w-[100%] h-[100%] object-contain"></img>)}
-                                                {product.country === "Italy" && (<img src="/Products/TextureItaly.png" alt="Texture" className="absolute w-[100%] h-[100%] object-contain"></img>)}
+                                                {!Array.isArray(product.description) && <p>{product.description}</p>}
                                             </div>
-                                            <div className="grid grid-rows-3 grid-cols-1 gap-[7px]">
-                                                <h3 className={styles.label}>{product.name}</h3>
-                                                <div className="flex flex-col gap-[7px] flex-1">
-                                                    {Array.isArray(product.description) && product.description.map((description: string, index: number) => (
-                                                        <p className="flex gap-2" key={index}>
-                                                            <span>
-                                                                <img src={index === 0 ? descriptionSVG0 : descriptionSVG1} alt={`descriptionSVG${index}`} />
-                                                            </span>
-                                                            <span className={styles.description}>{description}</span>
-                                                        </p>
-                                                    ))}
-                                                    {!Array.isArray(product.description) && <p>{product.description}</p>}
-                                                </div>
-                                                <div className="flex gap-6 items-center">
-                                                    <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>
-                                                    <h4 className={styles.prev_price}>{product.price}$</h4>
-                                                </div>
+                                            <div className="flex gap-6 items-center">
+                                                <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>
+                                                {(product.discount !== undefined && product.discount > 0) && <h4 className={styles.prev_price}>{product.price}$</h4>}
                                             </div>
                                         </div>
                                     </Link>

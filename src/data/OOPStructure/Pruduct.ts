@@ -1,10 +1,10 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
-export type KindOfProduct =
-    "wine" | "champagne" | "whiskey" | "vodka" |
-    "delicacy" | "glass" | "candle" | "box" |
-    "cheese" | "cookie" | "sauce";
+export type KindOfProduct = KindOfAlco | KindOfOthers;
+
+export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
+export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
 
 export type FullDescriptionConfig = {
     region?: string;
@@ -127,7 +127,7 @@ abstract class Product implements IProduct {
 
 abstract class AlcoholDrink extends Product {
     protected _volume: number;
-    abstract readonly kindOfProduct: KindOfProduct;
+    abstract readonly kindOfProduct: KindOfAlco;
     constructor({
         volume,
         ...rest
@@ -140,25 +140,25 @@ abstract class AlcoholDrink extends Product {
 }
 
 export class Wine extends AlcoholDrink {
-    readonly kindOfProduct: KindOfProduct = "wine";
+    readonly kindOfProduct: KindOfAlco = "wine";
 }
 
 export class Champagne extends AlcoholDrink {
-    readonly kindOfProduct: KindOfProduct = "champagne";
+    readonly kindOfProduct: KindOfAlco = "champagne";
 }
 
 export class Whiskey extends AlcoholDrink {
-    readonly kindOfProduct: KindOfProduct = "whiskey";
+    readonly kindOfProduct: KindOfAlco = "whiskey";
 }
 
 export class Vodka extends AlcoholDrink {
-    readonly kindOfProduct: KindOfProduct = "vodka";
+    readonly kindOfProduct: KindOfAlco = "vodka";
 }
 
 abstract class OtherProducts extends Product {
     protected _weight?: number;
     protected _volume?: number;
-    abstract readonly kindOfProduct: KindOfProduct;
+    abstract readonly kindOfProduct: KindOfOthers;
 
     constructor({
         weight,
@@ -176,27 +176,27 @@ abstract class OtherProducts extends Product {
 }
 
 export class Delicacy extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "delicacy";
+    readonly kindOfProduct: KindOfOthers = "delicacy";
 }
 
 export class Glass extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "glass";
+    readonly kindOfProduct: KindOfOthers = "glass";
 }
 
 export class Candle extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "candle";
+    readonly kindOfProduct: KindOfOthers = "candle";
 }
 
 export class Cheese extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "cheese";
+    readonly kindOfProduct: KindOfOthers = "cheese";
 }
 
 export class Cookie extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "cookie";
+    readonly kindOfProduct: KindOfOthers = "cookie";
 }
 
 export class Sauce extends OtherProducts {
-    readonly kindOfProduct: KindOfProduct = "sauce";
+    readonly kindOfProduct: KindOfOthers = "sauce";
 }
 
 export class Box extends Product {
@@ -318,9 +318,7 @@ export const fetchProductsByNameClass = async (filter: string): Promise<any[]> =
             try {
                 const ProductClass = createProductInstance(data);
                 const productInstance = new ProductClass(data)
-                if (productInstance.discount !== undefined && productInstance.discount > 0) {
-                    productsList.push(productInstance);
-                }
+                productsList.push(productInstance);
             } catch (error) {
                 console.error("Error creating product instance");
             }
