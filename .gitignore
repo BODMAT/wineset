@@ -27,4 +27,4 @@ dist-ssr
 .env
 
 # DB local hidden
-data/DataBase/Products
+src/data/DataBase/Products/*.ts
