@@ -1,13 +1,14 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { BOXES } from "../../data/DataBase/Products/Box";
 import { KindOfProduct, ProductConfig, StructureConfig } from "../../data/OOPStructure/Pruduct";
+import { CHAMPAGNES } from "../../data/DataBase/Products/Champagne";
+import { SAUCES } from "../../data/DataBase/Products/Sauce";
 
 export async function uploadInfo() {
     try {
-        const itemsRef = collection(db, "Products", "Box", "items");
+        const itemsRef = collection(db, "Products", "Sauce", "items");
 
-        for (const item of BOXES) {
+        for (const item of SAUCES) {
             const itemRef = doc(itemsRef, item.id);
 
             const productData: ProductConfig = {

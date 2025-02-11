@@ -25,3 +25,6 @@ dist-ssr
 
 # keys and apis
 .env
+
+# DB local hidden
+data/DataBase/Products

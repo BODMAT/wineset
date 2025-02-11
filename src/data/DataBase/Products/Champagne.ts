@@ -234,4 +234,4 @@ const CH10 = new Champagne({
     }
 });
 
-export const CHAMPANGES = [CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH7, CH9, CH10, CH2]
+export const CHAMPAGNES = [CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8, CH9, CH10]

@@ -79,22 +79,21 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
                                             <h3 className={styles.label}>{product.name}</h3>
                                             <div className="flex flex-col gap-[7px] flex-1">
-                                                <p className="flex gap-2" key={index + "i"}>
-                                                    <span>
-                                                        {alcoTypes.includes(product.kindOfProduct) && <img src={descriptionGlassSVG} alt="descriptionGlassSVG" />}
-                                                        {othersTypes.includes(product.kindOfProduct) && <img src={descriptionFoodSVG} alt="descriptionFoodSVG" />}
+                                                <p className="flex gap-2 items-center" key={index + "i"}>
+                                                    <span className="w-[17px] h-[17px] flex-[0_0_17px]">
+                                                        {alcoTypes.includes(product.kindOfProduct) && <img className="w-full h-full" src={descriptionGlassSVG} alt="descriptionGlassSVG" />}
+                                                        {othersTypes.includes(product.kindOfProduct) && <img className="w-full h-full" src={descriptionFoodSVG} alt="descriptionFoodSVG" />}
                                                     </span>
-                                                    <span className={styles.description}>{Array.isArray(product.description) ? product.description[0] : product.description}</span>
+                                                    <span className={styles.description}>{(Array.isArray(product.description)) ? product.description[0] : product.description}</span>
                                                 </p>
                                                 {Array.isArray(product.description) && (
-                                                    <p className="flex gap-2" key={index + "j"}>
-                                                        <span>
-                                                            <img src={descriptionOthersSVG} alt="descriptionOthersSVG" />
+                                                    <p className="flex gap-2 items-center" key={index + "j"}>
+                                                        <span className="w-[17px] h-[17px] flex-[0_0_17px]">
+                                                            <img className="w-full h-full" src={descriptionOthersSVG} alt="descriptionOthersSVG" />
                                                         </span>
                                                         <span className={styles.description}>{product.description[1]}</span>
                                                     </p>
                                                 )}
-                                                {!Array.isArray(product.description) && <p>{product.description}</p>}
                                             </div>
                                             <div className="flex gap-6 items-center">
                                                 <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>

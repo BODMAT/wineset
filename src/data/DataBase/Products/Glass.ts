@@ -6,7 +6,7 @@ const G1 = new Glass({
     volume: 0.2,
     discount: 30,
     description: ["Glass for white wine", "Riesling, Sauvignon Blanc +"],
-    imageUrl: "/Products/Glass/G1.png",
+    imageUrl: "/Products/Glass/Riedel.png",
     country: "Italy",
 })
 
@@ -16,7 +16,7 @@ const G2 = new Glass({
     volume: 0.3,
     discount: 10,
     description: ["Glass for red wine", "Merlot, Cabernet Sauvignon +"],
-    imageUrl: "/Products/Glass/G2.png",
+    imageUrl: "/Products/Glass/Crystal.png",
     country: "Italy",
 })
 
@@ -25,8 +25,8 @@ const G3 = new Glass({
     price: 10,
     volume: 0.2,
     discount: 20,
-    description: ["Glass for red wine", "Riesling, Sauvignon Blanc +"],
-    imageUrl: "/Products/Glass/G3.png",
+    description: ["Glass for coctails", "Riesling, Sauvignon Blanc +"],
+    imageUrl: "/Products/Glass/Velvet.png",
     country: "France",
 })
 
@@ -36,7 +36,7 @@ const G4 = new Glass({
     volume: 0.3,
     discount: 10,
     description: ["Glass for red wine", "Merlot, Cabernet Sauvignon +"],
-    imageUrl: "/Products/Glass/G4.png",
+    imageUrl: "/Products/Glass/Amber.png",
     country: "Italy",
 })
 
@@ -46,7 +46,7 @@ const G5 = new Glass({
     volume: 0.15,
     discount: 20,
     description: ["Glass for red wine", "Riesling, Sauvignon Blanc +"],
-    imageUrl: "/Products/Glass/G5.png",
+    imageUrl: "/Products/Glass/Diamond.png",
     country: "France",
 })
 
@@ -56,7 +56,7 @@ const G6 = new Glass({
     volume: 0.3,
     discount: 10,
     description: ["Glass for whiskey or vodka", "Merlot, Cabernet Sauvignon +"],
-    imageUrl: "/Products/Glass/G6.png",
+    imageUrl: "/Products/Glass/Golden.png",
     country: "Italy",
 })
 
@@ -66,7 +66,7 @@ const G7 = new Glass({
     volume: 0.15,
     discount: 20,
     description: ["Glass for champagne", "Riesling, Sauvignon Blanc +"],
-    imageUrl: "/Products/Glass/G7.png",
+    imageUrl: "/Products/Glass/Silver.png",
     country: "Italy",
 })
 
@@ -75,7 +75,7 @@ const G8 = new Glass({
     price: 15,
     volume: 0.1,
     description: ["Glass for champagne", "Merlot, Cabernet Sauvignon +"],
-    imageUrl: "/Products/Glass/G8.png",
+    imageUrl: "/Products/Glass/BlackVelvet.png",
     country: "France",
 })
 
@@ -84,7 +84,7 @@ const G9 = new Glass({
     price: 10,
     volume: 0.15,
     description: ["Glass for champagne", "Riesling, Sauvignon Blanc +"],
-    imageUrl: "/Products/Glass/G9.png",
+    imageUrl: "/Products/Glass/CrystalElegance.png",
     country: "Italy",
 })
 

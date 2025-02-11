@@ -62,6 +62,9 @@ export function ProductPhoto({ product, imageHeight = 305 }: { product: IProduct
             {product.country === "England" && (
                 <img src="/Products/England.png" alt="Texture" className="absolute w-[100%] h-[100%] object-contain" />
             )}
+            {product.country === "Australia" && (
+                <img src="/Products/Australia.png" alt="Texture" className="absolute w-[100%] h-[100%] object-contain" />
+            )}
         </div>
     )
 }
