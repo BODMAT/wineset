@@ -1,0 +1,23 @@
+.container{
+    @include mixins.container;
+}
+
+.basicTitle{
+    color: #121212;
+    font-style: normal;
+    font-family: "Cormorant",serif;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    @include mixins.adaptiv-font (48, 36);
+}
+
+.basicText{
+    color: #121212;
+    font-style: normal;
+    font-family: "Inter",sans-serif;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0;
+}

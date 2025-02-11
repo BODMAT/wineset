@@ -27,8 +27,8 @@ export function HomePage() {
             <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                 supTitle="Sommelier Choice"
                 title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
-                subTitle="ORDER CONSULT"
-                subTitleLink="/wine"
+                subTitle="ARTICLES ABOUT WINE"
+                subTitleLink="/Articles"
                 contentWidth={893} />
             <Instagram />
         </div>

@@ -1,11 +1,9 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
-export type KindOfProduct = KindOfAlco | KindOfOthers;
-
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
 export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
-
+export type KindOfProduct = KindOfAlco | KindOfOthers;
 export type FullDescriptionConfig = {
     region?: string;
     shugarType?: string;
@@ -22,10 +20,8 @@ export type FullDescriptionConfig = {
     tastingCharacteristics?: string;
     gastronomicCombinations?: string;
 }
-
+//Partial makes all properties optional
 export type StructureConfig = Partial<Record<KindOfProduct, string[]>>;
-
-
 export type ProductConfig = {
     id?: string;
     name: string;
@@ -38,7 +34,7 @@ export type ProductConfig = {
     description?: string | string[];
     volume?: number;  // For Alcohol and Glasses
     weight?: number;  // For OtherProducts and Box
-    structure?: StructureConfig;  // For Box (id-s)
+    structure?: StructureConfig;  // For Box (KindOfProduct: [id-s])
     fullDescription?: FullDescriptionConfig; //For Page to show full description
 };
 
@@ -353,4 +349,19 @@ export const fetchProductById = async (productClass: string, productId: string):
     }
 
     return null;
+};
+
+//! for reuseble components
+export const dataWPostfixes = {
+    "glass": "glasses",
+    "delicacy": "delicacies",
+    "wine": "wine sets",
+    "candle": "candles",
+    "champagne": "champagnes",
+    "whiskey": "whiskeys",
+    "vodka": "vodkas",
+    "cheese": "cheeses",
+    "cookie": "cookies",
+    "sauce": "sauces",
+    "box": "gift boxes"
 };

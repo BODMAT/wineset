@@ -18,9 +18,9 @@ export function FixedFooter() {
                 </div>
                 <nav className={styles.footer__navigation}>
                     <ul className={styles.footer__menu}>
-                        <li className={styles.footer__li}><Link to="/Gift-sets/Box">Gift sets</Link></li>
+                        <li className={styles.footer__li}><Link to="/Gift-sets">Gift sets</Link></li>
                         <li className={styles.footer__li}><Link to="/Wine-and-alcohol">Wine and alcohol</Link></li>
-                        <li className={styles.footer__li}><Link to="/Delicacys">Delicacys</Link></li>
+                        <li className={styles.footer__li}><Link to="/Delicacies">Delicacies</Link></li>
                         <li className={styles.footer__li}><Link to="/Glasses-and-candles">Glasses and candles</Link></li>
                     </ul>
                     <div className={styles.footer__privacy}>
