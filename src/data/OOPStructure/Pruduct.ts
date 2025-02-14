@@ -22,6 +22,26 @@ export type FullDescriptionConfig = {
 }
 //Partial makes all properties optional
 export type StructureConfig = Partial<Record<KindOfProduct, string[]>>;
+export type Countries =
+    | "Australia"
+    | "Bulgaria"
+    | "Canada"
+    | "England"
+    | "Finland"
+    | "France"
+    | "Greece"
+    | "Ireland"
+    | "Italy"
+    | "Japan"
+    | "Madagascar"
+    | "Poland"
+    | "Scotland"
+    | "Spain"
+    | "Sweden"
+    | "Switzerland"
+    | "Thailand"
+    | "Ukraine"
+    | "USA";
 export type ProductConfig = {
     id?: string;
     name: string;
@@ -30,7 +50,7 @@ export type ProductConfig = {
     kindOfProduct?: KindOfProduct;
     quantity?: number;
     discount?: number;
-    country?: string;
+    country?: Countries;
     description?: string | string[];
     volume?: number;  // For Alcohol and Glasses
     weight?: number;  // For OtherProducts and Box
@@ -365,3 +385,6 @@ export const dataWPostfixes = {
     "sauce": "sauces",
     "box": "gift boxes"
 };
+
+export const alcoTypes: KindOfProduct[] = ["wine", "champagne", "whiskey", "vodka", "glass"];
+export const othersTypes: KindOfProduct[] = ["delicacy", "candle", "box", "cheese", "cookie", "sauce"];

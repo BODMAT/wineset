@@ -5,16 +5,13 @@ import arrLeftSvg from '../../assets/arr-left-red.svg';
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { KindOfProduct, IProduct, fetchProductsByNameClass } from "../../data/OOPStructure/Pruduct";
+import { KindOfProduct, IProduct, fetchProductsByNameClass, alcoTypes, othersTypes } from "../../data/OOPStructure/Pruduct";
 
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
 import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
-
-const alcoTypes: KindOfProduct[] = ["wine", "champagne", "whiskey", "vodka", "glass"];
-const othersTypes: KindOfProduct[] = ["delicacy", "candle", "box", "cheese", "cookie", "sauce"];
 
 
 export function Recommended({ productFilter, filterByDiscount = false }: { productFilter: KindOfProduct, filterByDiscount?: boolean }) {
@@ -67,7 +64,7 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                         breakpoints={{
                             1280: { slidesPerView: 4 },
                             1024: { slidesPerView: 3 },
-                            608: { slidesPerView: 2 },
+                            640: { slidesPerView: 2 },
                             480: { slidesPerView: 1 },
                             0: { slidesPerView: 1 },
                         }}>

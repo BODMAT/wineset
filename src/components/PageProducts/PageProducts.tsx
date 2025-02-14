@@ -5,6 +5,7 @@ import { ProductDescription } from "./ProductDescription";
 import { Recommended } from "../Recommended/Recommended";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Instagram } from "../PageHome/Instagram/Instagram";
+import { ProductsByType } from "./ProductsByType";
 
 type ProductContextType = {
     product: KindOfProduct;
@@ -35,7 +36,7 @@ export function PageProducts({ product }: { product: KindOfProduct }) {
             <ProductContext.Provider value={{ product }}>
                 <GenerateProductSpecialOffer />
                 <ProductDescription />
-                Products w FILTER
+                <ProductsByType />
                 <Recommended productFilter={getRandomProduct(product)} />
                 <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                     supTitle="Sommelier Choice"
