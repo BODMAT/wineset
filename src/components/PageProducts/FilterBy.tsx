@@ -1,6 +1,8 @@
+import Select from "react-select";
 import { Countries } from "../../data/OOPStructure/Pruduct";
 import { useProduct } from "./PageProducts";
 import styles from "./PageProducts.module.scss";
+
 export function FilterBy({
     filters,
     onChange,
@@ -9,58 +11,152 @@ export function FilterBy({
     onChange: (newFilters: { discount: string; country: string }) => void;
 }) {
     const countries: Countries[] = [
-        "Australia",
-        "Bulgaria",
-        "Canada",
-        "England",
-        "Finland",
-        "France",
-        "Greece",
-        "Ireland",
-        "Italy",
-        "Japan",
-        "Madagascar",
-        "Poland",
-        "Scotland",
-        "Spain",
-        "Sweden",
-        "Switzerland",
-        "Thailand",
-        "Ukraine",
-        "USA",
+        "Australia", "Bulgaria", "Canada", "England", "Finland", "France", "Greece", "Ireland", "Italy", "Japan", "Madagascar", "Poland", "Scotland", "Spain", "Sweden", "Switzerland", "Thailand", "Ukraine", "USA",
     ];
-    const { product } = useProduct();
-    return (
-        <div className="flex justify-between gap-20 pb-2">
-            <div className={styles.basicTitle}>Add filters to find your best {product}: </div>
-            <div className="flex gap-2">
-                <select
-                    className="pt-[20px] pb-[20px] pl-[25px] pr-[25px] border border-[#7a0000] rounded-[7px] font-medium text-[#7a0000]"
-                    name="discount"
-                    id="discount"
-                    value={filters.discount}
-                    onChange={(e) => onChange({ ...filters, discount: e.target.value })}
-                >
-                    <option value="All prices">All prices</option>
-                    <option value="With discount">With discount</option>
-                    <option value="Without discount">Without discount</option>
-                </select>
 
-                <select
-                    className="pt-[20px] pb-[20px] pl-[25px] pr-[25px] border border-[#7a0000] rounded-[7px] font-medium text-[#7a0000]"
-                    name="country"
-                    id="country"
-                    value={filters.country}
-                    onChange={(e) => onChange({ ...filters, country: e.target.value })}
-                >
-                    <option value="All countries">All countries</option>
-                    {countries.map((country) => (
-                        <option key={country} value={country}>
-                            {country}
-                        </option>
-                    ))}
-                </select>
+    const discountOptions = [
+        { value: "All prices", label: "All prices" },
+        { value: "With discount", label: "With discount" },
+        { value: "Without discount", label: "Without discount" },
+    ];
+
+    const countryOptions = [
+        { value: "All countries", label: "All countries" },
+        ...countries.map((country) => ({ value: country, label: country })),
+    ];
+
+    const { product } = useProduct();
+
+    return (
+        <div className="flex justify-between items-center gap-x-20 gap-y-4 pb-2 max-md:flex-col max-md:text-center">
+            <h3 className={styles.basicTitle}>Add filters to find your best {product}: </h3>
+            <div className="flex gap-2 max-[420px]:flex-col">
+                <Select
+                    options={discountOptions}
+                    value={discountOptions.find(option => option.value === filters.discount)}
+                    onChange={(selected) => onChange({ ...filters, discount: selected?.value || "All prices" })}
+                    classNames={{
+                        indicatorSeparator: () => "hidden",
+                        container: () => "relative z-5 w-full",
+                    }}
+                    styles={{
+                        control: (base, state) => ({
+                            ...base,
+                            paddingTop: "20px",
+                            paddingBottom: "20px",
+                            paddingLeft: "25px",
+                            paddingRight: "25px",
+                            borderRadius: "7px",
+                            fontWeight: "500",
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            borderColor: "#7a0000",
+                            boxShadow: state.selectProps.menuIsOpen ? "0 0 5px rgba(122, 0, 0, 0.5)" : "none",
+                            backgroundColor: state.selectProps.menuIsOpen ? "transparent" : "#7a0000",
+                            '&:hover': {
+                                boxShadow: "0 0 5px rgba(122, 0, 0, 1)",
+                            },
+                        }),
+                        singleValue: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            whiteSpace: 'nowrap',
+                            overflow: 'visible',
+                            textOverflow: 'clip',
+                        }),
+                        placeholder: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                        }),
+                        dropdownIndicator: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            '&:hover': {
+                                color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            },
+                        }),
+                        option: (base, state) => ({
+                            ...base,
+                            zIndex: 6,
+                            color: state.isSelected ? "#fff" : "#000",
+                            backgroundColor: state.isSelected ? "rgba(122, 0, 0, 0.8)" : "transparent",
+                            '&:hover': {
+                                backgroundColor: state.isSelected ? "rgba(122, 0, 0, 0.8)" : "rgba(122, 0, 0, 0.5)",
+                                color: "#fff",
+                            },
+                        }),
+                        menu: (base) => ({
+                            ...base,
+                            zIndex: 6,
+                            '@media (max-width: 420px)': {
+                                position: 'relative',
+                            }
+                        }),
+                    }}
+                />
+                <Select
+                    options={countryOptions}
+                    value={countryOptions.find(option => option.value === filters.country)}
+                    onChange={(selected) => onChange({ ...filters, country: selected?.value || "All countries" })}
+                    classNames={{
+                        indicatorSeparator: () => "hidden",
+                        container: () => "relative z-5 w-full",
+                    }}
+                    styles={{
+                        control: (base, state) => ({
+                            ...base,
+                            paddingTop: "20px",
+                            paddingBottom: "20px",
+                            paddingLeft: "25px",
+                            paddingRight: "25px",
+                            borderRadius: "7px",
+                            fontWeight: "500",
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            borderColor: "#7a0000",
+                            boxShadow: state.selectProps.menuIsOpen ? "0 0 5px rgba(122, 0, 0, 0.5)" : "none",
+                            backgroundColor: state.selectProps.menuIsOpen ? "transparent" : "#7a0000",
+                            '&:hover': {
+                                boxShadow: "0 0 5px rgba(122, 0, 0, 1)",
+                            },
+                        }),
+                        singleValue: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            whiteSpace: 'nowrap',
+                            overflow: 'visible',
+                            textOverflow: 'clip',
+                        }),
+                        placeholder: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                        }),
+                        dropdownIndicator: (base, state) => ({
+                            ...base,
+                            color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            '&:hover': {
+                                color: state.selectProps.menuIsOpen ? "#7a0000" : "#fff",
+                            },
+                        }),
+                        option: (base, state) => ({
+                            ...base,
+                            zIndex: 6,
+                            color: state.isSelected ? "#fff" : "#000",
+                            backgroundColor: state.isSelected ? "rgba(122, 0, 0, 0.8)" : "transparent",
+                            '&:hover': {
+                                backgroundColor: state.isSelected ? "rgba(122, 0, 0, 0.8)" : "rgba(122, 0, 0, 0.5)",
+                                color: "#fff",
+                            },
+                        }),
+                        menu: (base) => ({
+                            ...base,
+                            zIndex: 6,
+                            '@media (max-width: 420px)': {
+                                position: 'relative',
+                            }
+                        }),
+                    }}
+                />
             </div>
         </div>
     );
 }
+
