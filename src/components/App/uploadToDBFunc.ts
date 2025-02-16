@@ -1,6 +1,6 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { KindOfProduct, ProductConfig, StructureConfig } from "../../data/OOPStructure/Pruduct";
+import { KindOfProduct, ProductConfig, StructureConfig, Countries } from "../../data/OOPStructure/Pruduct";
 import { CHAMPAGNES } from "../../data/DataBase/Products/Champagne";
 import { SAUCES } from "../../data/DataBase/Products/Sauce";
 
@@ -43,7 +43,7 @@ export async function uploadInfo() {
             }
 
             if ('country' in item && item.country !== undefined) {
-                productData.country = item.country;
+                productData.country = item.country as Countries;
             }
 
             if ('fullDescription' in item && item.fullDescription !== undefined) {

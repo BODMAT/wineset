@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./ContactUs.module.scss";
 import emailjs from "@emailjs/browser";
 import { useOpacity } from "../../../customHooks/useOpacity";
+import { useForm } from "react-hook-form";
 
 interface IData {
     name: string;
@@ -11,12 +12,12 @@ interface IData {
 
 export function ContactUs() {
     const { opacity, blockRef } = useOpacity();
-    const [data, setData] = useState<IData>({
-        name: "",
-        email: "",
-        text: "",
-    });
-    const [status, setStatus] = useState<string | null>(null);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting },
+    } = useForm<IData>();
 
     useEffect(() => {
         const userId = import.meta.env.VITE_EMAILJS_USER_ID;
@@ -27,50 +28,17 @@ export function ContactUs() {
         }
     }, []);
 
+    const sendMail = async (data: IData) => {
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
-    const isValidData = (): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return (
-            data.name !== "" &&
-            data.email !== "" &&
-            emailRegex.test(data.email) &&
-            data.text !== ""
-        );
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setData({
-            ...data,
-            [name]: value,
-        });
-    };
-
-    const sendMail = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (isValidData()) {
-            const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-            const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-            setStatus("Pending...");
-            try {
-                await emailjs.send(serviceId, templateId, {
-                    email: data.email,
-                    name: data.name,
-                    text: data.text,
-                });
-                setStatus("Email successfully sent. Thanks for your feedback.");
-            } catch (error) {
-                setStatus("Email rejected, check error in console.");
-                console.log(error);
-            } finally {
-                setData({
-                    name: "",
-                    email: "",
-                    text: "",
-                });
-            }
-        } else {
-            setStatus("Please fill in all fields with valid data.");
+        try {
+            await emailjs.send(serviceId, templateId, { ...data });
+            alert("Email successfully sent. Thanks for your feedback.");
+            reset();
+        } catch (error) {
+            alert("Email rejected, check error in console.");
+            console.log(error);
         }
     };
 
@@ -79,38 +47,41 @@ export function ContactUs() {
             <div className={styles.contact__container}>
                 <div className={styles.contact__info}>
                     <h2 className={styles.contact__title}>Contact us</h2>
-                    <form className={styles.contact__form} id="contact">
+                    <form className={styles.contact__form} id="contact" onSubmit={handleSubmit(sendMail)}>
                         <input
-                            required
                             placeholder="Enter your name..."
                             className={styles.contact__form_name}
                             type="text"
-                            name="name"
-                            value={data.name}
-                            onChange={handleChange}
+                            {...register("name", { required: "Name is required" })}
                         />
                         <input
-                            required
                             placeholder="Enter your email..."
                             className={styles.contact__form_email}
                             type="email"
-                            name="email"
-                            value={data.email}
-                            onChange={handleChange}
+                            {...register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: "Invalid email address",
+                                },
+                            })}
                         />
                         <textarea
-                            required
                             placeholder="Your message..."
                             className={styles.contact__form_message}
-                            name="text"
-                            value={data.text}
-                            onChange={handleChange}
+                            {...register("text", { required: "Message is required" })}
                         />
-                        <button type="button" className={styles.contact__form_btn} onClick={sendMail}>
-                            Submit
+                        <button type="submit" className={styles.contact__form_btn} disabled={isSubmitting}>
+                            {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                     </form>
-                    {status && <p className={styles.contact__form_status}>{status}</p>}
+                    {Object.keys(errors).length > 0 && (
+                        <p className={styles.contact__form_status}>
+                            {[errors.name?.message, errors.email?.message, errors.text?.message]
+                                .filter(Boolean)
+                                .join(", ")}
+                        </p>
+                    )}
                 </div>
                 <div className={styles.contact__img}>
                     <img src="/HomePage/ContactUs/wine-glass1.jpg" alt="wine-glasses" />
