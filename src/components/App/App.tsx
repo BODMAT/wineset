@@ -8,6 +8,7 @@ import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
 import { useEffect } from "react";
 import { uploadInfo } from "./uploadToDBFunc";
 import { PageProducts } from "../PageProducts/PageProducts";
+import { PageOrder } from "../PageOrder/PageOrder";
 
 export function App() {
   //!time-limited
@@ -23,7 +24,7 @@ export function App() {
           <Route index element={<HomePage />} />
           <Route path="*" element={<PageError />} />
           <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
-          //! ========
+          //!
           <Route path="/Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
           <Route path="/Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
           <Route path="/Wine-and-alcohol/Wine" element={<PageProducts product="wine" />} />
@@ -35,6 +36,8 @@ export function App() {
           <Route path="/Delicacies/Cookies" element={<PageProducts product="cookie" />} />
           <Route path="/Delicacies/Sauce" element={<PageProducts product="sauce" />} />
           <Route path="/Gift-sets/Boxes" element={<PageProducts product="box" />} />
+          //!
+          <Route path="Order" element={<PageOrder />} />
         </Route>
       </Routes>
     </Router>
