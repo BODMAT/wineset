@@ -14,15 +14,18 @@ export function ProductsByType() {
     const FilterProductsUpper = product.charAt(0).toUpperCase() + product.slice(1)
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
     const [filteredProducts, setFilteredProducts] = useState<IProduct[] | undefined>(undefined);
+
     const [filters, setFilters] = useState({
         discount: "All prices",
         country: "All countries",
     });
+
     useEffect(() => {
         const loadProducts = async () => {
             const productsData = await fetchProductsByNameClass(FilterProductsUpper);
             setProducts(productsData);
             setFilteredProducts(productsData);
+            await loadPrices(productsData);
         };
 
         loadProducts();
@@ -48,6 +51,17 @@ export function ProductsByType() {
         }
         setFilteredProducts(filtered);
     }, [filters, products]);
+
+    //!for async prices loading
+    const [prices, setPrices] = useState<Map<string, number> | undefined>(undefined);
+    const loadPrices = async (productsData: IProduct[]) => {
+        const productPrices = new Map();
+        for (const product of productsData) {
+            const price = await product.getPrice();
+            productPrices.set(product.id, price);
+        }
+        setPrices(productPrices);
+    };
 
     return (
         <section className="mt-14 mb-10 max-lg:mt-7 max-lg:mb-7">
@@ -81,10 +95,14 @@ export function ProductsByType() {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="flex gap-6 items-center">
-                                            <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>
-                                            {(product.discount !== undefined && product.discount > 0) && <h4 className={styles.prev_price}>{product.price}$</h4>}
-                                        </div>
+                                        {!prices && <p className={styles.price}>Loading price...</p>}
+                                        {prices && (
+                                            <div className="flex gap-6 items-center">
+                                                <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>
+                                                {(product.discount !== undefined && product.discount > 0) && <h4 className={styles.prev_price}>{product.price}$</h4>}
+                                            </div>
+                                        )}
+
                                     </div>
                                 </Link>
                             </div>

@@ -49,7 +49,7 @@ export type ProductConfig = {
     imageUrl?: string;
     kindOfProduct?: KindOfProduct;
     quantity?: number;
-    discount?: number;
+    discount?: number; // Discount in percentage
     country?: Countries;
     description?: string | string[];
     volume?: number;  // For Alcohol and Glasses
@@ -69,13 +69,20 @@ export interface IProduct {
     readonly kindOfProduct: KindOfProduct;
 
     description?: string | string[];
-    discount?: number;
+    discount?: number; // Discount in percentage
     structure?: StructureConfig;
 
     addToCart(quantity?: number): void;
     removeFromCart(quantity?: number): void;
-
+    getPrice(): Promise<number>;
     getDiscountedPrice(): number;
+
+    fetchDetailedStructure?(): Promise<IProduct[]>; // For Box
+    fetchProductInfo?(): Promise<any>; // For Box
+
+    getWeightOrVolume?(product: IProduct): string; // For Box
+    getWeight?(): number | undefined; // For OtherProducts and Box
+    getVolume?(): number | undefined; // For Alcohol and Glasses
 }
 
 abstract class Product implements IProduct {
@@ -133,11 +140,15 @@ abstract class Product implements IProduct {
         console.log(`${quantity ?? 1} ${this._name} removed from cart.`);
     }
 
+    async getPrice(): Promise<number> {
+        return this._price;
+    }
+
+    //Polimorphic method 1
     getDiscountedPrice(): number {
-        const discountedPrice = this._discount
+        return this._discount
             ? this._price - (this._price * this._discount) / 100
             : this._price;
-        return parseFloat(discountedPrice.toFixed(2));
     }
 }
 
@@ -223,54 +234,47 @@ export class Box extends Product {
     constructor({
         structure,
         weight,
-        discount,
         ...rest
     }: Omit<ProductConfig, "price"> & { structure: StructureConfig }) {
-        super({ ...rest, price: 0, discount }); // Price will be calculated separately as the sum of prices of products
+        super({ ...rest, price: 0 }); // Price will be calculated separately as the sum of prices of products and price - 0, its just a plug
         this._structure = structure;
         this._weight = weight;
+
+        this.getPrice();
     }
+
+    // Getters
     get weight(): number | undefined { return this._weight }
     get structure(): StructureConfig { return this._structure }
+    get price(): number { return this._price }
 
-    // Method to obtain the total value of goods in a box
-    async fetchTotalPrice(): Promise<number> {
-        const products = await this.fetchDetailedStructure();
-        return products.reduce((total, product) => total + product.getDiscountedPrice(), 0);
+    //Polimorphic method 2
+    async getPrice(): Promise<number> {
+        if (this._price !== 0) {
+            return this._price; //cached
+        } else {
+            const products = await this.fetchDetailedStructure();
+            const totalPrice = (await Promise.all(products.map(p => p.price))).reduce((total, price) => total + price, 0);
+            this._price = totalPrice;
+            return totalPrice;
+        }
     }
 
-    // Synchronous field (plug) to match the basic class
-    getDiscountedPrice(): number {
-        console.warn("Use fetchDiscountedPrice() instead of getDiscountedPrice() for async behavior.");
-        return 0; // Clogged, as the real price is calculated asynchronously
-    }
-
-    // Asynchronous method to get the discount price
-    async fetchDiscountedPrice(): Promise<number> {
-        const totalPrice = await this.fetchTotalPrice();
-        return this._discount ? totalPrice - (totalPrice * this._discount) / 100 : totalPrice;
-    }
-
-    // Method to get full information about the goods in the box
+    //Methods
     async fetchDetailedStructure(): Promise<IProduct[]> {
         const products: IProduct[] = [];
 
-        for (const [kind, ids] of Object.entries(this._structure) as unknown as [KindOfProduct, string[]][]) {
-            const kindUpper = kind.charAt(0).toUpperCase() + kind.slice(1)
-            const fetchedProducts = await Promise.all(ids.map(id => fetchProductById(kindUpper, id)));
-            products.push(...fetchedProducts.filter((product): product is IProduct => product !== null));
+        for (const [kind, ids] of Object.entries(this._structure) as [KindOfProduct, string[]][]) {
+            try {
+                const kindUpper = kind.charAt(0).toUpperCase() + kind.slice(1);
+                const fetchedProducts = await Promise.all(ids.map(id => fetchProductById(kindUpper, id)));
+                products.push(...fetchedProducts.filter((product): product is IProduct => product !== null));
+            } catch (error) {
+                console.error("Error fetching detailed structure:", error);
+            }
         }
+
         return products;
-    }
-
-
-    getWeightOrVolume(product: IProduct): string {
-        if (product instanceof AlcoholDrink) {
-            return `${product.volume}L`;
-        } else if (product instanceof OtherProducts) {
-            return product.weight ? `${product.weight}kg` : `${product.volume}l`;
-        }
-        return "not specified";
     }
 
     async fetchProductInfo(): Promise<any> {
@@ -293,10 +297,17 @@ export class Box extends Product {
         };
     }
 
-
+    getWeightOrVolume(product: IProduct): string {
+        if (product instanceof AlcoholDrink) {
+            return `${product.volume}L`;
+        } else if (product instanceof OtherProducts) {
+            return product.weight ? `${product.weight}kg` : `${product.volume}l`;
+        }
+        return "not specified";
+    }
 }
 
-//! to create an instance of a product when I make a request with DB
+//! to create an instance of a product when I make a request with DB and others
 
 export const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {
     wine: Wine,
