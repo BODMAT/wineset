@@ -1,25 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./FixedHeader.module.scss";
-
-import crossSVG from "../../assets/cross.svg";
 import searchSVG from "../../assets/search.svg";
-import InstagramIcon from "../../assets/Header/inst.svg";
-import TelegramIcon from "../../assets/Header/tg.svg";
-import FacebookIcon from "../../assets/Header/facebook.svg";
-
 import { useEffect, useState } from "react";
 import { Menu, MenuType } from "./Menu";
-import { LeafletMap } from "../LeafletMap/LeafletMap";
+import { ContactUsPopup } from "./ContactUsPopup";
+import { Auth } from "../Auth/Auth";
+
+export interface IState {
+    isScrolledDown: boolean;
+    lastScrollTop: number;
+    isLargeScreen: boolean;
+    isBurgerActive: boolean;
+    activeLink: string | null;
+    moreInfo: boolean;
+}
 
 export function FixedHeader() {
-    const [state, setState] = useState<{
-        isScrolledDown: boolean;
-        lastScrollTop: number;
-        isLargeScreen: boolean;
-        isBurgerActive: boolean;
-        activeLink: string | null;
-        moreInfo: boolean;
-    }>({
+    const [state, setState] = useState<IState>({
         isScrolledDown: false,
         lastScrollTop: 0,
         isLargeScreen: window.innerWidth > 767,
@@ -129,7 +126,7 @@ export function FixedHeader() {
                                 </button>
                             </form>
                             <div className={styles.header__buttons}>
-                                <Link to="/order" className={styles.header__order}>Make an order</Link>
+                                <Auth />
                                 <div className={styles.header__contact_wrap}>
                                     {state.isLargeScreen && (
                                         <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={styles.header__contact}>Contact us</button>
@@ -137,28 +134,7 @@ export function FixedHeader() {
                                     {!state.isLargeScreen && (
                                         <Link to="/about" className={styles.header__contact}>Contact us</Link>
                                     )}
-                                    <div className={`${styles.header__contactInfo} ${state.moreInfo ? styles.visible : ""}`}>
-                                        <div className={styles.header__contactInfo_top}>
-                                            <h3 className={styles.header__contactInfo_title}>Contacts</h3>
-                                            <button onClick={() => setState(prev => ({ ...prev, moreInfo: false }))} className={styles.header__contactInfo_cross}>
-                                                <img src={crossSVG} alt="cross" />
-                                            </button>
-                                        </div>
-                                        <div className={styles.header__contactInfo_content}>
-                                            <div className={styles.header__contactInfo_contacts}>
-                                                <div className={styles.header__contactInfo_adress}><span>Address:</span> Zabuttsia Sahakanskiy, 25, Kyiv</div>
-                                                <div className={styles.header__contactInfo_phone}><span>Phone:</span>1235123123, 15121231231</div>
-                                                <div className={styles.header__contactInfo_email}><span>Email:</span>delivery@wineset.ua</div>
-                                            </div>
-                                            <LeafletMap height={"180px"} />
-                                            <div className={styles.header__contactInfo_socials}>
-                                                <a target="_blank" href="https://www.facebook.com/"><img src={FacebookIcon} alt="facebook" /></a>
-                                                <a target="_blank" href="https://web.telegram.org/"><img src={TelegramIcon} alt="tg" /></a>
-                                                <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={InstagramIcon} alt="inst" /></a>
-                                            </div>
-                                            <Link className={styles.header__contactInfo_about} to="/about">More information</Link>
-                                        </div>
-                                    </div>
+                                    <ContactUsPopup state={state} setState={setState} />
                                 </div>
                             </div>
                         </div>

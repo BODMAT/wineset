@@ -116,6 +116,7 @@ export function PersonalDataForm() {
                                 })}
                                 autoComplete="email"
                             />
+                            {errors.email && <p className="text-red-400 text-sm">{errors.email.message}</p>}
                         </div>
                         <div className={styles.formBlock}>
                             <label htmlFor="address" className={styles.label}>Delivery</label>

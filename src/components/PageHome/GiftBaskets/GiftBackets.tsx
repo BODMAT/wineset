@@ -98,7 +98,7 @@ export function GiftBackets() {
                         })}
                     </Swiper>
                 )}
-                <Link to="/boxes" className={styles.gift__link}>View all</Link>
+                <Link to="/Gift-sets/Boxes" className={styles.gift__link}>View all</Link>
             </div>
         </section>
     );
