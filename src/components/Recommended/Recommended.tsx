@@ -5,13 +5,14 @@ import arrLeftSvg from '../../assets/arr-left-red.svg';
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { KindOfProduct, IProduct, fetchProductsByNameClass, alcoTypes, othersTypes } from "../../data/OOPStructure/Pruduct";
+import { KindOfProduct, IProduct, alcoTypes, othersTypes } from "../../data/OOPStructure/Pruduct";
 
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
 import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
+import { fetchProductsByNameClass } from "../../data/DataBase/Firebase/firebaseAPI";
 
 
 export function Recommended({ productFilter, filterByDiscount = false }: { productFilter: KindOfProduct, filterByDiscount?: boolean }) {

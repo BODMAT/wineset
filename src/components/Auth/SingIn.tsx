@@ -1,5 +1,7 @@
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
+import { handleFirebaseAuth } from "../../data/DataBase/Firebase/firebaseAPI";
+import { useAuth } from "./AuthProvider";
 interface IData {
     email: string;
     password: string;
@@ -9,8 +11,9 @@ interface IProps {
     loginActive: boolean;
     setLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
     setRegisterActive: React.Dispatch<React.SetStateAction<boolean>>;
+    title: string;
 }
-export function SignIn({ loginActive, setLoginActive, setRegisterActive }: IProps) {
+export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }: IProps) {
     const {
         register,
         handleSubmit,
@@ -19,15 +22,26 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive }: IProp
     } = useForm<IData>();
 
     const handleFirebaseLogin = async (data: IData) => {
-        console.log(data);
+        authLogin(data.email, data.password);
         reset();
     };
 
     const handleFirebaseGoogleLogin = async () => {
-        console.log("Google");
+        const user = await handleFirebaseAuth();
+        if (user !== null) {
+            reset();
+            setLoginActive(false);
+            setRegisterActive(false);
+            alert(`Authorization successful, ${user.displayName}!`);
+        } else {
+            alert("Authorization failed. Please try again.");
+        };
     };
+
+    const { user, logout, login: authLogin } = useAuth();
+
     return (
-        <PopUp title="Sing in" active={loginActive} setActive={setLoginActive}>
+        <PopUp title={title} active={loginActive} setActive={setLoginActive}>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleFirebaseLogin)}>
                 <input
                     placeholder='Email...'
@@ -63,7 +77,7 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive }: IProp
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]"
+                        className="bg-transparent border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-[#7A0000] transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-[#7A0000] hover:text-white"
                     >
                         {isSubmitting ? "Loading..." : "Sing in"}
                     </button>
@@ -86,6 +100,17 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive }: IProp
                     >
                         Sing in with Google
                     </button>
+
+                    {user && <button
+                        onClick={() => {
+                            logout();
+                        }
+                        }
+                        type="button"
+                        className="bg-[#000] border-2 border-[#000] font-semibold max-w-[89%] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#000] flex-grow"
+                    >
+                        Log out
+                    </button>}
                 </div>
             </form>
         </PopUp>

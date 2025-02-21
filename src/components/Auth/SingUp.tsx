@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
+import { handleFirebaseAuth } from "../../data/DataBase/Firebase/firebaseAPI";
+import { useAuth } from "./AuthProvider";
 interface IData {
     email: string;
     password: string;
@@ -10,8 +12,9 @@ interface IProps {
     registerActive: boolean;
     setLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
     setRegisterActive: React.Dispatch<React.SetStateAction<boolean>>;
+    title: string;
 }
-export function SingUp({ registerActive, setLoginActive, setRegisterActive }: IProps) {
+export function SingUp({ registerActive, setLoginActive, setRegisterActive, title }: IProps) {
     const {
         register,
         handleSubmit,
@@ -20,15 +23,26 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive }: IP
     } = useForm<IData>();
 
     const handleFirebaseRegister = async (data: IData) => {
-        console.log(data);
+        authRegister(data.email, data.password);
         reset();
     };
 
     const handleFirebaseGoogleRegister = async () => {
-        console.log("Google");
-    };
+        const user = await handleFirebaseAuth();
+        if (user !== null) {
+            reset();
+            setLoginActive(false);
+            setRegisterActive(false);
+            alert(`Authorization successful, ${user.displayName}!`);
+        } else {
+            alert("Authorization failed. Please try again.");
+        };
+    }
+
+    const { user, logout, register: authRegister } = useAuth();
+
     return (
-        <PopUp title="Sing in" active={registerActive} setActive={setRegisterActive}>
+        <PopUp title={title} active={registerActive} setActive={setRegisterActive}>
             <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleFirebaseRegister)}>
                 <input
                     placeholder='Email...'
@@ -80,7 +94,7 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive }: IP
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]"
+                        className="bg-transparent border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-[#7A0000] transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-[#7A0000] hover:text-white"
                     >
                         {isSubmitting ? "Loading..." : "Sing up"}
                     </button>
@@ -101,8 +115,19 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive }: IP
                         type="button"
                         className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[250px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]"
                     >
-                        Sing up with Google
+                        Sing in with Google
                     </button>
+
+                    {user && <button
+                        onClick={() => {
+                            logout();
+                        }
+                        }
+                        type="button"
+                        className="bg-[#000] border-2 border-[#000] font-semibold max-w-[89%] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#000] flex-grow"
+                    >
+                        Log out
+                    </button>}
                 </div>
             </form>
         </PopUp>

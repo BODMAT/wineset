@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useProduct } from "./PageProducts";
 import styles from "./PageProducts.module.scss";
-import { alcoTypes, fetchProductsByNameClass, IProduct, othersTypes } from "../../data/OOPStructure/Pruduct";
+import { alcoTypes, IProduct, othersTypes } from "../../data/OOPStructure/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
 import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { FilterBy } from "./FilterBy";
+import { fetchProductsByNameClass } from "../../data/DataBase/Firebase/firebaseAPI";
 
 export function ProductsByType() {
     const { product } = useProduct();
