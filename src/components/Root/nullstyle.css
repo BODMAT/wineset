@@ -23,3 +23,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
     height: 100vh;
 }
 
+.no-scroll-popup {
+    overflow: hidden;
+    height: 100vh;
+}

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
 import { handleFirebaseAuth } from "../../data/DataBase/Firebase/firebaseAPI";
 import { useAuth } from "./AuthProvider";
+import { useEffect, useState } from "react";
 interface IData {
     email: string;
     password: string;
@@ -15,12 +16,30 @@ interface IProps {
     title: string;
 }
 export function SingUp({ registerActive, setLoginActive, setRegisterActive, title }: IProps) {
+    const [localFirebaseAlert, setLocalFirebaseAlert] = useState<string | null>(null);
+
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
     } = useForm<IData>();
+
+    const { user, logout, register: authRegister, firebaseAlert, setFirebaseAlert } = useAuth();
+
+    useEffect(() => {
+        if (localFirebaseAlert) {
+            const timer = setTimeout(() => setLocalFirebaseAlert(null), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [localFirebaseAlert]);
+
+    useEffect(() => {
+        if (firebaseAlert) {
+            const timer = setTimeout(() => setFirebaseAlert(null), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [firebaseAlert]);
 
     const handleFirebaseRegister = async (data: IData) => {
         authRegister(data.email, data.password);
@@ -33,13 +52,11 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
             reset();
             setLoginActive(false);
             setRegisterActive(false);
-            alert(`Authorization successful, ${user.displayName}!`);
+            setFirebaseAlert(`Authorization successful, ${user.displayName}!`);
         } else {
-            alert("Authorization failed. Please try again.");
+            setFirebaseAlert("Authorization failed. Please try again.");
         };
     }
-
-    const { user, logout, register: authRegister } = useAuth();
 
     return (
         <PopUp title={title} active={registerActive} setActive={setRegisterActive}>
@@ -77,8 +94,8 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
                 <input
                     placeholder='Confirm Password...'
                     type="password"
-                    id='confirmPassword'
                     className="border-2 border-[#898989] p-2 rounded-md"
+
                     {...register("confirmPassword", {
                         required: "Password confirmation is required",
                         minLength: {
@@ -90,6 +107,10 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
                     autoComplete="current-password"
                 />
                 {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+
+                {localFirebaseAlert && <p>{localFirebaseAlert}</p>}
+                {firebaseAlert && <p>{firebaseAlert}</p>}
+
                 <div className="flex gap-4 justify-center flex-wrap">
                     <button
                         type="submit"
@@ -105,7 +126,7 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
                     }}
                         type="button"
                         className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[250px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]">
-                        Log in
+                        Log in account
                     </button>
 
                     <button

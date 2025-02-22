@@ -13,12 +13,15 @@ import {
     linkWithCredential
 } from "firebase/auth";
 import { googleProvider } from "../../data/DataBase/Firebase/firebaseAPI";
+import { set } from "react-hook-form";
 
 interface AuthContextType {
     user: User | null;
     logout: () => Promise<void>;
     register: (email: string, password: string) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
+    firebaseAlert: string | null;
+    setFirebaseAlert: (message: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -45,16 +48,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const logout = async () => {
         await signOut(auth);
         setUser(null);
+        setFirebaseAlert("User logged out");
     };
 
     const register = async (email: string, password: string) => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
-            alert(`User registered: ${userCredential.user.email}`);
+            setFirebaseAlert(`User registered: ${userCredential.user.email}`);
         } catch (error: any) {
             if (error.code === "auth/email-already-in-use") {
-                alert("Email already in use. Trying to link password to Google account.");
+                setFirebaseAlert("Email already in use. Trying to link password to Google account.");
                 const signInMethods = await fetchSignInMethodsForEmail(auth, email);
                 if (signInMethods.length === 0) {
                     try {
@@ -63,9 +67,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         const emailCredential = EmailAuthProvider.credential(email, password);
                         await linkWithCredential(user, emailCredential);
                         setUser(user);
-                        alert("Password linked successfully! You can now log in with email and password.");
+                        setFirebaseAlert("Password linked successfully! You can now log in with email and password.");
                     } catch (googleSignInError) {
-                        alert("Could not sign in via Google. Make sure you have an account with this email.");
+                        setFirebaseAlert("Could not sign in via Google. Make sure you have an account with this email.");
                     }
                 } else if (signInMethods.includes("google.com")) {
                     try {
@@ -76,31 +80,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                             const emailCredential = EmailAuthProvider.credential(email, password);
                             await linkWithCredential(user, emailCredential);
                             setUser(user);
-                            alert("Password linked successfully! You can now log in with email and password.");
+                            setFirebaseAlert("Password linked successfully! You can now log in with email and password.");
                         } else {
-                            alert("You can already log in using email and password.");
+                            setFirebaseAlert("You can already log in using email and password.");
                         }
                     } catch (linkError) {
-                        alert(`Failed to link password: ${(linkError as Error).message}`);
+                        setFirebaseAlert(`Failed to link password: ${(linkError as Error).message}`);
                     }
                 } else {
                     try {
                         const loginCredential = await signInWithEmailAndPassword(auth, email, password);
                         setUser(loginCredential.user);
-                        alert(`User signed in: ${loginCredential.user.email}`);
+                        setFirebaseAlert(`User signed in: ${loginCredential.user.email}`);
                     } catch (loginError) {
-                        alert(`Login failed: ${(loginError as Error).message}`);
+                        setFirebaseAlert(`Login failed: ${(loginError as Error).message}`);
                     }
                 }
             }
         }
     };
 
+
     const login = async (email: string, password: string) => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user);
-            alert(`User signed in: ${userCredential.user.email}`);
+            setFirebaseAlert(`User signed in: ${userCredential.user.email}`);
         } catch (error: any) {
             const errorMessages: Record<string, string> = {
                 "auth/user-not-found": "Error: The specified email does not exist.",
@@ -108,11 +113,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 "auth/invalid-credential": "Error: The specified email does not exist or the password is incorrect."
             };
 
-            alert(errorMessages[error.code] || `Login error: ${error.message}`);
+            setFirebaseAlert(errorMessages[error.code] || `Login error: ${error.message}`);
         }
     };
 
-    return <AuthContext.Provider value={{ user, logout, register, login }}>{children}</AuthContext.Provider>;
+    const [firebaseAlert, setFirebaseAlert] = useState<string | null>(null);
+    return <AuthContext.Provider value={{ user, logout, register, login, firebaseAlert, setFirebaseAlert }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
