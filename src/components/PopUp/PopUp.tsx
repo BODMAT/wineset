@@ -7,9 +7,10 @@ export interface IPopupProps {
     children: React.ReactNode;
     active: boolean;
     setActive: React.Dispatch<React.SetStateAction<boolean>>;
+    withoutPadAndCross?: boolean;
 }
 
-export function PopUp({ title, children, active, setActive }: IPopupProps) {
+export function PopUp({ title, children, active, setActive, withoutPadAndCross }: IPopupProps) {
     useEffect(() => {
         if (active) {
             document.body.classList.add("no-scroll-popup");
@@ -28,7 +29,7 @@ export function PopUp({ title, children, active, setActive }: IPopupProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-[#0000008e] bg-opacity-50 !z-[99999] flex justify-center items-center"
+            className={`fixed inset-0 bg-[#0000008e] bg-opacity-50 !z-[99999] flex justify-center items-center`}
         >
             <motion.div
                 initial={{ opacity: 0, y: "-50px" }}
@@ -39,11 +40,13 @@ export function PopUp({ title, children, active, setActive }: IPopupProps) {
             >
                 <div className="bg-[#121212] flex justify-between items-center p-4">
                     <h2 className="text-2xl font-bold text-white">{title}</h2>
-                    <button onClick={() => setActive(!active)} className="text-2xl font-bold">
-                        <img src={crossSVG} alt="Close" />
-                    </button>
+                    {!withoutPadAndCross && (
+                        <button onClick={() => setActive(!active)} className="text-2xl font-bold">
+                            <img src={crossSVG} alt="Close" />
+                        </button>
+                    )}
                 </div>
-                <div className="mt-4 p-4">{children}</div>
+                <div className={withoutPadAndCross ? "" : "mt-4 p-4"}>{children}</div>
             </motion.div>
         </motion.section>
     );

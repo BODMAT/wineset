@@ -1,4 +1,5 @@
 import { LeafletMap } from "../../LeafletMap/LeafletMap";
+import { FullAged } from "../../PopUp/FullAged";
 import { SpecialOffer } from "../../SpecialOffer/SpecialOffer";
 import { ContactUs } from "../ContactUs/ContactUs";
 import { Delivery } from "../Delivery/Delivery";
@@ -15,7 +16,7 @@ export function HomePage() {
                 supTitle="Special offer"
                 title="glasses & сandles"
                 subTitle="CREATE YOUR OWN WINE SET"
-                subTitleLink="/wine"
+                subTitleLink="/Wine-and-alcohol/Wine"
                 contentWidth={381} />
             <Links />
             <WhatMakesUsSpecial />

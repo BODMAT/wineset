@@ -18,7 +18,7 @@ export function Delivery() {
                         <div className={styles.delivery__text}>
                             In addition to fast delivery, some wine stores offer curated selections tailored to individual tastes. Customers can subscribe to monthly wine boxes or choose from expertly recommended pairings for specific occasions. This combination of quality, convenience, and personalization makes wine delivery an increasingly popular choice.
                         </div>
-                        <BorderedLink to="/delivery">DELIVERY DETAILS</BorderedLink>
+                        <BorderedLink to="/Delivery">DELIVERY DETAILS</BorderedLink>
                     </div>
                 </div>
             </div>

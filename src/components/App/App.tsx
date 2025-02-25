@@ -5,16 +5,30 @@ import { HomePage } from "../PageHome/HomePage/HomePage";
 import { Layout } from "../Layout/Layout";
 import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { uploadInfo } from "./uploadToDBFunc";
 import { PageProducts } from "../PageProducts/PageProducts";
 import { PageOrder } from "../PageOrder/PageOrder";
 import { AuthProvider } from "../Auth/AuthProvider";
+import { FullAged } from "../PopUp/FullAged";
 export function App() {
   //!time-limited
   // useEffect(() => {
   //   uploadInfo();
   // }, []);
+  const [isFullAgedActive, setIsFullAgedActive] = useState(true);
+
+  useEffect(() => {
+    const isFullAged = localStorage.getItem('isFullAged');
+    if (isFullAged === 'true') {
+      setIsFullAgedActive(false);
+    }
+  }, []);
+
+  const handleFullAged = () => {
+    localStorage.setItem('isFullAged', 'true');
+    setIsFullAgedActive(false);
+  };
 
   return (
     <AuthProvider>
@@ -25,6 +39,9 @@ export function App() {
             <Route index element={<HomePage />} />
             <Route path="*" element={<PageError />} />
             <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
+            <Route path="Gift-sets" element={<>???</>} />
+            <Route path="Wine-and-alcohol" element={<>???</>} />
+            <Route path="Delicacies" element={<>???</>} />
           //!
             <Route path="/Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
             <Route path="/Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
@@ -38,9 +55,14 @@ export function App() {
             <Route path="/Delicacies/Sauce" element={<PageProducts product="sauce" />} />
             <Route path="/Gift-sets/Boxes" element={<PageProducts product="box" />} />
           //!
+            <Route path="Cart" element={<>???</>} />
             <Route path="Order" element={<PageOrder />} />
+            <Route path="Articles" element={<>???</>} />
+            <Route path="Sommelier" element={<>???</>} />
+            <Route path="Delivery" element={<>???</>} />
           </Route>
         </Routes>
+        {isFullAgedActive && <FullAged setActive={handleFullAged} />}
       </Router>
     </AuthProvider>
   )

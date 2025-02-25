@@ -16,10 +16,7 @@ export function Auth({ loginActive, setLoginActive }: AuthProps) {
     const singUpTitle = user ? "Sign up another account" : "Sign up new account";
     return (
         <div>
-
-
             {loginActive && <SignIn title={singInTitle} loginActive={loginActive} setLoginActive={setLoginActive} setRegisterActive={setRegisterActive} />}
-
             {registerActive && <SingUp title={singUpTitle} registerActive={registerActive} setLoginActive={setLoginActive} setRegisterActive={setRegisterActive} />}
         </div>
     )
