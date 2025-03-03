@@ -12,15 +12,15 @@ export function GiftSets() {
                     <div className={`${styles.basicText} max-lg:text-center`}>YOU CAN BUY THE GLASSES SEPARATELY OR IN A BEAUTIFUL GIFT PACKAGING.</div>
                 </div>
                 <div className="flex flex-wrap justify-evenly gap-[20px] mt-[50px]">
-                    <Link to="Gift-sets/Boxes_FILTER=bocals" className='hover:scale-105 transitioned cursor-pointer'>
+                    <Link to="/Gift-sets/Boxes" className='hover:scale-105 transitioned cursor-pointer'>
                         <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/with-glasses.png" alt="with-glasses" /></div>
                         <h4 className='pl-4 hover:underline'>With glasses</h4>
                     </Link>
-                    <Link to="Gift-sets/Boxes_FILTER=delicacies" className='hover:scale-105 transitioned cursor-pointer'>
+                    <Link to="/Gift-sets/Boxes" className='hover:scale-105 transitioned cursor-pointer'>
                         <div className="w-[420px] mt-30 max-lg:mt-0 max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/with-delicacies.png" alt="with-delicacies" /></div>
                         <h4 className='pl-4 hover:underline'>with Delicacies</h4>
                     </Link>
-                    <Link to="Gift-sets/Boxes_FILTER=constructor" className='hover:scale-105 transitioned cursor-pointer'>
+                    <Link to="/Soon" className='hover:scale-105 transitioned cursor-pointer'>
                         <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/constructor.png" alt="constructor" /></div>
                         <h4 className='pl-4 hover:underline'>Constructor</h4>
                     </Link>

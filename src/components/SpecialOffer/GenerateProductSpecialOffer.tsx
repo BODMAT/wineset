@@ -12,8 +12,9 @@ export function GenerateProductSpecialOffer() {
             supTitle="Special offer"
             title={`${titlePostfix.toUpperCase()} FOR BEST PRICE`}
             subTitle={`ORDER DISCOUNTED ${titlePostfix.toUpperCase()}`}
-            scrollTo="product"
+            scrollTo=".products"
             contentWidth={381}
+            product={product}
         />
     );
 }

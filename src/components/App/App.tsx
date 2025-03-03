@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { PageError } from "../PageError/PageError";
+import { PageMessage } from "../PageError/PageError";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
 import { Layout } from "../Layout/Layout";
@@ -37,11 +37,11 @@ export function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="*" element={<PageError />} />
+            <Route path="*" element={<PageMessage message="404 Not Found" />} />
             <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
-            <Route path="Gift-sets" element={<>???</>} />
-            <Route path="Wine-and-alcohol" element={<>???</>} />
-            <Route path="Delicacies" element={<>???</>} />
+            <Route path="Gift-sets" element={<PageMessage message="This page will be added later" />} />
+            <Route path="Wine-and-alcohol" element={<PageMessage message="This page will be added later" />} />
+            <Route path="Delicacies" element={<PageMessage message="This page will be added later" />} />
           //!
             <Route path="/Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
             <Route path="/Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
@@ -55,11 +55,13 @@ export function App() {
             <Route path="/Delicacies/Sauce" element={<PageProducts product="sauce" />} />
             <Route path="/Gift-sets/Boxes" element={<PageProducts product="box" />} />
           //!
-            <Route path="Cart" element={<>???</>} />
+            <Route path="Cart" element={<PageMessage message="This page will be added later" />} />
             <Route path="Order" element={<PageOrder />} />
-            <Route path="Articles" element={<>???</>} />
-            <Route path="Sommelier" element={<>???</>} />
-            <Route path="Delivery" element={<>???</>} />
+            <Route path="Articles" element={<PageMessage message="This page will be added later" />} />
+            <Route path="Sommelier" element={<PageMessage message="This page will be added later" />} />
+            <Route path="Delivery" element={<PageMessage message="This page will be added later" />} />
+            //!
+            <Route path="Soon" element={<PageMessage message="This page will be added later" />} />
           </Route>
         </Routes>
         {isFullAgedActive && <FullAged setActive={handleFullAged} />}

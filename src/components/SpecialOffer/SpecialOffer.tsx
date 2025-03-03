@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
-import styles from "./SpecialOffer.module.scss"
+import styles from "./SpecialOffer.module.scss";
+import { useFilterContext } from "../PageProducts/FilterProvider";
+
 interface IPropsBase {
     imgSrc: string;
     supTitle: string;
@@ -11,24 +13,34 @@ interface IPropsBase {
 interface IPropsWithLink extends IPropsBase {
     subTitleLink: string;
     scrollTo?: never;
+    product?: never;
 }
 
 interface IPropsWithScroll extends IPropsBase {
     scrollTo: string;
+    product: string;
     subTitleLink?: never;
 }
 
 type IProps = IPropsWithLink | IPropsWithScroll;
 
 export function SpecialOffer({ imgSrc, supTitle, title, subTitle, subTitleLink, scrollTo, contentWidth }: IProps) {
+    const filterContext = scrollTo ? useFilterContext() : null;
+
     function scrollAndFilter(sectionClass: string) {
-        //! need update
-        console.log("FILTER WILL BE ADDED IN FUTURE");
+        filterContext?.setFilters((prev: any) => ({
+            ...prev,
+            discount: "With discount",
+        }));
+
         const productsSection = document.querySelector(sectionClass);
         if (productsSection) {
-            productsSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
+            const offset = window.innerWidth < 768 ? 84 : 143;
+            const sectionTop = productsSection.getBoundingClientRect().top + window.scrollY;
+
+            window.scrollTo({
+                top: sectionTop - offset,
+                behavior: 'smooth'
             });
         }
     }
@@ -51,8 +63,12 @@ export function SpecialOffer({ imgSrc, supTitle, title, subTitle, subTitleLink, 
                 {subTitleLink && (
                     <Link className={styles.special__subtitle} to={subTitleLink}>{subTitle}</Link>
                 )}
-                {scrollTo && (<button onClick={() => scrollAndFilter(scrollTo)} className={styles.special__subtitle}>{subTitle}</button>)}
+                {scrollTo && (
+                    <button onClick={() => scrollAndFilter(scrollTo)} className={styles.special__subtitle}>
+                        {subTitle}
+                    </button>
+                )}
             </div>
-        </section >
-    )
+        </section>
+    );
 }

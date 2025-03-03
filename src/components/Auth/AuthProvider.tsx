@@ -13,7 +13,6 @@ import {
     linkWithCredential
 } from "firebase/auth";
 import { googleProvider } from "../../data/DataBase/Firebase/firebaseAPI";
-import { set } from "react-hook-form";
 
 interface AuthContextType {
     user: User | null;
@@ -33,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, setUser);
 
-        // Проверка на редирект после входа через Google
+        // Check for redirects after logging in via Google
         getRedirectResult(auth)
             .then((result) => {
                 if (result?.user) {

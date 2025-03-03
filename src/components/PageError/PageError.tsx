@@ -1,7 +1,7 @@
 import styles from "./PageError.module.scss"
 
-export function PageError() {
+export function PageMessage({ message }: { message: string }) {
     return (
-        <div className={styles.err}>404 Not Found</div>
+        <div className={styles.err}>{message}</div>
     )
 }
