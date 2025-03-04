@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./FixedHeader.module.scss";
 import searchSVG from "../../assets/search.svg";
 import { useEffect, useState } from "react";
-import { Menu, MenuType } from "./Menu";
+import { Menu, MenuType } from "../../data/DataBase/Other/Menu";
 import { ContactUsPopup } from "./ContactUsPopup";
 import { Auth } from "../Auth/Auth";
 import { useAuth } from "../Auth/AuthProvider";

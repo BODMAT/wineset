@@ -11,6 +11,7 @@ import { PageProducts } from "../PageProducts/PageProducts";
 import { PageOrder } from "../PageOrder/PageOrder";
 import { AuthProvider } from "../Auth/AuthProvider";
 import { FullAged } from "../PopUp/FullAged";
+import { PageArticles } from "../PageArticles/PageArticles";
 export function App() {
   //!time-limited
   // useEffect(() => {
@@ -57,7 +58,7 @@ export function App() {
           //!
             <Route path="Cart" element={<PageMessage message="This page will be added later" />} />
             <Route path="Order" element={<PageOrder />} />
-            <Route path="Articles" element={<PageMessage message="This page will be added later" />} />
+            <Route path="Articles" element={<PageArticles />} />
             <Route path="Sommelier" element={<PageMessage message="This page will be added later" />} />
             <Route path="Delivery" element={<PageMessage message="This page will be added later" />} />
             //!
