@@ -1,6 +1,5 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { browserLocalPersistence, browserSessionPersistence, getAuth, getRedirectResult, GoogleAuthProvider, setPersistence, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { createProductInstance } from "../../OOPStructure/Pruduct";
 
 export const fetchProductsByNameClass = async (filter: string): Promise<any[]> => {
@@ -49,19 +48,4 @@ export const fetchProductById = async (productClass: string, productId: string):
     }
 
     return null;
-};
-
-export const googleProvider = new GoogleAuthProvider();
-export const handleFirebaseAuth = async (): Promise<any> => {
-    try {
-        const auth = getAuth();
-        await signOut(auth);
-        const provider = googleProvider;
-
-        const result = await signInWithPopup(auth, provider);
-        return result.user;
-    } catch (error) {
-        console.error("Authorization failed. Please try again.", error);
-        return null;
-    }
 };

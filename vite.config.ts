@@ -16,5 +16,5 @@ export default defineConfig({
         additionalData: `@use '@mixins' as mixins;`
       }
     }
-  }
+  },
 });

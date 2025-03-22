@@ -6,8 +6,8 @@ import './tailwind.css'
 import { App } from '../App/App.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  //comment cause of double auth
-  //<StrictMode>
-  <App />
-  //</StrictMode>,
+  //strict double render (useEffect, useLayoutEffect)
+  <StrictMode>
+    <App />
+  </StrictMode>,
 )

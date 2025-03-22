@@ -24,11 +24,13 @@ export function useMap({
     useEffect(() => {
         if (!mapContainerRef.current || mapRef.current) return;
 
-        mapRef.current = L.map(mapContainerRef.current).setView([lat, lng], zoom);
+        mapRef.current = L.map(mapContainerRef.current, { preferCanvas: true }) // Improved rendering
+            .setView([lat, lng], zoom);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            crossOrigin: "anonymous", // Added to bypass COEP errors
         }).addTo(mapRef.current);
 
         const marker = L.marker([markerLat, markerLng]).addTo(mapRef.current);

@@ -1,8 +1,8 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
-import { handleFirebaseAuth } from "../../data/DataBase/Firebase/firebaseAPI";
-import { useAuth } from "./AuthProvider";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "../../store/auth";
+
 interface IData {
     email: string;
     password: string;
@@ -14,6 +14,7 @@ interface IProps {
     setRegisterActive: React.Dispatch<React.SetStateAction<boolean>>;
     title: string;
 }
+
 export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }: IProps) {
     const [localFirebaseAlert, setLocalFirebaseAlert] = useState<string | null>(null);
     const {
@@ -22,7 +23,7 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
         reset,
         formState: { errors, isSubmitting },
     } = useForm<IData>();
-    const { user, logout, login: authLogin, firebaseAlert, setFirebaseAlert } = useAuth();
+    const { handleFirebaseAuth, user, logout, login: authLogin, firebaseAlert, setFirebaseAlert } = useAuthStore();
 
     useEffect(() => {
         if (localFirebaseAlert) {
@@ -39,20 +40,19 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
     }, [firebaseAlert]);
 
     const handleFirebaseLogin = async (data: IData) => {
-        authLogin(data.email, data.password);
+        await authLogin(data.email, data.password);
         reset();
     };
 
     const handleFirebaseGoogleLogin = async () => {
-        const user = await handleFirebaseAuth();
-        if (user !== null) {
+        try {
+            await handleFirebaseAuth();
             reset();
             setLoginActive(false);
             setRegisterActive(false);
-            setLocalFirebaseAlert(`Authorization successful, ${user.displayName}!`);
-        } else {
+        } catch (error) {
             setLocalFirebaseAlert("Authorization failed. Please try again.");
-        };
+        }
     };
 
     return (
@@ -96,7 +96,7 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
                         disabled={isSubmitting}
                         className="bg-transparent border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-[#7A0000] transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-[#7A0000] hover:text-white"
                     >
-                        {isSubmitting ? "Loading..." : "Sing in"}
+                        {isSubmitting ? "Loading..." : "Sign in"}
                     </button>
 
                     <button onClick={() => {
@@ -109,20 +109,15 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
                     </button>
 
                     <button
-                        onClick={() => {
-                            handleFirebaseGoogleLogin();
-                        }}
+                        onClick={handleFirebaseGoogleLogin}
                         type="button"
                         className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[250px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]"
                     >
-                        Sing in with Google
+                        Sign in with Google
                     </button>
 
                     {user && <button
-                        onClick={() => {
-                            logout();
-                        }
-                        }
+                        onClick={logout}
                         type="button"
                         className="bg-[#000] border-2 border-[#000] font-semibold max-w-[89%] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#000] flex-grow"
                     >
@@ -131,5 +126,5 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
                 </div>
             </form>
         </PopUp>
-    )
+    );
 }

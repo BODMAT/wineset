@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
-import { handleFirebaseAuth } from "../../data/DataBase/Firebase/firebaseAPI";
-import { useAuth } from "./AuthProvider";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "../../store/auth";
 interface IData {
     email: string;
     password: string;
@@ -17,7 +16,7 @@ interface IProps {
 }
 export function SingUp({ registerActive, setLoginActive, setRegisterActive, title }: IProps) {
     const [localFirebaseAlert, setLocalFirebaseAlert] = useState<string | null>(null);
-
+    const { handleFirebaseAuth } = useAuthStore();
     const {
         register,
         handleSubmit,
@@ -25,7 +24,7 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
         formState: { errors, isSubmitting },
     } = useForm<IData>();
 
-    const { user, logout, register: authRegister, firebaseAlert, setFirebaseAlert } = useAuth();
+    const { user, logout, register: authRegister, firebaseAlert, setFirebaseAlert } = useAuthStore();
 
     useEffect(() => {
         if (localFirebaseAlert) {
@@ -47,13 +46,12 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
     };
 
     const handleFirebaseGoogleRegister = async () => {
-        const user = await handleFirebaseAuth();
-        if (user !== null) {
+        try {
+            await handleFirebaseAuth();
             reset();
             setLoginActive(false);
             setRegisterActive(false);
-            setFirebaseAlert(`Authorization successful, ${user.displayName}!`);
-        } else {
+        } catch (error) {
             setFirebaseAlert("Authorization failed. Please try again.");
         };
     }

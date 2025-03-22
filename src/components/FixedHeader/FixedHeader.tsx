@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Menu, MenuType } from "../../data/DataBase/Other/Menu";
 import { ContactUsPopup } from "./ContactUsPopup";
 import { Auth } from "../Auth/Auth";
-import { useAuth } from "../Auth/AuthProvider";
+import { useAuthStore } from "../../store/auth";
 
 export interface IState {
     isScrolledDown: boolean;
@@ -101,7 +101,7 @@ export function FixedHeader() {
     useEffect(() => setState(prev => ({ ...prev, moreInfo: false })), [state.isLargeScreen]);
 
     const [loginActive, setLoginActive] = useState(false);
-    const { user, logout } = useAuth();
+    const { user, logout } = useAuthStore();
     return (
         <>
             <header className={`${styles.header} ${state.isScrolledDown ? styles.sticky : ""}`}>
@@ -132,6 +132,7 @@ export function FixedHeader() {
                                     <button onClick={() => setLoginActive(true)} className="text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent">
                                         {user ? user.displayName : "Sing in"}
                                     </button>
+
                                     <div className={styles.header__contact_wrap}>
                                         {state.isLargeScreen && (
                                             <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={styles.header__contact}>Contact us</button>

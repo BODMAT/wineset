@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignIn } from "./SingIn";
 import { SingUp } from "./SingUp";
-import { useAuth } from "./AuthProvider";
+import { useAuthStore } from "../../store/auth";
 
 interface AuthProps {
     loginActive: boolean;
@@ -10,7 +10,7 @@ interface AuthProps {
 
 export function Auth({ loginActive, setLoginActive }: AuthProps) {
     const [registerActive, setRegisterActive] = useState(false);
-    const { user, logout } = useAuth();
+    const { user, loading } = useAuthStore();
 
     const singInTitle = user ? "Sign in another account" : "Sign in your account";
     const singUpTitle = user ? "Sign up another account" : "Sign up new account";
