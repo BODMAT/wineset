@@ -6,35 +6,48 @@ import descriptionGlassSVG from "../../assets/Product/glass.svg";
 import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { FilterBy } from "./FilterBy";
-import { useFilterContext } from "./FilterProvider";
 import { useEffect, useState } from "react";
+import { useFilterStore } from "../../store/filterProducts";
+import { useProduct } from "./PageProducts";
 
 export function ProductsByType() {
-    const { filteredProducts, isLoading } = useFilterContext();
+    const { product } = useProduct();
+    const { filteredProductsByType, loadProductsByType, isLoading } = useFilterStore();
     const [productsRerender, setProductsRerender] = useState<IProduct[] | undefined>(undefined);
 
-    //need to wait cause of useEffect render and price calc
     useEffect(() => {
-        Promise.all(filteredProducts.map(async (p) => {
-            if (p instanceof Box) {
-                await p.getPrice();
-            }
-            return p;
-        })).then(setProductsRerender);
+        loadProductsByType([product]);
+    }, [product, loadProductsByType]);
+
+    const filteredProducts = filteredProductsByType[product] || [];
+
+    // Update products for rerendering (e.g., price calculation)
+    useEffect(() => {
+        Promise.all(
+            filteredProducts.map(async (p) => {
+                if (p instanceof Box) {
+                    await p.getPrice();
+                }
+                return p;
+            })
+        ).then(setProductsRerender);
     }, [filteredProducts]);
 
     return (
         <section className="products mt-14 mb-10 max-lg:mt-7 max-lg:mb-7">
             <div className={styles.container}>
-                <FilterBy />
+                <FilterBy /> {/* Filter component */}
                 <div className="flex gap-[20px] flex-wrap">
                     {isLoading && <p className={styles.basicTitle}>Loading...</p>}
                     {!isLoading && filteredProducts.length === 0 && (
                         <p className={styles.basicTitle}>Nothing found for the selected filters.</p>
                     )}
-                    {(!isLoading && filteredProducts.length > 0) &&
+                    {!isLoading && filteredProducts.length > 0 &&
                         filteredProducts.map((product: IProduct, index: number) => (
-                            <div key={index} className="!flex !flex-col !items-stretch !p-[18px] !h-auto flex-[0_1_calc(25%-15px)] max-xl:flex-[0_1_calc(33%-13.33px)] max-lg:flex-[0_1_calc(50%-10px)] max-sm:flex-[1_1_auto]">
+                            <div
+                                key={index}
+                                className="!flex !flex-col !items-stretch !p-[18px] !h-auto flex-[0_1_calc(25%-15px)] max-xl:flex-[0_1_calc(33%-13.33px)] max-lg:flex-[0_1_calc(50%-10px)] max-sm:flex-[1_1_auto]"
+                            >
                                 <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
                                     <Link to={`/${product.kindOfProduct}/${product.id}`}>
                                         <ProductPhoto product={product} />
@@ -51,7 +64,9 @@ export function ProductsByType() {
                                                         )}
                                                     </span>
                                                     <span className={styles.description}>
-                                                        {Array.isArray(product.description) ? product.description[0] : product.description}
+                                                        {Array.isArray(product.description)
+                                                            ? product.description[0]
+                                                            : product.description}
                                                     </span>
                                                 </p>
                                                 {Array.isArray(product.description) && (
@@ -66,9 +81,13 @@ export function ProductsByType() {
                                             <div className="flex gap-6 items-center">
                                                 {productsRerender && (
                                                     <>
-                                                        <h4 className={styles.price}>{product.getDiscountedPrice()}$</h4>
+                                                        <h4 className={styles.price}>
+                                                            {product.getDiscountedPrice()}$
+                                                        </h4>
                                                         {product.discount !== undefined && product.discount > 0 && (
-                                                            <h4 className={styles.prev_price}>{product.price}$</h4>
+                                                            <h4 className={styles.prev_price}>
+                                                                {product.price}$
+                                                            </h4>
                                                         )}
                                                     </>
                                                 )}
@@ -76,7 +95,10 @@ export function ProductsByType() {
                                         </div>
                                     </Link>
                                 </div>
-                                <button className={styles.buttonBuy} onClick={() => product.addToCart()}>
+                                <button
+                                    className={styles.buttonBuy}
+                                    onClick={() => product.addToCart()}
+                                >
                                     Add to cart
                                 </button>
                             </div>

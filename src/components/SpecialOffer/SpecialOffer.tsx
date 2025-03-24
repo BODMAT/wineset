@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./SpecialOffer.module.scss";
-import { useFilterContext } from "../PageProducts/FilterProvider";
+import { useFilterStore } from "../../store/filterProducts";
 
 interface IPropsBase {
     imgSrc: string;
@@ -24,26 +24,42 @@ interface IPropsWithScroll extends IPropsBase {
 
 type IProps = IPropsWithLink | IPropsWithScroll;
 
-export function SpecialOffer({ imgSrc, supTitle, title, subTitle, subTitleLink, scrollTo, contentWidth }: IProps) {
-    const filterContext = scrollTo ? useFilterContext() : null;
+export function SpecialOffer({
+    imgSrc,
+    supTitle,
+    title,
+    subTitle,
+    subTitleLink,
+    scrollTo,
+    contentWidth,
+    product
+}: IProps) {
+    const { setFilters } = useFilterStore();
 
     function scrollAndFilter(sectionClass: string) {
-        filterContext?.setFilters((prev: any) => ({
-            ...prev,
-            discount: "With discount",
-        }));
-
-        const productsSection = document.querySelector(sectionClass);
-        if (productsSection) {
-            const offset = window.innerWidth < 768 ? 84 : 143;
-            const sectionTop = productsSection.getBoundingClientRect().top + window.scrollY;
-
-            window.scrollTo({
-                top: sectionTop - offset,
-                behavior: 'smooth'
+        // Виконуємо фільтрацію
+        if (product) {
+            setFilters(product, {
+                discount: "With discount",
+                country: "All countries",
             });
+
+            // Прокручуємо до секції
+            const productsSection = document.querySelector(sectionClass);
+            if (productsSection) {
+                const offset = window.innerWidth < 768 ? 84 : 143;
+                const sectionTop = productsSection.getBoundingClientRect().top + window.scrollY;
+
+                window.scrollTo({
+                    top: sectionTop - offset,
+                    behavior: "smooth",
+                });
+            } else {
+                console.error("Section not found for class:", sectionClass);
+            }
         }
     }
+
 
     return (
         <section className={styles.special}>
@@ -61,10 +77,15 @@ export function SpecialOffer({ imgSrc, supTitle, title, subTitle, subTitleLink, 
                     {title}
                 </h2>
                 {subTitleLink && (
-                    <Link className={styles.special__subtitle} to={subTitleLink}>{subTitle}</Link>
+                    <Link className={styles.special__subtitle} to={subTitleLink}>
+                        {subTitle}
+                    </Link>
                 )}
                 {scrollTo && (
-                    <button onClick={() => scrollAndFilter(scrollTo)} className={styles.special__subtitle}>
+                    <button
+                        onClick={() => scrollAndFilter(scrollTo)}
+                        className={styles.special__subtitle}
+                    >
                         {subTitle}
                     </button>
                 )}

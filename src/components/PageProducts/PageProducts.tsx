@@ -6,7 +6,6 @@ import { Recommended } from "../Recommended/Recommended";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Instagram } from "../PageHome/Instagram/Instagram";
 import { ProductsByType } from "./ProductsByType";
-import { FilterProvider } from "./FilterProvider";
 
 type ProductContextType = {
     product: KindOfProduct;
@@ -24,23 +23,20 @@ export const useProduct = () => {
 export function PageProducts({ product }: { product: KindOfProduct }) {
     return (
         <div className='relative pt-[143px] max-md:pt-[84px]'>
-            {/* Filters are pure UI logic, and useProduct stores the business logic of products, so they'll be left separate. */}
             <ProductContext.Provider value={{ product }}>
-                <FilterProvider productType={product}>
-                    <GenerateProductSpecialOffer />
-                    <ProductDescription />
-                    <ProductsByType />
-                    <Recommended productFilter={getRandomProduct(product)} />
-                    <SpecialOffer
-                        imgSrc="/HomePage/sommelier.jpg"
-                        supTitle="Sommelier Choice"
-                        title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
-                        subTitle="ARTICLES ABOUT WINE"
-                        subTitleLink="/Articles"
-                        contentWidth={893}
-                    />
-                    <Instagram />
-                </FilterProvider>
+                <GenerateProductSpecialOffer />
+                <ProductDescription />
+                <ProductsByType />
+                <Recommended productFilter={getRandomProduct(product)} />
+                <SpecialOffer
+                    imgSrc="/HomePage/sommelier.jpg"
+                    supTitle="Sommelier Choice"
+                    title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
+                    subTitle="ARTICLES ABOUT WINE"
+                    subTitleLink="/Articles"
+                    contentWidth={893}
+                />
+                <Instagram />
             </ProductContext.Provider>
         </div>
     );

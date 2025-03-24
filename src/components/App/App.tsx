@@ -4,34 +4,20 @@ import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
 import { Layout } from "../Layout/Layout";
 import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
-
-import { useEffect, useState } from "react";
-import { uploadInfo } from "./uploadToDBFunc";
 import { PageProducts } from "../PageProducts/PageProducts";
 import { PageOrder } from "../PageOrder/PageOrder";
 import { FullAged } from "../PopUp/FullAged";
 import { PageArticles } from "../PageArticles/PageArticles";
-import { useAuthStore } from "../../store/auth";
+import { useAgeStore } from "../../store/fullAged";
+import { uploadInfo } from "./uploadToDBFunc";
+
 export function App() {
-  //!time-limited
+  //!time-limited upload to DB function
   // useEffect(() => {
   //   uploadInfo();
   // }, []);
 
-  const [isFullAgedActive, setIsFullAgedActive] = useState(true);
-
-  useEffect(() => {
-    const isFullAged = localStorage.getItem('isFullAged');
-    if (isFullAged === 'true') {
-      setIsFullAgedActive(false);
-    }
-  }, []);
-
-  const handleFullAged = () => {
-    localStorage.setItem('isFullAged', 'true');
-    setIsFullAgedActive(false);
-  };
-
+  const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
   return (
     <Router>
       <ScrollRestoration />
@@ -65,7 +51,8 @@ export function App() {
           <Route path="Soon" element={<PageMessage message="This page will be added later" />} />
         </Route>
       </Routes>
-      {isFullAgedActive && <FullAged setActive={handleFullAged} />}
+
+      {isFullAgedActive && <FullAged setActive={() => setIsFullAgedActive(false)} />}
     </Router>
   )
 }

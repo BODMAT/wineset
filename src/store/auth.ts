@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import {
     getAuth,
-    onAuthStateChanged,
     signOut,
     User,
     createUserWithEmailAndPassword,
@@ -10,10 +9,6 @@ import {
     fetchSignInMethodsForEmail,
     signInWithPopup,
     GoogleAuthProvider,
-    EmailAuthProvider,
-    linkWithCredential,
-    setPersistence,
-    browserLocalPersistence
 } from "firebase/auth";
 
 interface AuthState {

@@ -2,7 +2,7 @@ import Select from "react-select";
 import { Countries } from "../../data/OOPStructure/Pruduct";
 import { useProduct } from "./PageProducts";
 import styles from "./PageProducts.module.scss";
-import { useFilterContext } from "./FilterProvider";
+import { useFilterStore } from "../../store/filterProducts";
 import { CSSObjectWithLabel, GroupBase, StylesConfig } from "react-select";
 
 export function FilterBy() {
@@ -22,7 +22,9 @@ export function FilterBy() {
     ];
 
     const { product } = useProduct();
-    const { filters, setFilters } = useFilterContext();
+    const { filtersByType, setFilters } = useFilterStore();
+
+    const filters = filtersByType[product] || { discount: "All prices", country: "All countries" };
 
     return (
         <div className="flex justify-between items-center gap-x-20 gap-y-4 pb-2 max-md:flex-col max-md:text-center">
@@ -31,7 +33,7 @@ export function FilterBy() {
                 <Select
                     options={discountOptions}
                     value={discountOptions.find(option => option.value === filters.discount)}
-                    onChange={(selected) => setFilters({ ...filters, discount: selected?.value || "All prices" })}
+                    onChange={(selected) => setFilters(product, { ...filters, discount: selected?.value || "All prices" })}
                     classNames={{
                         indicatorSeparator: () => "hidden",
                         container: () => "relative z-5 w-full",
@@ -41,7 +43,7 @@ export function FilterBy() {
                 <Select
                     options={countryOptions}
                     value={countryOptions.find(option => option.value === filters.country)}
-                    onChange={(selected) => setFilters({ ...filters, country: selected?.value || "All countries" })}
+                    onChange={(selected) => setFilters(product, { ...filters, country: selected?.value || "All countries" })}
                     classNames={{
                         indicatorSeparator: () => "hidden",
                         container: () => "relative z-5 w-full",
