@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import { PageMessage } from "../PageError/PageError";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
@@ -10,21 +10,21 @@ import { FullAged } from "../PopUp/FullAged";
 import { PageArticles } from "../PageArticles/PageArticles";
 import { useAgeStore } from "../../store/fullAged";
 import { uploadInfo } from "./uploadToDBFunc";
+import { PageProduct } from "../PageProduct/PageProduct";
 
 export function App() {
   //!time-limited upload to DB function
   // useEffect(() => {
   //   uploadInfo();
   // }, []);
-
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
+
   return (
     <Router>
       <ScrollRestoration />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="*" element={<PageMessage message="404 Not Found" />} />
           <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
           <Route path="Gift-sets" element={<PageMessage message="This page will be added later" />} />
           <Route path="Wine-and-alcohol" element={<PageMessage message="This page will be added later" />} />
@@ -42,6 +42,11 @@ export function App() {
           <Route path="/Delicacies/Sauce" element={<PageProducts product="sauce" />} />
           <Route path="/Gift-sets/Boxes" element={<PageProducts product="box" />} />
           //!
+          <Route
+            path="/:category/:id"
+            element={<PageProduct />}
+          />
+          //!
           <Route path="Cart" element={<PageMessage message="This page will be added later" />} />
           <Route path="Order" element={<PageOrder />} />
           <Route path="Articles" element={<PageArticles />} />
@@ -49,6 +54,7 @@ export function App() {
           <Route path="Delivery" element={<PageMessage message="This page will be added later" />} />
             //!
           <Route path="Soon" element={<PageMessage message="This page will be added later" />} />
+          <Route path="*" element={<PageMessage message="404 Not Found" />} />
         </Route>
       </Routes>
 
