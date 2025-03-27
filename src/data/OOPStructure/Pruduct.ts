@@ -1,3 +1,4 @@
+import { useCart } from "../../store/cart";
 import { fetchProductById } from "../DataBase/Firebase/firebaseAPI";
 
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
@@ -63,6 +64,7 @@ export interface IProduct {
     price: number;
     imageUrl?: string;
     quantity: number;
+
     country?: string;
     fullDescription?: FullDescriptionConfig;
     readonly kindOfProduct: KindOfProduct;
@@ -124,6 +126,11 @@ abstract class Product implements IProduct {
     get name(): string { return this._name; }
     get price(): number { return this._price; }
     get quantity(): number { return this._quantity; }
+    set quantity(value: number) {
+        if (value >= 0) {
+            this._quantity = value;
+        }
+    }
     get description(): string | string[] | undefined { return this._description; }
     get discount(): number | undefined { return this._discount; }
     get imageUrl(): string { return this._imageUrl; }
@@ -131,12 +138,18 @@ abstract class Product implements IProduct {
     get fullDescription(): FullDescriptionConfig | undefined { return this._fullDescription; }
 
     //Methods
-    addToCart(quantity?: number): void {
-        console.log(`${quantity ?? 1} ${this._name} added to cart.`);
+    addToCart(quantity: number = 1): void {
+        if (quantity <= this.quantity && quantity > 0) {
+            const cart = useCart.getState();
+            cart.addToCart(this, quantity);
+        }
     }
 
-    removeFromCart(quantity?: number): void {
-        console.log(`${quantity ?? 1} ${this._name} removed from cart.`);
+    removeFromCart(quantity: number = 1): void {
+        if (quantity <= this.quantity && quantity > 0) {
+            const cart = useCart.getState();
+            cart.removeFromCart(this, quantity);
+        }
     }
 
     async getPrice(): Promise<number> {

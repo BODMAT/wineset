@@ -9,12 +9,13 @@ import { FilterBy } from "./FilterBy";
 import { useEffect, useState } from "react";
 import { useFilterStore } from "../../store/filterProducts";
 import { useProduct } from "./PageProducts";
+import { useCart } from "../../store/cart";
 
 export function ProductsByType() {
     const { product } = useProduct();
     const { filteredProductsByType, loadProductsByType, isLoading } = useFilterStore();
     const [productsRerender, setProductsRerender] = useState<IProduct[] | undefined>(undefined);
-
+    const { findSameProductInCartById } = useCart();
     useEffect(() => {
         loadProductsByType([product]);
     }, [product, loadProductsByType]);
@@ -36,6 +37,18 @@ export function ProductsByType() {
     function capitalizeFirstLetter(str: string): string {
         if (!str) return "";
         return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function isButtonToCartPossible(product: IProduct): boolean {
+        if (product.id && product.quantity > 0) {
+            const productInCart: IProduct | undefined = findSameProductInCartById(product.id);
+            if (productInCart && productInCart.quantity >= 0) {
+                return true;
+            } else if (!productInCart) {
+                return true; //ще не доданий
+            }
+        }
+        return false
     }
 
     return (
@@ -100,12 +113,24 @@ export function ProductsByType() {
                                         </div>
                                     </Link>
                                 </div>
-                                <button
-                                    className={styles.buttonBuy}
-                                    onClick={() => product.addToCart()}
-                                >
-                                    Add to cart
-                                </button>
+                                {isButtonToCartPossible(product) && (
+                                    <button
+                                        className={styles.buttonBuy}
+                                        onClick={() => product.addToCart()}
+                                    >
+                                        Add to cart
+                                    </button>
+                                )}
+                                {!isButtonToCartPossible(product) && (
+                                    <button
+                                        className={styles.buttonBuy}
+                                        onClick={() => product.addToCart()}
+                                        disabled
+                                    >
+                                        Lack of quality
+                                    </button>
+                                )
+                                }
                             </div>
                         ))}
                 </div>

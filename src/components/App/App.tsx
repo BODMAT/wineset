@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PageMessage } from "../PageError/PageError";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
