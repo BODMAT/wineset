@@ -18,6 +18,7 @@ export const useCart = create<ICart>()(
             (set, get) => ({
                 localStorageCart: (() => {
                     const cartData = localStorage.getItem("cart-storage");
+                    console.log(cartData ? (JSON.parse(cartData) as IProduct[]) : []);
                     return cartData ? (JSON.parse(cartData) as IProduct[]) : [];
                 })(),
 

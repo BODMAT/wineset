@@ -1,0 +1,1 @@
+// Wishlist to DB (привязка до User) - по аналогії до Cart

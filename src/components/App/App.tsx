@@ -11,6 +11,7 @@ import { PageArticles } from "../PageArticles/PageArticles";
 import { useAgeStore } from "../../store/fullAged";
 import { uploadInfo } from "./uploadToDBFunc";
 import { PageProduct } from "../PageProduct/PageProduct";
+import { PageCart } from "../PageCart/PageCart";
 
 export function App() {
   //!time-limited upload to DB function
@@ -47,7 +48,7 @@ export function App() {
             element={<PageProduct />}
           />
           //!
-          <Route path="Cart" element={<PageMessage message="This page will be added later" />} />
+          <Route path="Cart" element={<PageCart />} />
           <Route path="Order" element={<PageOrder />} />
           <Route path="Articles" element={<PageArticles />} />
           <Route path="Sommelier" element={<PageMessage message="This page will be added later" />} />
