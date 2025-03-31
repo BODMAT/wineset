@@ -7,7 +7,7 @@ import { App } from '../App/App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   //strict double render (useEffect, useLayoutEffect)
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  // <StrictMode>
+  <App />
+  // </StrictMode>,
 )

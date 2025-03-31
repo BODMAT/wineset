@@ -88,6 +88,7 @@ export interface IProduct {
 
 export interface IProductWithCartQuantity extends IProduct {
     cartQuantity?: number;
+
 }
 
 abstract class Product implements IProduct {

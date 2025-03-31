@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import { IProduct, KindOfProduct, IProductWithCartQuantity } from "../data/OOPStructure/Pruduct";
+import { KindOfProduct, IProductWithCartQuantity } from "../data/OOPStructure/Pruduct";
 import { fetchProductById } from "../data/DataBase/Firebase/firebaseAPI";
 import { useAuthStore } from "./auth";
 
@@ -14,10 +14,10 @@ export interface ICart {
     loadCartProducts: (cartIds: CartIdsType[]) => Promise<IProductWithCartQuantity[]>;
 
     addToCart: (product: IProductWithCartQuantity, quantity?: number) => void;
-    removeFromCart: (productID: string, quantity?: number) => void;
+    removeFromCart: (productID: string, quantity?: number) => void; //!All include
     clearCart: () => void;
 
-    findSameProductInCartById: (id: string) => IProduct | undefined;
+    findSameProductInCartById: (id: string) => IProductWithCartQuantity | undefined;
     addToUserCartBeforeLeaving: () => void; // if User auth
 }
 
@@ -29,7 +29,7 @@ export const useCart = create<ICart>()(
                 cartProducts: [],
 
                 //Asyc initialization of Cart from localStorage
-                //! IMPORTANT TO USE IN USEEFFECT
+                //! IMPORTANT TO USE IN USEEFFECT IN ALL CASES OR PARENT COMPONENT TO UPD CART
                 initializeCart: async () => {
                     const cartData = localStorage.getItem("cart-storage");
                     if (cartData) {
@@ -84,7 +84,6 @@ export const useCart = create<ICart>()(
 
                 findSameProductInCartById: (id: string) => {
                     const { cartProducts } = get();
-                    // Шукаємо продукт у cartProducts за ID
                     return cartProducts.find((product) => product.id === id);
                 },
 
@@ -141,6 +140,7 @@ export const useCart = create<ICart>()(
 
                 removeFromCart: (productID: string, quantity: number = 1) => {
                     set((state) => {
+                        //! ...
                         return state;
                     });
                 },
@@ -149,7 +149,7 @@ export const useCart = create<ICart>()(
                     const { user } = useAuthStore.getState();
                     if (user) {
                         const cart = get().cartIds;
-                        //!
+                        //! ...
                         console.log("Saving cart to user profile before leaving", cart);
                     }
                 },

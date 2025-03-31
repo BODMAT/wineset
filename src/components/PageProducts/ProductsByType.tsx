@@ -1,5 +1,5 @@
 import styles from "./PageProducts.module.scss";
-import { alcoTypes, Box, IProduct, othersTypes } from "../../data/OOPStructure/Pruduct";
+import { alcoTypes, Box, IProduct, IProductWithCartQuantity, othersTypes } from "../../data/OOPStructure/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
@@ -41,8 +41,8 @@ export function ProductsByType() {
 
     function isButtonToCartPossible(product: IProduct): boolean {
         if (product.id && product.quantity > 0) {
-            const productInCart: IProduct | undefined = findSameProductInCartById(product.id);
-            if (productInCart && productInCart.quantity >= 0) {
+            const productInCart: IProductWithCartQuantity | undefined = findSameProductInCartById(product.id);
+            if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity < productInCart.quantity) {
                 return true;
             } else if (!productInCart) {
                 return true; //ще не доданий
@@ -127,7 +127,7 @@ export function ProductsByType() {
                                         onClick={() => product.addToCart()}
                                         disabled
                                     >
-                                        Lack of quality
+                                        Lack of quantity
                                     </button>
                                 )
                                 }

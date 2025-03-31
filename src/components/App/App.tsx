@@ -12,6 +12,8 @@ import { useAgeStore } from "../../store/fullAged";
 import { uploadInfo } from "./uploadToDBFunc";
 import { PageProduct } from "../PageProduct/PageProduct";
 import { PageCart } from "../PageCart/PageCart";
+import { useEffect, useLayoutEffect } from "react";
+import { useCart } from "../../store/cart";
 
 export function App() {
   //!time-limited upload to DB function
@@ -19,6 +21,11 @@ export function App() {
   //   uploadInfo();
   // }, []);
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
+
+  const { initializeCart } = useCart()
+  useEffect(() => {
+    initializeCart()
+  }, [])
 
   return (
     <Router>
@@ -63,4 +70,3 @@ export function App() {
     </Router>
   )
 }
-
