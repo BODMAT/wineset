@@ -1,16 +1,20 @@
+import { useLayoutEffect } from "react";
 import { IProduct } from "../../data/OOPStructure/Pruduct"
 import { useCart } from "../../store/cart"
 import styles from "./PageCart.module.scss"
 export function Cart() {
-    const { localStorageCart } = useCart()
+    const { initializeCart, cartProducts } = useCart();
+    useLayoutEffect(() => {
+        initializeCart()
+    }, [])
     return (
         <section className={styles.container}>
             <div className="pt-25 pb-25 flex justify-between gap-7">
                 {/* changable cart */}
                 <div className="">
-                    <h2 className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>Cart ({localStorageCart.length})</h2>
+                    <h2 className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>Cart ({cartProducts.length})</h2>
                     {/* items */}
-                    {localStorageCart.map((cartItem: IProduct, index: number) => (
+                    {cartProducts.map((cartItem: IProduct, index: number) => (
                         <div key={`${cartItem.id}-${index}`} className="flex justify-between gap-10 border-b-1 border-[#000]">
                             {/* left side */}
                             <div className="flex gap-2">

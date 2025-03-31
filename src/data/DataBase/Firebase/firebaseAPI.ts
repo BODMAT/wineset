@@ -1,7 +1,34 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { createProductInstance } from "../../OOPStructure/Pruduct";
+import { Box, Candle, Champagne, Cheese, Cookie, Delicacy, Glass, IProduct, KindOfProduct, Sauce, Vodka, Whiskey, Wine } from "../../OOPStructure/Pruduct";
 
+// to create an instance of a product when I make a request with DB and others
+export const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {
+    wine: Wine,
+    champagne: Champagne,
+    whiskey: Whiskey,
+    vodka: Vodka,
+    delicacy: Delicacy,
+    glass: Glass,
+    candle: Candle,
+    cheese: Cheese,
+    cookie: Cookie,
+    sauce: Sauce,
+    box: Box,
+};
+
+export function createProductInstance(data: any): new (...args: any[]) => IProduct {
+    const { kindOfProduct } = data as { kindOfProduct: KindOfProduct };
+
+    const ProductClass = productClassesMap[kindOfProduct];
+
+    if (!ProductClass) {
+        throw new Error(`Unsupported product type: ${kindOfProduct}`);
+    }
+    return ProductClass;
+}
+
+// Main
 export const fetchProductsByNameClass = async (filter: string): Promise<any[]> => {
     const productsList: any[] = [];
 
