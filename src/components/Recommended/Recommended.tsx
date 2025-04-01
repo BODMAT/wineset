@@ -30,6 +30,10 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
         loadProducts();
     }, [productFilter]);
 
+    const handleAddToCart = (product: IProduct) => {
+        product.addToCart();
+    };
+
     return (
         <section className="pt-[50px] pb-[100px] max-md:pt-[10px] max-md:pb-[50px]">
             <div className={styles.container}>
@@ -100,7 +104,7 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                                         </div>
                                     </Link>
                                 </div>
-                                <button className={styles.buttonBuy} onClick={() => { product.addToCart() }}>Add to cart</button>
+                                <button className={styles.buttonBuy} onClick={() => { () => handleAddToCart(product) }}>Add to cart</button>
                             </SwiperSlide >
                         ))
                         }

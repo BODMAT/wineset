@@ -124,7 +124,6 @@ export function ProductsByType() {
                                 {!isButtonToCartPossible(product) && (
                                     <button
                                         className={styles.buttonBuy}
-                                        onClick={() => product.addToCart()}
                                         disabled
                                     >
                                         Lack of quantity

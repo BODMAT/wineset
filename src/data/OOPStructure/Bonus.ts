@@ -1,1 +1,1 @@
-// Bonus logic (local maybe)
+// Bonus logic (to User in DB)

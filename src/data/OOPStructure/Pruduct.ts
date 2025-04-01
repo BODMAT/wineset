@@ -153,7 +153,7 @@ abstract class Product implements IProduct {
     removeFromCart(quantity: number = 1): void {
         if (quantity <= this.quantity && quantity > 0) {
             const cart = useCart.getState();
-            cart.removeFromCart(this.id, quantity);
+            cart.removeFromCart(this, quantity);
         }
     }
 

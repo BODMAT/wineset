@@ -81,3 +81,22 @@ $solid: #7a0000;
     color: #000;
     @include mixins.adaptiv-font (32, 26);
 }
+
+.orderTitleFont {
+    font-family: $font-family;
+    font-weight: 600;
+    font-size: 26px;
+    text-transform: capitalize;
+    color: #121212;
+    @include mixins.adaptiv-font (26, 22);
+}
+
+.orderRedPrice {
+    font-family: $font-family;
+    font-weight: 600;
+    line-height: 1.3;
+    text-transform: capitalize;
+    text-align: center;
+    color: $solid;
+    @include mixins.adaptiv-font (18, 16);
+}
