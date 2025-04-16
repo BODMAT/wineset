@@ -1,11 +1,12 @@
 import styles from "./Links.module.scss";
-import { ILink, links } from "./Link";
+import { links } from "../../../data/Other/Link";
 import { Link } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 // @ts-ignore
 import 'swiper/css';
+import { ILink } from "../../../types/interfaces";
 
 export function Links() {
     const swiperSettings = {

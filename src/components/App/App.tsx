@@ -12,7 +12,7 @@ import { useAgeStore } from "../../store/fullAged";
 import { uploadInfo } from "./uploadToDBFunc";
 import { PageProduct } from "../PageProduct/PageProduct";
 import { PageCart } from "../PageCart/PageCart";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { useCart } from "../../store/cart";
 
 export function App() {

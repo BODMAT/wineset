@@ -2,27 +2,16 @@ import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/auth";
+import { IUser, SignInProps } from "../../types/interfaces";
 
-interface IData {
-    email: string;
-    password: string;
-}
-
-interface IProps {
-    loginActive: boolean;
-    setLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
-    setRegisterActive: React.Dispatch<React.SetStateAction<boolean>>;
-    title: string;
-}
-
-export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }: IProps) {
+export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }: SignInProps) {
     const [localFirebaseAlert, setLocalFirebaseAlert] = useState<string | null>(null);
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<IData>();
+    } = useForm<IUser>();
     const { handleFirebaseAuth, user, logout, login: authLogin, firebaseAlert, setFirebaseAlert } = useAuthStore();
 
     useEffect(() => {
@@ -39,7 +28,7 @@ export function SignIn({ loginActive, setLoginActive, setRegisterActive, title }
         }
     }, [firebaseAlert]);
 
-    const handleFirebaseLogin = async (data: IData) => {
+    const handleFirebaseLogin = async (data: IUser) => {
         await authLogin(data.email, data.password);
         reset();
     };

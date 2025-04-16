@@ -1,14 +1,9 @@
 import { useEffect } from "react";
 import styles from "./ContactUs.module.scss";
 import emailjs from "@emailjs/browser";
-import { useOpacity } from "../../../customHooks/useOpacity";
+import { useOpacity } from "../../../hooks/useOpacity";
 import { useForm } from "react-hook-form";
-
-interface IData {
-    name: string;
-    email: string;
-    text: string;
-}
+import { IContactUsData } from "../../../types/interfaces";
 
 export function ContactUs() {
     const { opacity, blockRef } = useOpacity();
@@ -17,7 +12,7 @@ export function ContactUs() {
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<IData>();
+    } = useForm<IContactUsData>();
 
     useEffect(() => {
         const userId = import.meta.env.VITE_EMAILJS_USER_ID;
@@ -28,7 +23,7 @@ export function ContactUs() {
         }
     }, []);
 
-    const sendMail = async (data: IData) => {
+    const sendMail = async (data: IContactUsData) => {
         const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 

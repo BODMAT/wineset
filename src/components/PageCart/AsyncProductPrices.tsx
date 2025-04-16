@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { IProductWithCartQuantity } from "../../data/OOPStructure/Pruduct"
+import { IProductWithCartQuantity } from "../../architecture/Pruduct"
 import styles from "./PageCart.module.scss"
 import { useCart } from "../../store/cart";
-interface FullPrice {
-    crossedPrice: null | string
-    disountedPrice: null | string
-}
+import { IFullPrice } from "../../types/interfaces";
+
 export function AsyncProductPrices({ cartItem }: { cartItem: IProductWithCartQuantity }) {
     const { cartIds } = useCart();
-    const [price, setPrice] = useState<FullPrice>({
+    const [price, setPrice] = useState<IFullPrice>({
         crossedPrice: null,
         disountedPrice: null,
     });

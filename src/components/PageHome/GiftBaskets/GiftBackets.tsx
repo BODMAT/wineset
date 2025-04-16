@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
-import { Box } from "../../../data/OOPStructure/Pruduct";
-import { fetchProductsByNameClass } from "../../../data/DataBase/Firebase/firebaseAPI";
+import { Box } from "../../../architecture/Pruduct";
+import { fetchProductsByNameClass } from "../../../api/firebaseAPI";
 
 
 export function GiftBackets() {

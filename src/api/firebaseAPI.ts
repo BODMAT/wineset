@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
-import { Box, Candle, Champagne, Cheese, Cookie, Delicacy, Glass, IProduct, KindOfProduct, Sauce, Vodka, Whiskey, Wine } from "../../OOPStructure/Pruduct";
+import { db } from "../firebaseConfig";
+import { Box, Candle, Champagne, Cheese, Cookie, Delicacy, Glass, IProduct, KindOfProduct, Sauce, Vodka, Whiskey, Wine } from "../architecture/Pruduct";
 
 // to create an instance of a product when I make a request with DB and others
 export const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {

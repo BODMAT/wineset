@@ -1,30 +1,10 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-import { KindOfProduct, IProductWithCartQuantity } from "../data/OOPStructure/Pruduct";
-import { fetchProductById } from "../data/DataBase/Firebase/firebaseAPI";
+import { IProductWithCartQuantity } from "../architecture/Pruduct";
+import { fetchProductById } from "../api/firebaseAPI";
 import { useAuthStore } from "./auth";
-
-type CartIdsType = [string, KindOfProduct, number]; // [id, KindOfProduct, cartQuantity]
-
-export interface ICart {
-    cartIds: CartIdsType[];
-    cartProducts: IProductWithCartQuantity[];
-
-    totalCartPriceWithoutDiscount: number;
-    totalCartPriceWithDiscount: number;
-    totalCartDiscount: number
-
-    updateCartTotals: (products: IProductWithCartQuantity[]) => void;
-    initializeCart: () => Promise<void>;
-    loadCartProducts: (cartIds: CartIdsType[]) => Promise<IProductWithCartQuantity[]>;
-
-    addToCart: (product: IProductWithCartQuantity, quantity?: number) => void;
-    removeFromCart: (product: IProductWithCartQuantity, quantity?: number) => void;
-    clearCart: () => void;
-
-    findSameProductInCartById: (id: string) => IProductWithCartQuantity | undefined;
-    addToUserCartBeforeLeaving: () => void; // if User auth
-}
+import { CartIdsType } from "../types/types";
+import { ICart } from "../types/interfaces";
 
 export const useCart = create<ICart>()(
     devtools(

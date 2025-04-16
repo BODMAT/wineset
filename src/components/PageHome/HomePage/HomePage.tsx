@@ -1,5 +1,4 @@
 import { LeafletMap } from "../../LeafletMap/LeafletMap";
-import { FullAged } from "../../PopUp/FullAged";
 import { SpecialOffer } from "../../SpecialOffer/SpecialOffer";
 import { ContactUs } from "../ContactUs/ContactUs";
 import { Delivery } from "../Delivery/Delivery";

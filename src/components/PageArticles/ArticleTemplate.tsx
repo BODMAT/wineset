@@ -1,7 +1,7 @@
-import { ArticleProps } from "../../data/DataBase/Other/articles"
+import { IArticleProps } from "../../types/interfaces";
 import styles from "./PageArticles.module.scss"
 
-export function ArticleTemplate({ article }: { article: ArticleProps }) {
+export function ArticleTemplate({ article }: { article: IArticleProps }) {
     return (
         <a target="_blank" href={article.link} className="relative w-full max-w-full h-[360px] overflow-hidden group">
             <div className="absolute z-3 inset-0 bg-[#00000080] group-hover:bg-[#000000ad] flex flex-col justify-center items-center p-4 gap-[10%] transitioned">

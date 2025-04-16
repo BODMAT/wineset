@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import styles from "./WhatMakesUsSpecial.module.scss"
-import { useOpacity } from "../../../customHooks/useOpacity";
+import { useOpacity } from "../../../hooks/useOpacity";
 
 export function WhatMakesUsSpecial() {
     const { opacity, blockRef } = useOpacity();

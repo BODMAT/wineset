@@ -1,4 +1,3 @@
-
 import { Instagram } from "../PageHome/Instagram/Instagram";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Articles } from "./Articles";

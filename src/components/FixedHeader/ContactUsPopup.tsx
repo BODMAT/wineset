@@ -5,14 +5,9 @@ import TelegramIcon from "../../assets/Header/tg.svg";
 import FacebookIcon from "../../assets/Header/facebook.svg";
 import crossSVG from "../../assets/cross.svg";
 import { Link } from "react-router-dom";
-import { IState } from "./FixedHeader";
+import { ContactUsPopupProps } from "../../types/interfaces";
 
-interface IProps {
-    state: IState;
-    setState: React.Dispatch<React.SetStateAction<IState>>;
-}
-
-export function ContactUsPopup({ state, setState }: IProps) {
+export function ContactUsPopup({ state, setState }: ContactUsPopupProps) {
     return (
         <div className={`${styles.header__contactInfo} ${state.moreInfo ? styles.visible : ""}`}>
             <div className={styles.header__contactInfo_top}>

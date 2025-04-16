@@ -1,7 +1,6 @@
+import { FullAgedProps } from "../../types/interfaces";
 import { PopUp } from "./PopUp";
-interface FullAgedProps {
-    setActive: () => void;
-}
+
 export function FullAged({ setActive }: FullAgedProps) {
     return (
         <PopUp

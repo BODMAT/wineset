@@ -1,5 +1,5 @@
 import styles from "./PageProducts.module.scss";
-import { alcoTypes, Box, IProduct, IProductWithCartQuantity, othersTypes } from "../../data/OOPStructure/Pruduct";
+import { alcoTypes, Box, IProduct, IProductWithCartQuantity, othersTypes } from "../../architecture/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useFilterStore } from "../../store/filterProducts";
 import { useProduct } from "./PageProducts";
 import { useCart } from "../../store/cart";
+import { capitalizeFirstLetter } from "../../utils/utils";
 
 export function ProductsByType() {
     const { product } = useProduct();
@@ -33,11 +34,6 @@ export function ProductsByType() {
             })
         ).then(setProductsRerender);
     }, [filteredProducts]);
-
-    function capitalizeFirstLetter(str: string): string {
-        if (!str) return "";
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
     function isButtonToCartPossible(product: IProduct): boolean {
         if (product.id && product.quantity > 0) {

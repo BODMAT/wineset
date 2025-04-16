@@ -1,16 +1,13 @@
 import { Link } from "react-router-dom";
-import { IProductWithCartQuantity } from "../../data/OOPStructure/Pruduct"
+import { IProductWithCartQuantity } from "../../architecture/Pruduct"
 import { useCart } from "../../store/cart"
 import styles from "./PageCart.module.scss"
 import wishSVG from "../../assets/wish.svg"
 import { AsyncProductPrices } from "./AsyncProductPrices";
-import { useOpacity } from "../../customHooks/useOpacity";
+import { useOpacity } from "../../hooks/useOpacity";
+import { capitalizeFirstLetter } from "../../utils/utils";
 export function Cart() {
     const { cartProducts, totalCartDiscount, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart();
-    function capitalizeFirstLetter(str: string): string {
-        if (!str) return "";
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
     const { opacity, blockRef } = useOpacity()
 
     return (

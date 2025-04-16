@@ -1,4 +1,4 @@
-import { IProduct } from "../../data/OOPStructure/Pruduct"
+import { IProduct } from "../../architecture/Pruduct"
 export function ProductPhoto({ product, imageHeight = 305 }: { product: IProduct, imageHeight?: number }) {
     const height: string = imageHeight + "px";
     return (

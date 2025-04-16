@@ -2,22 +2,8 @@ import { useEffect, useRef } from 'react';
 import emailjs from "@emailjs/browser";
 import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
-
-type Delivery = 'courier' | 'nova-poshta' | 'ukrposhta' | 'self-pickup';
-type Bank = "Privat24" | "Monobank" | "Abank" | "Sense Bank";
-interface IPersonalData {
-    name: string;
-    surname: string;
-    tel: string;
-    email: string;
-
-    delivery: Delivery;
-    address: string;
-
-    payment: Bank;
-    cardNumber: string;
-    comment?: string;
-}
+import { IPersonalData } from '../../types/interfaces';
+import { formatCardNumber } from '../../utils/utils';
 
 export function PersonalDataForm() {
     const {
@@ -27,14 +13,6 @@ export function PersonalDataForm() {
         reset,
         formState: { errors, isSubmitting },
     } = useForm<IPersonalData>();
-
-    const formatCardNumber = (value: string) => {
-        return value
-            .replace(/\D/g, "")
-            .slice(0, 16)
-            .replace(/(\d{4})/g, "$1 ")
-            .trim();
-    };
 
     useEffect(() => {
         const userId = import.meta.env.VITE_EMAILJS_USER_ID;

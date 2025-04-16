@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
+import { BorderedLinkProps } from "../../types/interfaces";
 
-interface IBorderedLinkProps {
-    to: string;
-    children: React.ReactNode | string;
-}
-
-export function BorderedLink({ to, children }: IBorderedLinkProps) {
+export function BorderedLink({ to, children }: BorderedLinkProps) {
     return (
         <Link to={to} className="transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] 
                text-[#7a0000] font-inter font-semibold text-center uppercase 

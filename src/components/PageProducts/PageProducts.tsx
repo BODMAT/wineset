@@ -1,15 +1,13 @@
 import { createContext, useContext } from "react";
-import { KindOfProduct } from "../../data/OOPStructure/Pruduct";
+import { KindOfProduct } from "../../architecture/Pruduct";
 import { GenerateProductSpecialOffer } from "../SpecialOffer/GenerateProductSpecialOffer";
 import { ProductDescription } from "./ProductDescription";
 import { Recommended } from "../Recommended/Recommended";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Instagram } from "../PageHome/Instagram/Instagram";
 import { ProductsByType } from "./ProductsByType";
+import { ProductContextType } from "../../types/types";
 
-type ProductContextType = {
-    product: KindOfProduct;
-};
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const useProduct = () => {

@@ -1,14 +1,6 @@
 import { useEffect, useRef } from "react";
 import L from "leaflet";
-
-interface UseMapProps {
-    lat: number;
-    lng: number;
-    zoom: number;
-    markerLat: number;
-    markerLng: number;
-    popupContent: string;
-}
+import { UseMapProps } from "../types/interfaces";
 
 export function useMap({
     lat,

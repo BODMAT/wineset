@@ -3,29 +3,18 @@ import { persist, devtools } from "zustand/middleware";
 import {
     getAuth,
     signOut,
-    User,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     fetchSignInMethodsForEmail,
     signInWithPopup,
     GoogleAuthProvider,
 } from "firebase/auth";
-
-interface AuthState {
-    user: User | null;
-    firebaseAlert: string | null;
-    loading: boolean;
-    setFirebaseAlert: (message: string | null) => void;
-    logout: () => Promise<void>;
-    register: (email: string, password: string) => Promise<void>;
-    login: (email: string, password: string) => Promise<void>;
-    handleFirebaseAuth: () => Promise<void>;
-}
+import { IAuthState } from "../types/interfaces";
 
 const googleProvider = new GoogleAuthProvider();
 const auth = getAuth();
 
-export const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<IAuthState>()(
     devtools(
         persist(
             (set) => ({

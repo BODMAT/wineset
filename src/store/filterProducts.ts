@@ -1,17 +1,9 @@
 import { create } from "zustand";
-import { IProduct } from "../data/OOPStructure/Pruduct";
-import { fetchProductsByNameClass } from "../data/DataBase/Firebase/firebaseAPI";
+import { IProduct } from "../architecture/Pruduct";
+import { fetchProductsByNameClass } from "../api/firebaseAPI";
+import { IFilterState } from "../types/interfaces";
 
-interface FilterState {
-    productsByType: Record<string, IProduct[]>;
-    filteredProductsByType: Record<string, IProduct[]>;
-    filtersByType: Record<string, { discount: string; country: string }>;
-    isLoading: boolean;
-    setFilters: (productType: string, filters: { discount: string; country: string }) => void;
-    loadProductsByType: (productTypes: string[]) => Promise<void>;
-}
-
-export const useFilterStore = create<FilterState>((set) => ({
+export const useFilterStore = create<IFilterState>((set) => ({
     productsByType: {},
     filteredProductsByType: {},
     filtersByType: {},

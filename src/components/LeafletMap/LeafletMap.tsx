@@ -1,4 +1,4 @@
-import { useMap } from "../../customHooks/useMap";
+import { useMap } from "../../hooks/useMap";
 import styles from "./LeafletMap.module.scss";
 
 export function LeafletMap({ height = undefined, zoom = 17 }: { height?: string, zoom?: number }) {

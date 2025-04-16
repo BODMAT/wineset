@@ -2,22 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./FixedHeader.module.scss";
 import searchSVG from "../../assets/search.svg";
 import { useEffect, useState } from "react";
-import { Menu, MenuType } from "../../data/DataBase/Other/Menu";
+import { Menu } from "../../data/Other/Menu";
 import { ContactUsPopup } from "./ContactUsPopup";
 import { Auth } from "../Auth/Auth";
 import { useAuthStore } from "../../store/auth";
-
-export interface IState {
-    isScrolledDown: boolean;
-    lastScrollTop: number;
-    isLargeScreen: boolean;
-    isBurgerActive: boolean;
-    activeLink: string | null;
-    moreInfo: boolean;
-}
+import { IHeaderState } from "../../types/interfaces";
+import { MenuType } from "../../types/types";
 
 export function FixedHeader() {
-    const [state, setState] = useState<IState>({
+    const [state, setState] = useState<IHeaderState>({
         isScrolledDown: false,
         lastScrollTop: 0,
         isLargeScreen: window.innerWidth > 767,
@@ -101,7 +94,7 @@ export function FixedHeader() {
     useEffect(() => setState(prev => ({ ...prev, moreInfo: false })), [state.isLargeScreen]);
 
     const [loginActive, setLoginActive] = useState(false);
-    const { user, logout } = useAuthStore();
+    const { user } = useAuthStore();
     return (
         <>
             <header className={`${styles.header} ${state.isScrolledDown ? styles.sticky : ""}`}>

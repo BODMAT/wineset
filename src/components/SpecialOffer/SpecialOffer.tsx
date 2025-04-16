@@ -1,28 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./SpecialOffer.module.scss";
 import { useFilterStore } from "../../store/filterProducts";
-
-interface IPropsBase {
-    imgSrc: string;
-    supTitle: string;
-    title: string;
-    subTitle: string;
-    contentWidth: number;
-}
-
-interface IPropsWithLink extends IPropsBase {
-    subTitleLink: string;
-    scrollTo?: never;
-    product?: never;
-}
-
-interface IPropsWithScroll extends IPropsBase {
-    scrollTo: string;
-    product: string;
-    subTitleLink?: never;
-}
-
-type IProps = IPropsWithLink | IPropsWithScroll;
+import { SpecialOfferPropsType } from "../../types/types";
 
 export function SpecialOffer({
     imgSrc,
@@ -33,7 +12,7 @@ export function SpecialOffer({
     scrollTo,
     contentWidth,
     product
-}: IProps) {
+}: SpecialOfferPropsType) {
     const { setFilters } = useFilterStore();
 
     function scrollAndFilter(sectionClass: string) {

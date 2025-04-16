@@ -1,9 +1,4 @@
-export interface ILink {
-    index: number;
-    label: string;
-    imgSrc: string;
-    link: string;
-}
+import { ILink } from "../../types/interfaces";
 
 export const links: ILink[] = [
     { index: 1, label: "BASKET OF DELICACIES", imgSrc: "/HomePage/Links/delicacies.jpg", link: "/Delicacies" },

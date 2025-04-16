@@ -2,19 +2,9 @@ import { useForm } from "react-hook-form";
 import { PopUp } from "../PopUp/PopUp";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../store/auth";
-interface IData {
-    email: string;
-    password: string;
-    confirmPassword: string;
-}
+import { IUserWithConfirm, SignUpProps } from "../../types/interfaces";
 
-interface IProps {
-    registerActive: boolean;
-    setLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
-    setRegisterActive: React.Dispatch<React.SetStateAction<boolean>>;
-    title: string;
-}
-export function SingUp({ registerActive, setLoginActive, setRegisterActive, title }: IProps) {
+export function SingUp({ registerActive, setLoginActive, setRegisterActive, title }: SignUpProps) {
     const [localFirebaseAlert, setLocalFirebaseAlert] = useState<string | null>(null);
     const { handleFirebaseAuth } = useAuthStore();
     const {
@@ -22,7 +12,7 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<IData>();
+    } = useForm<IUserWithConfirm>();
 
     const { user, logout, register: authRegister, firebaseAlert, setFirebaseAlert } = useAuthStore();
 
@@ -40,7 +30,7 @@ export function SingUp({ registerActive, setLoginActive, setRegisterActive, titl
         }
     }, [firebaseAlert]);
 
-    const handleFirebaseRegister = async (data: IData) => {
+    const handleFirebaseRegister = async (data: IUserWithConfirm) => {
         authRegister(data.email, data.password);
         reset();
     };

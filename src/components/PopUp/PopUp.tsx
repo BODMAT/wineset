@@ -1,16 +1,9 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import crossSVG from "../../assets/cross.svg";
+import { PopupProps } from "../../types/interfaces";
 
-export interface IPopupProps {
-    title: string;
-    children: React.ReactNode;
-    active: boolean;
-    setActive: React.Dispatch<React.SetStateAction<boolean>>;
-    withoutPadAndCross?: boolean;
-}
-
-export function PopUp({ title, children, active, setActive, withoutPadAndCross }: IPopupProps) {
+export function PopUp({ title, children, active, setActive, withoutPadAndCross }: PopupProps) {
     useEffect(() => {
         if (active) {
             document.body.classList.add("no-scroll-popup");

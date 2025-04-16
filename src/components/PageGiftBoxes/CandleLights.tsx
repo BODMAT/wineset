@@ -14,7 +14,9 @@ export function CandleLights() {
                     </div>
                     <div className="flex flex-col gap-22 max-xl:gap-[30px]">
                         <div className={styles.basicText}>A wine shop is a place where every bottle holds a story, offering a journey through flavors, aromas, and traditions.</div>
-                        <BorderedLink to="/Glasses-and-candles/Candles">Order candles</BorderedLink>
+                        <div className="flex justify-center items-center">
+                            <BorderedLink to="/Glasses-and-candles/Candles">Order candles</BorderedLink>
+                        </div>
                     </div>
                 </div>
             </div>

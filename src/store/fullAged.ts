@@ -1,12 +1,8 @@
 import { create } from "zustand"
 import { persist, devtools } from "zustand/middleware";
+import { IAgeState } from "../types/interfaces";
 
-interface AgeAtate {
-    isFullAgedActive: boolean;
-    setIsFullAgedActive: (value: boolean) => void;
-};
-
-export const useAgeStore = create<AgeAtate>()(
+export const useAgeStore = create<IAgeState>()(
     devtools(
         persist(
             (set) => ({

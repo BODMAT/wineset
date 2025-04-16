@@ -1,8 +1,7 @@
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
-import { KindOfProduct, ProductConfig, StructureConfig, Countries } from "../../data/OOPStructure/Pruduct";
-import { CHAMPAGNES } from "../../data/DataBase/Products/Champagne";
-import { SAUCES } from "../../data/DataBase/Products/Sauce";
+import { KindOfProduct, ProductConfig, StructureConfig, Countries } from "../../architecture/Pruduct";
+import { SAUCES } from "../../data/Products/Sauce";
 
 export async function uploadInfo() {
     try {

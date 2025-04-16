@@ -1,5 +1,5 @@
 import styles from "./Delivery.module.scss"
-import { useOpacity } from "../../../customHooks/useOpacity"
+import { useOpacity } from "../../../hooks/useOpacity"
 import { BorderedLink } from "../../BorderedLink/BorderedLink"
 export function Delivery() {
     const { opacity, blockRef } = useOpacity()

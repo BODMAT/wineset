@@ -1,4 +1,4 @@
-import { dataWPostfixes } from "../../data/OOPStructure/Pruduct";
+import { dataWPostfixes } from "../../architecture/Pruduct";
 import { useProduct } from "./PageProducts";
 import { BorderedLink } from "../BorderedLink/BorderedLink";
 import styles from "./PageProducts.module.scss"
