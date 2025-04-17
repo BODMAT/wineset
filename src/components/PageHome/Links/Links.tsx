@@ -32,13 +32,15 @@ export function Links() {
         <section className={styles.links}>
             <Swiper {...swiperSettings} modules={[Autoplay]}>
                 {links.map((link: ILink) => (
-                    <SwiperSlide className={styles.links__item} key={link.index}>
-                        <div className={styles.links__img}>
-                            <img src={link.imgSrc} alt={`img for ${link.label}`} />
+                    <SwiperSlide key={link.index}>
+                        <div className={styles.links__link} key={link.index}>
+                            <div className={styles.links__img}>
+                                <img src={link.imgSrc} alt={`img for ${link.label}`} />
+                            </div>
+                            <Link to={link.link} className={styles.links__label}>
+                                {link.label}
+                            </Link>
                         </div>
-                        <Link to={link.link} className={styles.links__label}>
-                            {link.label}
-                        </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>

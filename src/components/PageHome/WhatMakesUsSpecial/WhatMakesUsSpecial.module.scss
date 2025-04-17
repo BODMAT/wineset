@@ -29,6 +29,7 @@
 		&__content {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 30px;
 
             @media (max-width: 1399.98px) {
@@ -37,21 +38,35 @@
                 flex-wrap: wrap;
             }
 
+            & .special__label {
+                position: relative;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-200%);
+                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+            }
 
             & > * {
                 transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
                 &:hover {
                     & img {
-                        border-radius: 40px;
+                        transform: scale(1.05);
                     }
                     & .special__label {
-                        text-decoration: underline;
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
                     }
                 }
             }
 
             & img {
                 max-width: 100%;
+            }
+
+            [class*="_img"] {
+                overflow: hidden;
+                border-radius: 40px;
             }
 		}
 
