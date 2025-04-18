@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function useOpacity() {
     //little practice w hooks (opacity for absolute)
-    const [opacity, setOpacity] = useState(0);
+    const [opacity, setOpacity] = useState(1);
     const blockRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {

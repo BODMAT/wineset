@@ -7,6 +7,7 @@ import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Instagram } from "../PageHome/Instagram/Instagram";
 import { ProductsByType } from "./ProductsByType";
 import { ProductContextType } from "../../types/types";
+import { getRandomProduct } from "../../utils/utils";
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
@@ -40,12 +41,4 @@ export function PageProducts({ product }: { product: KindOfProduct }) {
     );
 }
 
-function getRandomProduct(exclude?: KindOfProduct): KindOfProduct {
-    const products: KindOfProduct[] = [
-        "wine", "champagne", "whiskey", "vodka",
-        "delicacy", "glass", "candle",
-        "cheese", "cookie", "sauce"
-    ].filter(p => p !== exclude) as KindOfProduct[];
 
-    return products[Math.floor(Math.random() * products.length)];
-}

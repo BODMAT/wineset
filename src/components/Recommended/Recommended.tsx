@@ -24,32 +24,37 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
     useEffect(() => {
         const loadProducts = async () => {
             const productsData = await fetchProductsByNameClass(FilterProductsUpper);
-            filterByDiscount ? productsData.filter(el => el.discount > 0) : productsData;
-            setProducts(productsData);
+            const filtered = filterByDiscount
+                ? productsData.filter(el => el.discount > 0)
+                : productsData;
+            setProducts(filtered);
         };
 
         loadProducts();
-    }, [productFilter]);
+    }, [productFilter, filterByDiscount]);
 
     return (
         <section className="pt-[50px] pb-[100px] max-md:pt-[10px] max-md:pb-[50px]">
             <div className={styles.container}>
                 <div className="flex justify-between gap-1 items-center mb-[50px] max-md:mb-[20px]">
                     <h2 className={styles.title}>Recommended products</h2>
-                    <div className="flex gap-[20px] max-[400px]:flex-col">
-                        <button
-                            className={`swiper-button-prev-${productFilter}`}
-                            onClick={() => swiperRef.current.swiper.slidePrev()}
-                        >
-                            <img src={arrLeftSvg} alt="prev" />
-                        </button>
-                        <button
-                            className={`swiper-button-next-${productFilter}`}
-                            onClick={() => swiperRef.current.swiper.slideNext()}
-                        >
-                            <img src={arrRightSvg} alt="next" />
-                        </button>
-                    </div>
+                    {!products && <p className={styles.basicTitle}>Loading...</p>}
+                    {products &&
+                        <div className="flex gap-[20px] max-[400px]:flex-col">
+                            <button
+                                className={`swiper-button-prev-${productFilter}`}
+                                onClick={() => swiperRef.current.swiper.slidePrev()}
+                            >
+                                <img src={arrLeftSvg} alt="prev" />
+                            </button>
+                            <button
+                                className={`swiper-button-next-${productFilter}`}
+                                onClick={() => swiperRef.current.swiper.slideNext()}
+                            >
+                                <img src={arrRightSvg} alt="next" />
+                            </button>
+                        </div>
+                    }
                 </div>
                 {!products && <p className={styles.basicTitle}>Loading...</p>}
                 {products &&
@@ -101,7 +106,7 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                                         </div>
                                     </Link>
                                 </div>
-                                <button className={styles.buttonBuy} onClick={() => { () => handleAddToCart(product) }}>Add to cart</button>
+                                <button className={styles.buttonBuy} onClick={() => handleAddToCart(product)}>Add to cart</button>
                             </SwiperSlide >
                         ))
                         }
