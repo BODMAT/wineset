@@ -10,3 +10,5 @@ export type SpecialOfferPropsType = IPropsWithLink | IPropsWithScroll;
 
 export type MenuType = [string, string[]]
 export type CartIdsType = [string, KindOfProduct, number]; // [id, KindOfProduct, cartQuantity]
+
+export type RegionType = "europe" | "asia" | "other";

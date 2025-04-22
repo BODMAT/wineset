@@ -3,6 +3,11 @@ import { IProduct, KindOfProduct } from "../../architecture/Pruduct";
 import { useLayoutEffect, useState } from "react";
 import { fetchProductById } from "../../api/firebaseAPI";
 import { PageMessage } from "../PageError/PageError";
+import { Product } from "./Product";
+import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
+import { Instagram } from "../PageHome/Instagram/Instagram";
+import { Recommended } from "../Recommended/Recommended";
+import { getRandomProduct } from "../../utils/utils";
 
 export function PageProduct() {
     const { category, id } = useParams<{ category: KindOfProduct; id: string }>();
@@ -37,8 +42,15 @@ export function PageProduct() {
         <div className="relative pt-[143px] max-md:pt-[84px]">
             {product && (
                 <section>
-                    <div className="">{product.name}</div>
-                    <div className="">{product.price}</div>
+                    <Product product={product} />
+                    <Recommended productFilter={getRandomProduct(product.kindOfProduct)} />
+                    <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
+                        supTitle="Sommelier Choice"
+                        title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
+                        subTitle="ARTICLES ABOUT WINE"
+                        subTitleLink="/Articles"
+                        contentWidth={893} />
+                    <Instagram />
                 </section>
             )}
             {!product && <PageMessage message="404 Not Found" />}

@@ -1,9 +1,9 @@
 import { IProduct } from "../../architecture/Pruduct"
-export function ProductPhoto({ product, imageHeight = 305 }: { product: IProduct, imageHeight?: number }) {
-    const height: string = imageHeight + "px";
+export function ProductPhoto({ product, imageSize = 305 }: { product: IProduct, imageSize?: number }) {
+    const height: string = imageSize + "px";
     return (
         <div className="relative flex justify-center mx-auto w-full mb-[33px]" style={{ height }}>
-            <img className="absolute z-2 w-[182px] h-[305px] object-contain" style={{ height }} src={product.imageUrl} alt={product.imageUrl} />
+            <img className="absolute z-2 w-[70%] h-[70%] object-contain" style={{ height }} src={product.imageUrl} alt={product.imageUrl} />
             {product.discount !== undefined && product.discount > 0 && (
                 <div className="absolute z-3 w-[48px] h-[48px] right-0 top-0 rounded-[50%] bg-[#7A0000] text-white flex justify-center items-center">-{product.discount}%</div>
             )}

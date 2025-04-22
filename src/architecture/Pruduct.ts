@@ -22,26 +22,32 @@ export type FullDescriptionConfig = {
 }
 //Partial makes all properties optional
 export type StructureConfig = Partial<Record<KindOfProduct, string[]>>;
-export type Countries =
-    | "Australia"
+export type EuropeanCountries =
     | "Bulgaria"
-    | "Canada"
     | "England"
     | "Finland"
     | "France"
     | "Greece"
     | "Ireland"
     | "Italy"
-    | "Japan"
-    | "Madagascar"
     | "Poland"
     | "Scotland"
     | "Spain"
     | "Sweden"
     | "Switzerland"
-    | "Thailand"
-    | "Ukraine"
+    | "Ukraine";
+
+export type AsianCountries =
+    | "Japan"
+    | "Thailand";
+
+export type OtherCountries =
+    | "Australia"
+    | "Canada"
+    | "Madagascar"
     | "USA";
+
+export type Countries = EuropeanCountries | AsianCountries | OtherCountries;
 export type ProductConfig = {
     id?: string;
     name: string;
@@ -68,6 +74,9 @@ export interface IProduct {
     country?: string;
     fullDescription?: FullDescriptionConfig;
     readonly kindOfProduct: KindOfProduct;
+
+    weight?: number | undefined; // For OtherProducts and Box
+    volume?: number | undefined; // For Alcohol and Glasses
 
     description?: string | string[];
     discount?: number; // Discount in percentage
@@ -101,6 +110,9 @@ abstract class Product implements IProduct {
     protected _discount?: number;
     protected _country?: string;
     protected _fullDescription?: FullDescriptionConfig;
+
+    protected _volume?: number; // For Alcohol and Glasses
+    protected _weight?: number; // For OtherProducts and Box
 
     abstract readonly kindOfProduct: KindOfProduct;
 
