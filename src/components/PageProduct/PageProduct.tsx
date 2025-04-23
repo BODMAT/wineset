@@ -8,6 +8,8 @@ import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { Instagram } from "../PageHome/Instagram/Instagram";
 import { Recommended } from "../Recommended/Recommended";
 import { getRandomProduct } from "../../utils/utils";
+import { Reviews } from "./Reviews";
+import { AdditionalInfo } from "./AdditionalInfo";
 
 export function PageProduct() {
     const { category, id } = useParams<{ category: KindOfProduct; id: string }>();
@@ -43,6 +45,8 @@ export function PageProduct() {
             {product && (
                 <section>
                     <Product product={product} />
+                    <AdditionalInfo product={product} />
+                    <Reviews product={product} />
                     <Recommended productFilter={getRandomProduct(product.kindOfProduct)} />
                     <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                         supTitle="Sommelier Choice"

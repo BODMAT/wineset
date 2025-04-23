@@ -7,7 +7,7 @@ import Sertificate3 from "../../assets/Product/Sertificates/3.svg";
 
 export function ProductCharacteristics({ product }: { product: IProduct }) {
     return (
-        <div className="flex flex-col gap-[12px] font-medium !text-[18px] text-black !font-[Inter] max-w-[420px] max-md:text-center max-md:mx-auto max-md:items-center max-[500px]:mt-[-70px]">
+        <div className="flex flex-col gap-[12px] font-medium !text-[18px] text-black !font-[Inter] min-w-[150px] max-w-[420px] max-md:text-center max-md:mx-auto max-md:items-center max-[500px]:mt-[-70px]">
             <div className="">Rating:</div>
             <div className="flex gap-3 items-center">
                 <span>4.0</span>
