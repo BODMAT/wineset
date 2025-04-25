@@ -7,6 +7,8 @@ import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { Box } from "../../../architecture/Pruduct";
 import { fetchProductsByNameClass } from "../../../api/firebaseAPI";
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../../utils/animations";
 
 
 export function GiftBackets() {
@@ -33,10 +35,14 @@ export function GiftBackets() {
     }, []);
 
     return (
-        <section className={styles.gift}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className={styles.gift}>
             <div className={styles.gift__container}>
                 <div className={styles.gift__top}>
-                    <h2 className={styles.gift__title}>Gift baskets</h2>
+                    <motion.h2 variants={textFromTopAnimation} className={styles.gift__title}>Gift baskets</motion.h2>
                     <div className={styles.gift__buttons}>
                         <button
                             className={`${styles.gift__prev} swiper-button-prev`}
@@ -102,6 +108,6 @@ export function GiftBackets() {
                 )}
                 <Link to="/Gift-sets/Boxes" className={styles.gift__link}>View all</Link>
             </div>
-        </section>
+        </motion.section>
     );
 }

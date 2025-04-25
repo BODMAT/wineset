@@ -6,17 +6,24 @@ import wishSVG from "../../assets/wish.svg"
 import { AsyncProductPrices } from "./AsyncProductPrices";
 import { useOpacity } from "../../hooks/useOpacity";
 import { capitalizeFirstLetter } from "../../utils/utils";
+import { motion } from "framer-motion";
+import { blockFromRightAnimation, textFromTopAnimation } from "../../utils/animations";
 export function Cart() {
     const { cartProducts, totalCartDiscount, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart();
     const { opacity, blockRef } = useOpacity()
 
     return (
-        <section ref={blockRef} className="relative">
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: true, amount: 0.2 }}
+            ref={blockRef}
+            className="relative">
             <div className={styles.container}>
                 <div className="pt-10 pb-25 flex justify-between items-center gap-10 relative z-2 max-[1070px]:flex-col">
                     {/* changable cart */}
                     <div className="">
-                        <h2 className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>Cart ({cartProducts.length})</h2>
+                        <motion.h2 variants={textFromTopAnimation} className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>Cart ({cartProducts.length})</motion.h2>
                         {/* items */}
                         {cartProducts.map((cartItem: IProductWithCartQuantity, index: number) => (
                             typeof cartItem.getDiscountedPrice === "function" && typeof cartItem.getPrice === "function" && (
@@ -67,7 +74,7 @@ export function Cart() {
 
                     </div>
                     {/* order + sale + bonuses */}
-                    <div className="bg-[rgba(164,164,164,0.45)] px-[60px] py-[40px] flex flex-col lg:min-w-[600px]">
+                    <motion.div custom={1} variants={blockFromRightAnimation} className="bg-[rgba(164,164,164,0.45)] px-[60px] py-[40px] flex flex-col lg:min-w-[600px]">
                         <div className="border-b-2 border-[rgb(95,95,95)] py-[25px]">
                             <h3 className={styles.orderTitleFont}>Your Order: </h3>
                             <div className="flex flex-col gap-[20px] mt-[30px]">
@@ -100,7 +107,7 @@ export function Cart() {
                                     Place an order</div>
                             </Link>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
             <div style={{
@@ -109,6 +116,6 @@ export function Cart() {
                 className="absolute w-[902px] h-[509px] top-[60%] right-[-20%] rotate-180 max-[1070px]:top-[90%]">
                 <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
-        </section >
+        </motion.section >
     )
 }

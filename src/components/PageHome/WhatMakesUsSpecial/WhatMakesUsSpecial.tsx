@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom"
 import styles from "./WhatMakesUsSpecial.module.scss"
 import { useOpacity } from "../../../hooks/useOpacity";
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../../utils/animations";
 
 export function WhatMakesUsSpecial() {
     const { opacity, blockRef } = useOpacity();
     return (
-        <section ref={blockRef} className={styles.special}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            ref={blockRef}
+            className={styles.special}>
             <div className={styles.special__container}>
-                <h2 className={styles.special__title}>What makes us special?</h2>
+                <motion.h2 variants={textFromTopAnimation} className={styles.special__title}>What makes us special?</motion.h2>
                 <div className={styles.special__content}>
                     <Link to="/Articles" className={styles.special__help}>
                         <div className={styles.special__help_img}>
@@ -43,6 +50,6 @@ export function WhatMakesUsSpecial() {
                 className={styles.special__winespot2}>
                 <img src="/WineSpots/wine-spot-2.png" alt="wine-spot-2" />
             </div>
-        </section>
+        </motion.section>
     )
 }

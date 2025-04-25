@@ -1,12 +1,19 @@
 import styles from "./Delivery.module.scss"
 import { useOpacity } from "../../../hooks/useOpacity"
 import { BorderedLink } from "../../BorderedLink/BorderedLink"
+import { motion } from "framer-motion"
+import { textFromTopAnimation } from "../../../utils/animations"
 export function Delivery() {
     const { opacity, blockRef } = useOpacity()
     return (
-        <section ref={blockRef} className={styles.delivery}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            ref={blockRef}
+            className={styles.delivery}>
             <div className={styles.delivery__container}>
-                <h2 className={styles.delivery__title}>Delivery</h2>
+                <motion.h2 variants={textFromTopAnimation} className={styles.delivery__title}>Delivery</motion.h2>
                 <div className={styles.delivery__content}>
                     <div className={styles.delivery__img}>
                         <img src="/HomePage/Delivery/wine-cork.jpg" alt="cork" />
@@ -28,6 +35,6 @@ export function Delivery() {
                 className={styles.delivery__winespot2}>
                 <img src="/Delivery/wine-spot-3.png" alt="wine-spot-3" />
             </div>
-        </section>
+        </motion.section>
     )
 }

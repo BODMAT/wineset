@@ -2,16 +2,21 @@ import { useProduct } from "./PageProducts";
 import { BorderedLink } from "../BorderedLink/BorderedLink";
 import styles from "./PageProducts.module.scss"
 import { dataWPostfixes } from "../../data/Other/ReusableProduct";
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../utils/animations";
 
 export function ProductDescription() {
     const { product } = useProduct();
     const titlePostfix = dataWPostfixes[product];
     if (!titlePostfix) return null;
     return (
-        <section className={styles.container}>
+        <motion.section initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className={styles.container}>
             <div className="flex justify-between items-center gap-15 pt-[80px] pb-[20px] max-lg:flex-col max-sm:pt-[40px]">
                 <div className="flex flex-col gap-[45px] items-center">
-                    <h2 className={styles.basicTitle}>{titlePostfix.toUpperCase()}</h2>
+                    <motion.h2 variants={textFromTopAnimation} className={styles.basicTitle}>{titlePostfix.toUpperCase()}</motion.h2>
                     <BorderedLink to="/Gift-sets">GIFT-WRAPPED {titlePostfix.toUpperCase()}</BorderedLink>
                 </div>
                 <div className="max-w-[1000px] flex gap-15 max-sm:flex-col">
@@ -19,6 +24,6 @@ export function ProductDescription() {
                     <p className={styles.basicText}>When it comes to indulgence and refinement, {titlePostfix} stand in a league of their own. Their versatility allows them to complement a variety of dishes, making them ideal for both everyday enjoyment and special celebrations. {titlePostfix} are crafted with time-honored techniques that ensure authenticity and depth of flavor. Whether savored slowly or shared with friends, {titlePostfix} create unforgettable experiences. The exceptional quality of {titlePostfix} speaks for itself, making them a must-have for anyone who appreciates fine food and drink. Once you’ve tried {titlePostfix}, you’ll always come back for more.</p>
                 </div>
             </div>
-        </section>
+        </motion.section>
     )
 }

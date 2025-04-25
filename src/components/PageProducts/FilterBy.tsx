@@ -4,6 +4,8 @@ import styles from "./PageProducts.module.scss";
 import { useFilterStore } from "../../store/filterProducts";
 import { customSelectStyles } from "../../data/Other/FilterCustomSelect";
 import { countryOptions, discountOptions } from "../../data/Other/ReusableProduct";
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../utils/animations";
 
 
 export function FilterBy() {
@@ -13,8 +15,11 @@ export function FilterBy() {
     const filters = filtersByType[product] || { discount: "All prices", country: "All countries" };
 
     return (
-        <div className="flex justify-between items-center gap-x-20 gap-y-4 pb-2 max-md:flex-col max-md:text-center">
-            <h3 className={styles.basicTitle}>Add filters to find your best {product}: </h3>
+        <motion.div initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className="flex justify-between items-center gap-x-20 gap-y-4 pb-2 max-md:flex-col max-md:text-center">
+            <motion.h3 variants={textFromTopAnimation} className={styles.basicTitle}>Add filters to find your best {product}: </motion.h3>
             <div className="flex gap-2 max-[420px]:flex-col">
                 <Select
                     options={discountOptions}
@@ -37,7 +42,7 @@ export function FilterBy() {
                     styles={customSelectStyles}
                 />
             </div>
-        </div>
+        </motion.div>
     );
 }
 

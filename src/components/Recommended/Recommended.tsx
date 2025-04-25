@@ -15,6 +15,8 @@ import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import { fetchProductById, fetchProductsByNameClass } from "../../api/firebaseAPI";
 import { capitalizeFirstLetter, handleAddToCart } from "../../utils/utils";
 import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../utils/animations";
 
 export function Recommended({
     productFilter,
@@ -60,11 +62,15 @@ export function Recommended({
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
 
     return (
-        <section className="pt-[50px] pb-[100px] max-md:pt-[10px] max-md:pb-[50px]">
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className={(productFilter === "boxStructure" ? "" : "pt-[50px] pb-[100px] max-md:pt-[10px] max-md:pb-[50px]")}>
             <div className={styles.container}>
                 <div className="flex justify-between gap-1 items-center mb-[50px] max-md:mb-[20px]">
-                    {productFilter !== "boxStructure" && <h2 className={styles.title}>Recommended products</h2>}
-                    {productFilter === "boxStructure" && <h2 className={styles.title}>Composition of Box</h2>}
+                    {productFilter !== "boxStructure" && <motion.h2 variants={textFromTopAnimation} className={styles.title}>Recommended products</motion.h2>}
+                    {productFilter === "boxStructure" && <motion.h2 variants={textFromTopAnimation} className={styles.title}>Composition of Box</motion.h2>}
                     {!products && <p className={styles.basicTitle}>Loading...</p>}
                     {products &&
                         <div className="flex gap-[20px] max-[400px]:flex-col">
@@ -104,7 +110,7 @@ export function Recommended({
                         }}>
                         {products.map((product: IProduct, index: number) => (
                             <SwiperSlide key={index} className="!flex !flex-col !items-stretch !p-[18px] !h-auto">
-                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
+                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_10px_20px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
                                     <Link to={`/${product.kindOfProduct.charAt(0).toUpperCase() + product.kindOfProduct.slice(1)}/${product.id}`}>
                                         <ProductPhoto product={product} />
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
@@ -133,7 +139,9 @@ export function Recommended({
                                         </div>
                                     </Link>
                                 </div>
-                                <button className={styles.buttonBuy} onClick={() => handleAddToCart(product)}>Add to cart</button>
+                                {productFilter !== "boxStructure" && (
+                                    <button className={styles.buttonBuy} onClick={() => handleAddToCart(product)}>Add to cart</button>
+                                )}
                             </SwiperSlide >
                         ))
                         }
@@ -141,6 +149,6 @@ export function Recommended({
                 }
 
             </div >
-        </section >
+        </motion.section >
     )
 }

@@ -1,14 +1,21 @@
 
+import { motion } from "framer-motion";
 import { useOpacity } from "../../../hooks/useOpacity";
 import styles from "./Instagram.module.scss";
+import { textFromTopAnimation } from "../../../utils/animations";
 
 export function Instagram() {
     const { opacity, blockRef } = useOpacity()
     return (
-        <section ref={blockRef} className={styles.instagram}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            ref={blockRef}
+            className={styles.instagram}>
             <div className={styles.instagram__container}>
                 <div className={styles.instagram__top}>
-                    <h2 className={styles.instagram__title}>instagram</h2>
+                    <motion.h2 variants={textFromTopAnimation} className={styles.instagram__title}>instagram</motion.h2>
                     <a className={styles.instagram__link} target="_blank" href="https://www.instagram.com/wineshop.kyiv/">Subscribe</a>
                 </div>
                 <div className={styles.instagram__images}>
@@ -31,6 +38,6 @@ export function Instagram() {
             }} className={styles.instagram__winespot}>
                 <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
-        </section>
+        </motion.section>
     )
 }

@@ -1,10 +1,16 @@
 import styles from "./PageGiftBoxesPage.module.scss"
 import { BorderedLink } from "../BorderedLink/BorderedLink"
+import { motion } from "framer-motion"
+import { textFromTopAnimation } from "../../utils/animations"
 export function CandleLights() {
     return (
-        <section className="mt-[70px] mb-[70px] max-md:mb-[50px] max-md:mt-[50px]">
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className="mt-[70px] mb-[70px] max-md:mb-[50px] max-md:mt-[50px]">
             <div className={styles.container}>
-                <h2 className={styles.basicTitle}>Candles</h2>
+                <motion.h2 variants={textFromTopAnimation} className={styles.basicTitle}>Candles</motion.h2>
                 <div className="flex justify-between gap-[30px] mt-[50px] max-xl:flex-wrap max-xl:justify-evenly max-md:mt-[30px]">
                     <div className="w-[640px] max-xl:flex-[1_1_100%]">
                         <img className="relative w-[100%] h-[429px] left-0 top-0 object-cover" src="/GiftBoxesPage/CandleLights/candles.png" alt="candles" />
@@ -20,6 +26,6 @@ export function CandleLights() {
                     </div>
                 </div>
             </div>
-        </section>
+        </motion.section>
     )
 }

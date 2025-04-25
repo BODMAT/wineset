@@ -38,7 +38,9 @@ export function ContactUs() {
     };
 
     return (
-        <section ref={blockRef} className={styles.contact}>
+        <section
+            ref={blockRef}
+            className={styles.contact}>
             <div className={styles.contact__container}>
                 <div className={styles.contact__info}>
                     <h2 className={styles.contact__title}>Contact us</h2>

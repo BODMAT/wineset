@@ -4,6 +4,8 @@ import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { IPersonalData } from '../../types/interfaces';
 import { formatCardNumber } from '../../utils/utils';
+import { motion } from 'framer-motion';
+import { textFromTopAnimation } from '../../utils/animations';
 
 export function PersonalDataForm() {
     const {
@@ -40,9 +42,12 @@ export function PersonalDataForm() {
     };
 
     return (
-        <section className='pt-6 pb-8'>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }} className='py-8'>
             <div className={styles.container}>
-                <h2 className={styles.title}>Personally Identifiable Information</h2>
+                <motion.h2 variants={textFromTopAnimation} className={styles.title}>Personally Identifiable Information</motion.h2>
                 <div className="flex justify-between items-center gap-30 mt-5">
                     <form ref={formRef} id="oeder" className='flex-[0_1_50%] flex flex-col gap-10' onSubmit={handleSubmit(sendMail)}>
                         <div className={styles.formBlock}>
@@ -239,6 +244,6 @@ export function PersonalDataForm() {
                     </div>
                 </div>
             </div>
-        </section >
+        </motion.section >
     )
 }

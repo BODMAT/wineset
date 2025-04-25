@@ -1,12 +1,19 @@
+import { motion } from "framer-motion";
 import { useOpacity } from "../../hooks/useOpacity";
+import { textFromTopAnimation } from "../../utils/animations";
 
 export function OurSommeliers() {
     const { opacity, blockRef } = useOpacity();
     return (
-        <section ref={blockRef} className="py-5 relative">
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            ref={blockRef}
+            className="py-5 relative">
             <div className="myContainer relative z-2">
                 <div className="flex justify-between gap-7 items-center max-lg:flex-col">
-                    <h2 className="text-[#121212] not-italic font-[Cormorant] font-bold uppercase !text-[48px] !max-sm:text-[36px] max-sm:text-center">About our Sommeliers</h2>
+                    <motion.h2 variants={textFromTopAnimation} className="text-[#121212] not-italic font-[Cormorant] font-bold uppercase !text-[48px] !max-sm:text-[36px] max-sm:text-center">About our Sommeliers</motion.h2>
                     <div className="flex gap-5 max-sm:flex-col">
                         <div className="flex-1 flex flex-col gap-5 max-w-[550px]">
                             <div className="relative max-w-[550px] h-[400px]">
@@ -29,6 +36,6 @@ export function OurSommeliers() {
                 className="absolute w-[902px] h-[509px] top-[5%] left-[-5%]">
                 <img src="/WineSpots/wine-spot-2.png" alt="wine-spot-2" />
             </div>
-        </section>
+        </motion.section>
     )
 }

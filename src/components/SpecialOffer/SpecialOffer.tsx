@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import styles from "./SpecialOffer.module.scss";
 import { useFilterStore } from "../../store/filterProducts";
 import { SpecialOfferPropsType } from "../../types/types";
+import { motion } from "framer-motion";
+import { blockFromRightAnimation } from "../../utils/animations";
 
 export function SpecialOffer({
     imgSrc,
@@ -41,11 +43,15 @@ export function SpecialOffer({
 
 
     return (
-        <section className={styles.special}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: true, amount: 0.2 }}
+            className={styles.special}>
             <div className={styles.special__img}>
                 <img src={imgSrc} alt="special-offer-img" />
             </div>
-            <div className={styles.special__content}>
+            <motion.div variants={blockFromRightAnimation} className={styles.special__content}>
                 <h3 className={styles.special__suptitle}>{supTitle}</h3>
                 <h2
                     style={{
@@ -68,7 +74,7 @@ export function SpecialOffer({
                         {subTitle}
                     </button>
                 )}
-            </div>
-        </section>
+            </motion.div>
+        </motion.section>
     );
 }

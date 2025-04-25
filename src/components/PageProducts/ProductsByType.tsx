@@ -63,7 +63,7 @@ export function ProductsByType() {
                                 key={index}
                                 className="!flex !flex-col !items-stretch !p-[18px] !h-auto flex-[0_1_calc(25%-15px)] max-xl:flex-[0_1_calc(33%-13.33px)] max-lg:flex-[0_1_calc(50%-10px)] max-sm:flex-[1_1_auto]"
                             >
-                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
+                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_10px_20px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
                                     <Link to={`/${capitalizeFirstLetter(product.kindOfProduct)}/${product.id}`}>
                                         <ProductPhoto product={product} />
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">

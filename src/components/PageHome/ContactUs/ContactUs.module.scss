@@ -28,6 +28,7 @@
 		&__info {
             flex: 0 1 50%;
             text-align: center;
+            overflow: hidden;
             @media (max-width: 991.98px) {
                 flex: 1 1 auto;
                 width: 100%;

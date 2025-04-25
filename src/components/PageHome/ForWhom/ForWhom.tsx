@@ -10,14 +10,20 @@ import 'swiper/css/effect-coverflow';
 
 import arrRightSvg from '../../../assets/arr-right-red.svg';
 import arrLeftSvg from '../../../assets/arr-left-red.svg';
+import { motion } from "framer-motion";
+import { textFromTopAnimation } from "../../../utils/animations";
 
 export function ForWhom() {
     const swiperRef = useRef<any>(null);
     return (
-        <section className={styles.for}>
+        <motion.section
+            initial={"hidden"}
+            whileInView={"visible"}
+            viewport={{ once: false, amount: 0.2 }}
+            className={styles.for}>
             <div className={styles.for__container}>
                 <div className={styles.for__top}>
-                    <h2 className={styles.for__title}>Corporate clients and partners</h2>
+                    <motion.h2 variants={textFromTopAnimation} className={styles.for__title}>Corporate clients and partners</motion.h2>
                     <div className={styles.for__navigation}>
                         <button
                             className={`${styles.for__prev} swiper-button-prev`}
@@ -99,6 +105,6 @@ export function ForWhom() {
                     <h3 className={styles.for__slide_label}>Hotel networks</h3>
                 </SwiperSlide>
             </Swiper>
-        </section>
+        </motion.section>
     )
 }
