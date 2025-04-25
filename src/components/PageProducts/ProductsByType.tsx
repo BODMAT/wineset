@@ -1,5 +1,5 @@
 import styles from "./PageProducts.module.scss";
-import { alcoTypes, Box, IProduct, IProductWithCartQuantity, othersTypes } from "../../architecture/Pruduct";
+import { Box, IProduct, IProductWithCartQuantity } from "../../architecture/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
@@ -11,6 +11,7 @@ import { useFilterStore } from "../../store/filterProducts";
 import { useProduct } from "./PageProducts";
 import { useCart } from "../../store/cart";
 import { capitalizeFirstLetter } from "../../utils/utils";
+import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
 
 export function ProductsByType() {
     const { product } = useProduct();

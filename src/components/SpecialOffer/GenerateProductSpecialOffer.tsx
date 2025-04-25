@@ -1,4 +1,4 @@
-import { dataWPostfixes } from "../../architecture/Pruduct";
+import { dataWPostfixes } from "../../data/Other/ReusableProduct";
 import { useProduct } from "../PageProducts/PageProducts";
 import { SpecialOffer } from "./SpecialOffer";
 

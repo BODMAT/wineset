@@ -4,6 +4,7 @@ import { fetchProductById } from "../api/firebaseAPI";
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
 export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
 export type KindOfProduct = KindOfAlco | KindOfOthers;
+
 export type FullDescriptionConfig = {
     region?: string;
     shugarType?: string;
@@ -20,8 +21,20 @@ export type FullDescriptionConfig = {
     tastingCharacteristics?: string;
     gastronomicCombinations?: string;
 }
+
+export type ReviwewConfig = {
+    raiting: number;
+    message: string;
+
+    date: string;
+    userName: string;
+    userId: string;
+    userImage?: string;
+}
+
 //Partial makes all properties optional
 export type StructureConfig = Partial<Record<KindOfProduct, string[]>>;
+
 export type EuropeanCountries =
     | "Bulgaria"
     | "England"
@@ -36,18 +49,16 @@ export type EuropeanCountries =
     | "Sweden"
     | "Switzerland"
     | "Ukraine";
-
 export type AsianCountries =
     | "Japan"
     | "Thailand";
-
 export type OtherCountries =
     | "Australia"
     | "Canada"
     | "Madagascar"
     | "USA";
-
 export type Countries = EuropeanCountries | AsianCountries | OtherCountries;
+
 export type ProductConfig = {
     id?: string;
     name: string;
@@ -60,8 +71,12 @@ export type ProductConfig = {
     description?: string | string[];
     volume?: number;  // For Alcohol and Glasses
     weight?: number;  // For OtherProducts and Box
+
     structure?: StructureConfig;  // For Box (KindOfProduct: [id-s])
+
     fullDescription?: FullDescriptionConfig; //For Page to show full description
+
+    fullReviews?: ReviwewConfig[]; // For Page to show full reviews
 };
 
 export interface IProduct {
@@ -73,6 +88,7 @@ export interface IProduct {
 
     country?: string;
     fullDescription?: FullDescriptionConfig;
+    fullReviews?: ReviwewConfig[];
     readonly kindOfProduct: KindOfProduct;
 
     weight?: number | undefined; // For OtherProducts and Box
@@ -97,7 +113,6 @@ export interface IProduct {
 
 export interface IProductWithCartQuantity extends IProduct {
     cartQuantity?: number;
-
 }
 
 abstract class Product implements IProduct {
@@ -110,6 +125,7 @@ abstract class Product implements IProduct {
     protected _discount?: number;
     protected _country?: string;
     protected _fullDescription?: FullDescriptionConfig;
+    protected _fullReviews?: ReviwewConfig[];
 
     protected _volume?: number; // For Alcohol and Glasses
     protected _weight?: number; // For OtherProducts and Box
@@ -126,6 +142,7 @@ abstract class Product implements IProduct {
         discount,
         country,
         fullDescription,
+        fullReviews
     }: ProductConfig) {
         this._id = id ?? `${name.toLowerCase().trim().replace(/\s+/g, '-')}`;
         this._name = name;
@@ -136,6 +153,7 @@ abstract class Product implements IProduct {
         this._discount = discount;
         this._country = country;
         this._fullDescription = fullDescription;
+        this._fullReviews = fullReviews;
     }
 
     // Getters
@@ -335,36 +353,3 @@ export class Box extends Product {
         return "not specified";
     }
 }
-
-//! for reuseble components
-export const dataWPostfixes = {
-    "glass": "glasses",
-    "delicacy": "delicacies",
-    "wine": "wine sets",
-    "candle": "candles",
-    "champagne": "champagnes",
-    "whiskey": "whiskeys",
-    "vodka": "vodkas",
-    "cheese": "cheeses",
-    "cookie": "cookies",
-    "sauce": "sauces",
-    "box": "gift boxes"
-};
-
-export const alcoTypes: KindOfProduct[] = ["wine", "champagne", "whiskey", "vodka", "glass"];
-export const othersTypes: KindOfProduct[] = ["delicacy", "candle", "box", "cheese", "cookie", "sauce"];
-
-export const countries: Countries[] = [
-    "Australia", "Bulgaria", "Canada", "England", "Finland", "France", "Greece", "Ireland", "Italy", "Japan", "Madagascar", "Poland", "Scotland", "Spain", "Sweden", "Switzerland", "Thailand", "Ukraine", "USA",
-];
-
-export const discountOptions = [
-    { value: "All prices", label: "All prices" },
-    { value: "With discount", label: "With discount" },
-    { value: "Without discount", label: "Without discount" },
-];
-
-export const countryOptions = [
-    { value: "All countries", label: "All countries" },
-    ...countries.map((country) => ({ value: country, label: country })),
-];

@@ -5,39 +5,66 @@ import arrLeftSvg from '../../assets/arr-left-red.svg';
 import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
-import { KindOfProduct, IProduct, alcoTypes, othersTypes } from "../../architecture/Pruduct";
+import { KindOfProduct, IProduct, StructureConfig } from "../../architecture/Pruduct";
 
 import descriptionGlassSVG from "../../assets/Product/glass.svg";
 import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
-import { fetchProductsByNameClass } from "../../api/firebaseAPI";
-import { handleAddToCart } from "../../utils/utils";
+import { fetchProductById, fetchProductsByNameClass } from "../../api/firebaseAPI";
+import { capitalizeFirstLetter, handleAddToCart } from "../../utils/utils";
+import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
 
-
-export function Recommended({ productFilter, filterByDiscount = false }: { productFilter: KindOfProduct, filterByDiscount?: boolean }) {
+export function Recommended({
+    productFilter,
+    filterByDiscount = false,
+    structureConfig
+}: {
+    productFilter: KindOfProduct | "boxStructure",
+    filterByDiscount?: boolean,
+    structureConfig?: StructureConfig
+}) {
     const swiperRef = useRef<any>(null);
-    const FilterProductsUpper = productFilter.charAt(0).toUpperCase() + productFilter.slice(1)
+    if (productFilter === "boxStructure" && structureConfig) {
+        useEffect(() => {
+
+            const loadProducts = async () => {
+                for (const [kind, ids] of Object.entries(structureConfig)) {
+                    for (const id of ids || []) {
+                        const productData = await fetchProductById(capitalizeFirstLetter(kind), id);
+                        if (productData) {
+                            setProducts((prev) => [...(prev || []), productData]);
+                        }
+                    }
+                }
+            };
+
+            loadProducts();
+
+        }, [productFilter, structureConfig]);
+    } else {
+        const FilterProductsUpper = productFilter.charAt(0).toUpperCase() + productFilter.slice(1)
+        useEffect(() => {
+            const loadProducts = async () => {
+                const productsData = await fetchProductsByNameClass(FilterProductsUpper);
+                const filtered = filterByDiscount
+                    ? productsData.filter(el => el.discount > 0)
+                    : productsData;
+                setProducts(filtered);
+            };
+
+            loadProducts();
+        }, [productFilter, filterByDiscount]);
+    }
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
-
-    useEffect(() => {
-        const loadProducts = async () => {
-            const productsData = await fetchProductsByNameClass(FilterProductsUpper);
-            const filtered = filterByDiscount
-                ? productsData.filter(el => el.discount > 0)
-                : productsData;
-            setProducts(filtered);
-        };
-
-        loadProducts();
-    }, [productFilter, filterByDiscount]);
 
     return (
         <section className="pt-[50px] pb-[100px] max-md:pt-[10px] max-md:pb-[50px]">
             <div className={styles.container}>
                 <div className="flex justify-between gap-1 items-center mb-[50px] max-md:mb-[20px]">
-                    <h2 className={styles.title}>Recommended products</h2>
+                    {productFilter !== "boxStructure" && <h2 className={styles.title}>Recommended products</h2>}
+                    {productFilter === "boxStructure" && <h2 className={styles.title}>Composition of Box</h2>}
                     {!products && <p className={styles.basicTitle}>Loading...</p>}
                     {products &&
                         <div className="flex gap-[20px] max-[400px]:flex-col">
@@ -67,7 +94,7 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                             prevEl: `.swiper-button-prev-${productFilter}`,
                             nextEl: `.swiper-button-next-${productFilter}`,
                         }}
-                        loop={true}
+                        loop={productFilter === "boxStructure" ? false : true}
                         breakpoints={{
                             1280: { slidesPerView: 4 },
                             1024: { slidesPerView: 3 },
@@ -78,7 +105,7 @@ export function Recommended({ productFilter, filterByDiscount = false }: { produ
                         {products.map((product: IProduct, index: number) => (
                             <SwiperSlide key={index} className="!flex !flex-col !items-stretch !p-[18px] !h-auto">
                                 <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_15px_40px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
-                                    <Link to={`/${FilterProductsUpper}/${product.id}`}>
+                                    <Link to={`/${product.kindOfProduct.charAt(0).toUpperCase() + product.kindOfProduct.slice(1)}/${product.id}`}>
                                         <ProductPhoto product={product} />
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
                                             <h3 className={styles.label}>{product.name}</h3>

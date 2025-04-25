@@ -1,7 +1,7 @@
-import { dataWPostfixes } from "../../architecture/Pruduct";
 import { useProduct } from "./PageProducts";
 import { BorderedLink } from "../BorderedLink/BorderedLink";
 import styles from "./PageProducts.module.scss"
+import { dataWPostfixes } from "../../data/Other/ReusableProduct";
 
 export function ProductDescription() {
     const { product } = useProduct();

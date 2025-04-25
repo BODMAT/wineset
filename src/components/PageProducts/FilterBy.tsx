@@ -1,9 +1,9 @@
 import Select from "react-select";
-import { countryOptions, discountOptions } from "../../architecture/Pruduct";
 import { useProduct } from "./PageProducts";
 import styles from "./PageProducts.module.scss";
 import { useFilterStore } from "../../store/filterProducts";
 import { customSelectStyles } from "../../data/Other/FilterCustomSelect";
+import { countryOptions, discountOptions } from "../../data/Other/ReusableProduct";
 
 
 export function FilterBy() {

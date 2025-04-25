@@ -1,12 +1,15 @@
 import { IProduct } from "../../architecture/Pruduct";
 import { useOpacity } from "../../hooks/useOpacity";
 import { capitalizeFirstLetter } from "../../utils/utils";
+import { Recommended } from "../Recommended/Recommended";
 export function AdditionalInfo({ product }: { product: IProduct }) {
     const { opacity, blockRef } = useOpacity();
     return (
         <section ref={blockRef} className="bg-[rgba(164,164,164,0.15)] py-[80px] max-md:py-[40px] my-10 relative">
             <div className="myContainer relative z-2">
-                <h2 className="font-[Cormorant] font-medium !text-[48px] text-[#121212] mb-[45px] max-md:!text-[32px] max-md:text-center">Characteristics</h2>
+                {product.kindOfProduct !== "box" && (
+                    <h2 className="font-[Cormorant] font-medium !text-[48px] text-[#121212] mb-[45px] max-md:!text-[32px] max-md:text-center">Characteristics</h2>
+                )}
                 {product.kindOfProduct !== "box" && (
                     <div className="flex justify-between items-center gap-30 font-[Inter] font-medium !text-[14px] tracking-wider uppercase text-[#121212] max-md:flex-col max-md:gap-20">
                         {product?.fullDescription && (
@@ -89,7 +92,7 @@ export function AdditionalInfo({ product }: { product: IProduct }) {
                     </div>
                 )}
                 {product.kindOfProduct === "box" && (
-                    <div className=""></div>
+                    <Recommended productFilter="boxStructure" structureConfig={product.structure} />
                 )}
             </div>
             <div style={{
