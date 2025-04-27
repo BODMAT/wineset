@@ -1,5 +1,5 @@
 import { useCart } from "../store/cart";
-import { fetchProductById } from "../api/firebaseAPI";
+import { fetchDetailedStructureOfBox, fetchProductById } from "../api/product";
 
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
 export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
@@ -22,14 +22,15 @@ export type FullDescriptionConfig = {
     gastronomicCombinations?: string;
 }
 
-export type ReviwewConfig = {
-    raiting: number;
-    message: string;
+export type ReviewConfig = {
+    rating: number;
 
-    date: string;
-    userName: string;
+    id: string;
+    text: string;
+    createdAt: string;
     userId: string;
-    userImage?: string;
+    userName: string;
+    userPhotoURL: string;
 }
 
 //Partial makes all properties optional
@@ -76,7 +77,7 @@ export type ProductConfig = {
 
     fullDescription?: FullDescriptionConfig; //For Page to show full description
 
-    fullReviews?: ReviwewConfig[]; // For Page to show full reviews
+    fullReviews?: ReviewConfig[]; // For Page to show full reviews
 };
 
 export interface IProduct {
@@ -88,7 +89,7 @@ export interface IProduct {
 
     country?: string;
     fullDescription?: FullDescriptionConfig;
-    fullReviews?: ReviwewConfig[];
+    fullReviews?: ReviewConfig[];
     readonly kindOfProduct: KindOfProduct;
 
     weight?: number | undefined; // For OtherProducts and Box
@@ -125,7 +126,7 @@ abstract class Product implements IProduct {
     protected _discount?: number;
     protected _country?: string;
     protected _fullDescription?: FullDescriptionConfig;
-    protected _fullReviews?: ReviwewConfig[];
+    protected _fullReviews?: ReviewConfig[];
 
     protected _volume?: number; // For Alcohol and Glasses
     protected _weight?: number; // For OtherProducts and Box
@@ -171,6 +172,7 @@ abstract class Product implements IProduct {
     get imageUrl(): string { return this._imageUrl; }
     get country(): string | undefined { return this._country; }
     get fullDescription(): FullDescriptionConfig | undefined { return this._fullDescription; }
+    get fullReviews(): ReviewConfig[] | undefined { return this._fullReviews; }
 
     //Methods
     addToCart(quantity: number = 1): void {
@@ -309,18 +311,7 @@ export class Box extends Product {
 
     //Methods
     async fetchDetailedStructure(): Promise<IProduct[]> {
-        const products: IProduct[] = [];
-
-        for (const [kind, ids] of Object.entries(this._structure) as [KindOfProduct, string[]][]) {
-            try {
-                const kindUpper = kind.charAt(0).toUpperCase() + kind.slice(1);
-                const fetchedProducts = await Promise.all(ids.map(id => fetchProductById(kindUpper, id)));
-                products.push(...fetchedProducts.filter((product): product is IProduct => product !== null));
-            } catch (error) {
-                console.error("Error fetching detailed structure:", error);
-            }
-        }
-
+        const products: IProduct[] = await fetchDetailedStructureOfBox.call(this);
         return products;
     }
 

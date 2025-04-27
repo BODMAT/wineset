@@ -28,7 +28,6 @@ export function createProductInstance(data: any): new (...args: any[]) => IProdu
     return ProductClass;
 }
 
-// Main
 export const fetchProductsByNameClass = async (filter: string): Promise<any[]> => {
     const productsList: any[] = [];
 
@@ -75,4 +74,21 @@ export const fetchProductById = async (productClass: string, productId: string):
     }
 
     return null;
+};
+
+export const fetchDetailedStructureOfBox = async function (this: Box): Promise<IProduct[]> {
+    //! use with call/apply to set the context of this function to the Box instance
+    const products: IProduct[] = [];
+
+    for (const [kind, ids] of Object.entries(this._structure) as [KindOfProduct, string[]][]) {
+        try {
+            const kindUpper = kind.charAt(0).toUpperCase() + kind.slice(1);
+            const fetchedProducts = await Promise.all(ids.map(id => fetchProductById(kindUpper, id)));
+            products.push(...fetchedProducts.filter((product): product is IProduct => product !== null));
+        } catch (error) {
+            console.error("Error fetching detailed structure:", error);
+        }
+    }
+
+    return products;
 };

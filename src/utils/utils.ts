@@ -1,5 +1,7 @@
-import { AsianCountries, EuropeanCountries, IProduct, KindOfProduct, OtherCountries } from "../architecture/Pruduct";
+import { Timestamp } from "firebase/firestore";
+import { AsianCountries, EuropeanCountries, IProduct, KindOfProduct, OtherCountries, ReviewConfig } from "../architecture/Pruduct";
 import { RegionType } from "../types/types";
+
 export function capitalizeFirstLetter(str: string): string {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -54,4 +56,36 @@ export function getCountryRegion(country: string | undefined): RegionType | null
     if (other.includes(country as OtherCountries)) return "other";
 
     return null;
+}
+
+export function getRating(fullReviews: ReviewConfig[]): number {
+    if (fullReviews && fullReviews.length > 0) {
+        const totalRating = fullReviews.reduce((acc, review: ReviewConfig) => acc + review.rating, 0);
+        return Math.round((totalRating / fullReviews.length) * 10) / 10; // Round to one decimal place
+    } else {
+        return 5.0;
+    }
+}
+
+export const formatDate = (date: any): string => {
+    if (date instanceof Timestamp) {
+        date = date.toDate();
+    }
+
+    if (!(date instanceof Date)) {
+        return "Invalid date format";
+    }
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${day}.${month}.${year} ${hours}:${minutes}`;
+};
+
+export function getForcedImageUrl(url: string) {
+    const forcedUrl = `${url}?t=${new Date().getTime()}`;
+    return forcedUrl;
 }

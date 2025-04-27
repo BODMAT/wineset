@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { IProduct } from "../architecture/Pruduct";
-import { fetchProductsByNameClass } from "../api/firebaseAPI";
+import { fetchProductsByNameClass } from "../api/product";
 import { IFilterState } from "../types/interfaces";
 
 export const useFilterStore = create<IFilterState>((set) => ({

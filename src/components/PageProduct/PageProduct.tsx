@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { IProduct, KindOfProduct } from "../../architecture/Pruduct";
 import { useLayoutEffect, useState } from "react";
-import { fetchProductById } from "../../api/firebaseAPI";
+import { fetchProductById } from "../../api/product";
 import { PageMessage } from "../PageError/PageError";
 import { Product } from "./Product";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
@@ -47,13 +47,13 @@ export function PageProduct() {
                     <Product product={product} />
                     <AdditionalInfo product={product} />
                     <Reviews product={product} />
-                    <Recommended productFilter={getRandomProduct(product.kindOfProduct)} />
                     <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
                         supTitle="Sommelier Choice"
                         title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
                         subTitle="ARTICLES ABOUT WINE"
                         subTitleLink="/Articles"
                         contentWidth={893} />
+                    <Recommended productFilter={getRandomProduct(product.kindOfProduct)} />
                     <Instagram />
                 </section>
             )}

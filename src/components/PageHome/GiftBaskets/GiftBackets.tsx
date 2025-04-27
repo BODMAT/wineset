@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { Box } from "../../../architecture/Pruduct";
-import { fetchProductsByNameClass } from "../../../api/firebaseAPI";
+import { fetchProductsByNameClass } from "../../../api/product";
 import { motion } from "framer-motion";
 import { textFromTopAnimation } from "../../../utils/animations";
 

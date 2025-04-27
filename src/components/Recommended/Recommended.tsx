@@ -12,7 +12,7 @@ import descriptionOthersSVG from "../../assets/Product/structure.svg";
 import descriptionFoodSVG from "../../assets/Product/food.svg";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
-import { fetchProductById, fetchProductsByNameClass } from "../../api/firebaseAPI";
+import { fetchProductById, fetchProductsByNameClass } from "../../api/product";
 import { capitalizeFirstLetter, handleAddToCart } from "../../utils/utils";
 import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
 import { motion } from "framer-motion";

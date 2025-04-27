@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { IProductWithCartQuantity } from "../architecture/Pruduct";
-import { fetchProductById } from "../api/firebaseAPI";
+import { fetchProductById } from "../api/product";
 import { useAuthStore } from "./auth";
 import { CartIdsType } from "../types/types";
 import { ICart } from "../types/interfaces";

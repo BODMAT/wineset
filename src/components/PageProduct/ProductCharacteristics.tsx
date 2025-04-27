@@ -1,23 +1,21 @@
 import { IProduct } from "../../architecture/Pruduct";
-import { capitalizeFirstLetter } from "../../utils/utils";
-import StarSVG from "../../assets/Product/star.svg";
+import { capitalizeFirstLetter, getRating } from "../../utils/utils";
 import Sertificate1 from "../../assets/Product/Sertificates/1.svg";
 import Sertificate2 from "../../assets/Product/Sertificates/2.svg";
 import Sertificate3 from "../../assets/Product/Sertificates/3.svg";
+import { RatingStars } from "./RatingStars";
+import { useReviews } from "../../hooks/useReviews";
 
 export function ProductCharacteristics({ product }: { product: IProduct }) {
+    const productClass: string = capitalizeFirstLetter(product.kindOfProduct);
+    const productId: string = product.id ? product.id : "anonymous";
+    const { data: reviews = [], refetch } = useReviews([productClass, "items", productId]);
+
+    const rating = getRating(reviews);
     return (
         <div className="flex flex-col gap-[12px] font-medium !text-[18px] text-black !font-[Inter] min-w-[150px] max-w-[420px] max-md:text-center max-md:mx-auto max-md:items-center max-[500px]:mt-[-70px]">
-            <div className="">Rating:</div>
-            <div className="flex gap-3 items-center">
-                <span>4.0</span>
-                <div className="flex gap-1">
-                    <img src={StarSVG} alt="star" />
-                    <img src={StarSVG} alt="star" />
-                    <img src={StarSVG} alt="star" />
-                    <img src={StarSVG} alt="star" />
-                </div>
-            </div>
+            <div className="">Rating ({reviews.length} votes):</div>
+            {reviews.length > 0 ? (<RatingStars rating={rating} />) : <div className="text-black">No reviews yet</div>}
             <div className="flex gap-3 mb-5">
                 <img src={Sertificate1} alt="sertificate 1" />
                 <img src={Sertificate2} alt="sertificate 2" />
