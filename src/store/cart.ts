@@ -176,14 +176,24 @@ export const useCart = create<ICart>()(
                     }
                 },
 
-                updateCartTotals: (products: IProductWithCartQuantity[]) => {
-                    const totalCartPriceWithoutDiscount = parseFloat(products.reduce((total, product) => {
-                        return total + (product.cartQuantity || 0) * product.price;
-                    }, 0).toFixed(2));
+                updateCartTotals: async (products: IProductWithCartQuantity[]) => {
+                    let totalCartPriceWithoutDiscount = 0;
+                    let totalCartPriceWithDiscount = 0;
 
-                    const totalCartPriceWithDiscount = parseFloat(products.reduce((total, product) => { const productTotal = (product.cartQuantity || 0) * product.getDiscountedPrice(); return total + productTotal; }, 0).toFixed(2));
+                    for (const product of products) {
+                        const quantity = product.cartQuantity || 0;
+                        const price = await product.getAsyncPrice();
+                        const discountedPrice = await product.getDiscountedPrice();
+
+                        totalCartPriceWithoutDiscount += quantity * price;
+                        totalCartPriceWithDiscount += quantity * discountedPrice;
+                    }
+
+                    totalCartPriceWithoutDiscount = parseFloat(totalCartPriceWithoutDiscount.toFixed(2));
+                    totalCartPriceWithDiscount = parseFloat(totalCartPriceWithDiscount.toFixed(2));
 
                     const totalCartDiscount = parseFloat((totalCartPriceWithoutDiscount - totalCartPriceWithDiscount).toFixed(2));
+
                     set({ totalCartPriceWithoutDiscount, totalCartPriceWithDiscount, totalCartDiscount });
                 },
 

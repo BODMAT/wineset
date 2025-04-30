@@ -32,7 +32,7 @@ export function Product({ product }: { product: IProduct }) {
     const [productRerender, setProductRerender] = useState<IProduct | undefined>(undefined);
     useEffect(() => {
         if (product instanceof Box) {
-            product.getPrice().then(() => setProductRerender(product));
+            product.getAsyncPrice().then(() => setProductRerender(product));
         } else {
             setProductRerender(product);
         }
@@ -76,12 +76,12 @@ export function Product({ product }: { product: IProduct }) {
                     {/* Prices */}
                     <motion.div custom={1} variants={blockFromRightAnimation} className="bg-[rgba(164,164,164,0.25)] py-[40px] px-[60px] min-w-[450px] max-xl:mx-auto max-[500px]:flex max-[500px]:flex-col max-[500px]:items-center max-[500px]:gap-[20px] max-[500px]:min-w-full">
                         {productRerender && productRerender.price !== productRerender.getDiscountedPrice() && (
-                            <h3 className="font-[Inter] font-semibold !text-[18px] line-through text-[rgba(20,20,20,0.35)]">{productRerender.price * productQuantity} $</h3>
+                            <h3 className="font-[Inter] font-semibold !text-[18px] line-through text-[rgba(20,20,20,0.35)]">{(productRerender.price * productQuantity).toFixed(2)} $</h3>
                         )}
 
                         {productRerender && (
-                            <div className="flex gap-[30px] items-center mb-[50px] max-[500px]:mb-0">
-                                <h2 className="font-[Inter] font-semibold !text-[32px] text-[#7a0000] max-md:!text-[26px]">{productRerender.getDiscountedPrice() * productQuantity} $</h2>
+                            <div className="flex gap-[30px] items-center mb-[50px] max-[500px]:mb-0 max-[500px]:flex-col ">
+                                <h2 className="font-[Inter] font-semibold !text-[32px] text-[#7a0000] max-md:!text-[26px]">{(productRerender.getDiscountedPrice() * productQuantity).toFixed(2)} $</h2>
 
                                 {productRerender && productRerender.price !== productRerender.getDiscountedPrice() && (
                                     <h3 className="font-[Inter] font-medium !text-[14px] tracking-[0.05em] uppercase text-white px-[20px] py-[14px] bg-[#000] rounded">-{product.discount}%</h3>

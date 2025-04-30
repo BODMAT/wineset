@@ -26,7 +26,7 @@ export function Cart() {
                         <motion.h2 variants={textFromTopAnimation} className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>Cart ({cartProducts.length})</motion.h2>
                         {/* items */}
                         {cartProducts.map((cartItem: IProductWithCartQuantity, index: number) => (
-                            typeof cartItem.getDiscountedPrice === "function" && typeof cartItem.getPrice === "function" && (
+                            typeof cartItem.getDiscountedPrice === "function" && typeof cartItem.getAsyncPrice === "function" && (
 
                                 <div key={`${cartItem.id}-${index}`} className="flex justify-between gap-10 border-b-1 border-[#000] pt-[20px] pb-[20px] max-[400px]:gap-2">
                                     {/* left side */}

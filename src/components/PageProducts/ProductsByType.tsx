@@ -29,7 +29,7 @@ export function ProductsByType() {
         Promise.all(
             filteredProducts.map(async (p) => {
                 if (p instanceof Box) {
-                    await p.getPrice();
+                    await p.getAsyncPrice();
                 }
                 return p;
             })

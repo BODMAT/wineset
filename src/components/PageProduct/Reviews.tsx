@@ -12,6 +12,8 @@ import { ReviewForm } from "./ReviewForm";
 import { RatingStars } from "./RatingStars";
 import { motion } from "framer-motion";
 import { textFromTopAnimation } from "../../utils/animations";
+import { ConfirmPopUp } from "../PopUps/ConfirmPopUp";
+import { usePopupStore } from "../../store/popup";
 
 export function Reviews({ product }: { product: IProduct }) {
     const productClass: string = capitalizeFirstLetter(product.kindOfProduct);
@@ -21,12 +23,20 @@ export function Reviews({ product }: { product: IProduct }) {
     const { data: reviews = [], refetch } = useReviews([productClass, "items", productId]);
     const { mutateAsync: deleteReview } = useDeleteReview([productClass, "items", productId]);
     const swiperRef = useRef<any>(null);
+    const { open, close } = usePopupStore();
 
-    const handleDelete = async (reviewId: string) => {
-        if (confirm("Are you sure you want to delete the review?")) { //!===========
-            await deleteReview(reviewId);
-            refetch();
-        }
+    const handleDelete = (reviewId: string) => {
+        open("Confirm deletion", (
+            <ConfirmPopUp
+                text="Are you sure you want to delete the review?"
+                onConfirm={async () => {
+                    await deleteReview(reviewId);
+                    refetch();
+                    close();
+                }}
+                onCancel={close}
+            />
+        ));
     };
 
     return (

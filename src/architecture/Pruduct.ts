@@ -1,5 +1,5 @@
 import { useCart } from "../store/cart";
-import { fetchDetailedStructureOfBox, fetchProductById } from "../api/product";
+import { fetchDetailedStructureOfBox } from "../api/product";
 
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
 export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
@@ -101,7 +101,7 @@ export interface IProduct {
 
     addToCart(quantity?: number): void;
     removeFromCart(quantity?: number): void;
-    getPrice(): Promise<number>;
+    getAsyncPrice(): Promise<number>;
     getDiscountedPrice(): number;
 
     fetchDetailedStructure?(): Promise<IProduct[]>; // For Box
@@ -189,7 +189,8 @@ abstract class Product implements IProduct {
         }
     }
 
-    async getPrice(): Promise<number> {
+    async getAsyncPrice(): Promise<number> {
+        // cause of Box, which price is calculated separately
         return this._price;
     }
 
@@ -289,7 +290,7 @@ export class Box extends Product {
         this._structure = structure;
         this._weight = weight;
 
-        this.getPrice();
+        this.getAsyncPrice();
     }
 
     // Getters
@@ -298,7 +299,7 @@ export class Box extends Product {
     get price(): number { return this._price }
 
     //Polimorphic method 2
-    async getPrice(): Promise<number> {
+    async getAsyncPrice(): Promise<number> {
         if (this._price !== 0) {
             return this._price; //cached
         } else {

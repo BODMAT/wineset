@@ -13,7 +13,7 @@ export function AsyncProductPrices({ cartItem }: { cartItem: IProductWithCartQua
     useEffect(() => {
         const fetchPrices = async () => {
             try {
-                let crossedPrice = await cartItem.getPrice();
+                let crossedPrice = await cartItem.getAsyncPrice();
                 cartItem.cartQuantity ? crossedPrice *= cartItem.cartQuantity : crossedPrice;
                 let disountedPrice = cartItem.getDiscountedPrice();
                 cartItem.cartQuantity ? disountedPrice *= cartItem.cartQuantity : disountedPrice;
