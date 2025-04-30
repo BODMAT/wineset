@@ -182,3 +182,12 @@ export interface CustomSelectStyles {
     option: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
     menu: (base: CSSObjectWithLabel) => CSSObjectWithLabel;
 }
+
+export interface PopupStateProps {
+    active: boolean;
+    title: string;
+    children: React.ReactNode | null;
+    withoutPadAndCross: boolean;
+    open: (title: string, content: React.ReactNode, withoutPadAndCross?: boolean, active?: boolean) => void;
+    close: () => void;
+}

@@ -1,23 +1,22 @@
 import { Box, IProduct, IProductWithCartQuantity } from "../../architecture/Pruduct";
-
 import ShareSVG from "../../assets/Product/share.svg";
 import HeartSVG from "../../assets/Product/heart.svg";
-
 import { copyAndGetCurrentUrl } from "../../utils/utils";
 import { useEffect, useState } from "react";
-import { Info } from "../PopUp/Info";
-import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
-import { PhotoByCountries } from "./PhotoByCountries";
-import { ProductCharacteristics } from "./ProductCharacteristics";
 import { useCart } from "../../store/cart";
 import { useOpacity } from "../../hooks/useOpacity";
 import { motion } from "framer-motion";
 import { blockFromRightAnimation, textFromTopAnimation } from "../../utils/animations";
+import { usePopupStore } from "../../store/popup";
+import { PhotoByCountries } from "./PhotoByCountries";
+import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
+import { ProductCharacteristics } from "./ProductCharacteristics";
+
 export function Product({ product }: { product: IProduct }) {
-    const [infoActive, setInfoActive] = useState(false);
     const [productQuantity, setProductQuantity] = useState(1);
     const { findSameProductInCartById } = useCart();
     const { opacity, blockRef } = useOpacity();
+    const { open } = usePopupStore();
 
     function changeProductQuantity(product: IProduct, updateQuantity: () => void): void {
         if (product.id && product.quantity > 0) {
@@ -25,12 +24,11 @@ export function Product({ product }: { product: IProduct }) {
             if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity + productQuantity < productInCart.quantity) {
                 updateQuantity()
             } else if (!productInCart) {
-                updateQuantity() //ще не доданий
+                updateQuantity()
             }
         }
     }
 
-    // Update product for rerendering (e.g., price calculation)
     const [productRerender, setProductRerender] = useState<IProduct | undefined>(undefined);
     useEffect(() => {
         if (product instanceof Box) {
@@ -55,7 +53,10 @@ export function Product({ product }: { product: IProduct }) {
                         <motion.h1 variants={textFromTopAnimation} className="font-semibold !text-[56px] uppercase text-black font-[Cormorant] max-md:!text-[40px] max-[550px]:!text-[32px] max-sm:text-center">{product.name}</motion.h1>
                     </div>
                     <div className="flex gap-[25px] items-center">
-                        <button onClick={() => { setInfoActive(true) }} className="transitioned hover:scale-110">
+                        <button onClick={() => {
+                            open("Notification", <p className="mb-5">Link has been succesfully copied to clipboard.</p>, false); copyAndGetCurrentUrl()
+                        }}
+                            className="transitioned hover:scale-110">
                             <img src={ShareSVG} alt="share" />
                         </button>
                         <button className="transitioned hover:scale-110">
@@ -87,7 +88,6 @@ export function Product({ product }: { product: IProduct }) {
                                 )}
                             </div>
                         )}
-
 
                         <div className="flex gap-[26px] items-center max-[500px]:flex-col">
                             {/* Counter */}
@@ -121,9 +121,6 @@ export function Product({ product }: { product: IProduct }) {
                         </div>
                     </motion.div>
                 </div>
-
-                {/* PopUp */}
-                {infoActive && <Info infoTitle="Link has been succesfully copied to clipboard." setDisabled={() => setInfoActive(false)} infoText={copyAndGetCurrentUrl()} />}
             </div>
             <div style={{
                 opacity: opacity,
@@ -131,6 +128,6 @@ export function Product({ product }: { product: IProduct }) {
                 className="absolute w-[702px] h-[509px] bottom-[10%] right-[-10%] rotate-180 max-lg:bottom-[-10%] max-md:right-[-50%] max-md:bottom-[0]">
                 <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
-        </motion.section >
-    )
+        </motion.section>
+    );
 }
