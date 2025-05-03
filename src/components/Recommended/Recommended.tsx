@@ -53,6 +53,13 @@ export function Recommended({
                 const filtered = filterByDiscount
                     ? productsData.filter(el => el.discount > 0)
                     : productsData;
+
+                //! async price for box
+                if (productFilter === "box") {
+                    for (const product of filtered) {
+                        await product.getAsyncPrice();
+                    }
+                }
                 setProducts(filtered);
             };
 

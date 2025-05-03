@@ -1,19 +1,20 @@
+import { Instagram } from "../PageHome/Instagram/Instagram";
+import { Recommended } from "../Recommended/Recommended";
 import { SpecialOffer } from "../SpecialOffer/SpecialOffer";
 import { CandleLights } from "./CandleLights";
 import { GiftSets } from "./GiftSets";
-import { Recommended } from "../Recommended/Recommended";
-import { Instagram } from "../PageHome/Instagram/Instagram";
-export function GiftBoxesPage() {
+
+export function PageGlassesAndCandles() {
     return (
         <div className='relative pt-[143px] max-md:pt-[84px]'>
-            <SpecialOffer imgSrc="/GiftBoxesPage/gifts.jpg"
+            <SpecialOffer imgSrc="/GiftBoxesPage/CandleLights/background.webp"
                 supTitle="Special offer"
                 title="glasses & сandles"
-                subTitle="ORDER GIFT SET"
-                subTitleLink="/order"
+                subTitle="ORDER BEST CANDLES"
+                subTitleLink="/Glasses-and-candles/Candles"
                 contentWidth={381} />
-            <GiftSets />
             <CandleLights />
+            <GiftSets />
             <Recommended productFilter="glass" filterByDiscount={true} />
 
             <SpecialOffer imgSrc="/HomePage/sommelier.jpg"

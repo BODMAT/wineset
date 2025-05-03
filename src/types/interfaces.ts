@@ -191,3 +191,11 @@ export interface PopupStateProps {
     open: (title: string, content: React.ReactNode, withoutPadAndCross?: boolean, active?: boolean) => void;
     close: () => void;
 }
+
+export interface ArticleProps {
+    suplabel: string;
+    label: string;
+    link: string;
+    img: string;
+    sublabel?: string;
+}

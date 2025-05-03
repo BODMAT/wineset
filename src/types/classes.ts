@@ -1,4 +1,4 @@
-import { ArticleProps } from "./types";
+import { ArticleProps } from "./interfaces";
 
 export class Article {
     private _suplabel: string;

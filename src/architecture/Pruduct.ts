@@ -296,6 +296,7 @@ export class Box extends Product {
     // Getters
     get weight(): number | undefined { return this._weight }
     get structure(): StructureConfig { return this._structure }
+
     get price(): number { return this._price }
 
     //Polimorphic method 2

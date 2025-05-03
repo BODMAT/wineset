@@ -3,7 +3,7 @@ import { PageMessage } from "../PageError/PageError";
 import { ScrollRestoration } from "../ScrollRestoration/ScrollRestoration";
 import { HomePage } from "../PageHome/HomePage/HomePage";
 import { Layout } from "../Layout/Layout";
-import { GiftBoxesPage } from "../PageGiftBoxes/GiftBoxesPage";
+import { GiftBoxesPage } from "../PagesBoxAndCandles/GiftBoxesPage";
 import { PageProducts } from "../PageProducts/PageProducts";
 import { PageOrder } from "../PageOrder/PageOrder";
 import { PageArticles } from "../PageArticles/PageArticles";
@@ -16,12 +16,14 @@ import { useCart } from "../../store/cart";
 import { PageSommelier } from "../PageSommelier/PageSommelier";
 import { PopUpPortal } from "../../portals/PopUpPortal";
 import { usePopupStore } from "../../store/popup";
+import { PageGlassesAndCandles } from "../PagesBoxAndCandles/PageGlassesAndCandles";
 
 export function App() {
   //!time-limited upload to DB function
   // useEffect(() => {
   //   uploadInfo();
   // }, []);
+
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
 
   const { initializeCart } = useCart()
@@ -60,8 +62,8 @@ export function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="Glasses-and-candles" element={<GiftBoxesPage />} />
-          <Route path="Gift-sets" element={<PageMessage message="This page will be added later" />} />
+          <Route path="Glasses-and-candles" element={<PageGlassesAndCandles />} />
+          <Route path="Gift-sets" element={<GiftBoxesPage />} />
           <Route path="Wine-and-alcohol" element={<PageMessage message="This page will be added later" />} />
           <Route path="Delicacies" element={<PageMessage message="This page will be added later" />} />
           //!
