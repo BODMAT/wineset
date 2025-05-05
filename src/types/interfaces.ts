@@ -149,7 +149,6 @@ export interface ICart {
     clearCart: () => void;
 
     findSameProductInCartById: (id: string) => IProductWithCartQuantity | undefined;
-    addToUserCartBeforeLeaving: () => void; // if User auth
 }
 
 export interface IFilterState {

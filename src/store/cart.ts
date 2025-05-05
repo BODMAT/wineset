@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { IProductWithCartQuantity } from "../architecture/Pruduct";
 import { fetchProductById } from "../api/product";
-import { useAuthStore } from "./auth";
 import { CartIdsType } from "../types/types";
 import { ICart } from "../types/interfaces";
 
@@ -195,15 +194,6 @@ export const useCart = create<ICart>()(
                     const totalCartDiscount = parseFloat((totalCartPriceWithoutDiscount - totalCartPriceWithDiscount).toFixed(2));
 
                     set({ totalCartPriceWithoutDiscount, totalCartPriceWithDiscount, totalCartDiscount });
-                },
-
-                addToUserCartBeforeLeaving: () => {
-                    const { user } = useAuthStore.getState();
-                    if (user) {
-                        const cart = get().cartIds;
-                        //! ...
-                        console.log("Saving cart to user profile before leaving", cart);
-                    }
                 },
 
                 clearCart: () => {

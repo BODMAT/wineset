@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { KindOfProduct } from "../../architecture/Pruduct";
 import { GenerateProductSpecialOffer } from "../SpecialOffer/GenerateProductSpecialOffer";
 import { ProductDescription } from "./ProductDescription";
@@ -20,13 +20,14 @@ export const useProduct = () => {
 };
 
 export function PageProducts({ product }: { product: KindOfProduct }) {
+    const randomProduct = useMemo(() => getRandomProduct(product), [product]);
     return (
         <div className='relative pt-[143px] max-md:pt-[84px]'>
             <ProductContext.Provider value={{ product }}>
                 <GenerateProductSpecialOffer />
                 <ProductDescription />
                 <ProductsByType />
-                <Recommended productFilter={getRandomProduct(product)} />
+                <Recommended productFilter={randomProduct} />
                 <SpecialOffer
                     imgSrc="/HomePage/sommelier.jpg"
                     supTitle="Sommelier Choice"

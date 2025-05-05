@@ -17,15 +17,52 @@ export function Product({ product }: { product: IProduct }) {
     const { findSameProductInCartById } = useCart();
     const { opacity, blockRef } = useOpacity();
     const { open } = usePopupStore();
+    const [buttonText, setButtonText] = useState<string>("To Cart")
 
-    function changeProductQuantity(product: IProduct, updateQuantity: () => void): void {
+    function changeProductQuantity(
+        product: IProduct,
+        direction: "increase" | "decrease",
+        updateQuantity: () => void
+    ): void {
+        if (!product.id || product.quantity <= 0) return;
+
+        const productInCart = findSameProductInCartById(product.id);
+        const cartQty = productInCart?.cartQuantity ?? 0;
+        const totalQty = cartQty + productQuantity;
+
+        if (direction === "decrease") {
+            if (productQuantity > 1) {
+                updateQuantity();
+                setButtonText("To Cart");
+            }
+            return;
+        }
+
+        // direction === "increase"
+        if (totalQty < product.quantity) {
+            updateQuantity();
+            setButtonText("To Cart");
+        } else {
+            open("Notification 1", <p className="mb-5">Lack of stock</p>, false);
+            setButtonText("Lack of quantity");
+        }
+    }
+
+    function handleAddToCart(product: IProductWithCartQuantity): void {
         if (product.id && product.quantity > 0) {
             const productInCart: IProductWithCartQuantity | undefined = findSameProductInCartById(product.id);
             if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity + productQuantity < productInCart.quantity) {
-                updateQuantity()
-            } else if (!productInCart) {
-                updateQuantity()
+                product.addToCart(productQuantity); setProductQuantity(1);
+                open("Cart Updated", <p className="mb-5">{productQuantity} {product.name} added to Cart!</p>, false);
+                return
             }
+            if (!productInCart && productQuantity < product.quantity) {
+                product.addToCart(productQuantity); setProductQuantity(1);
+                open("Cart Updated", <p className="mb-5">{productQuantity} {product.name} added to Cart!</p>, false);
+                return
+            }
+            setButtonText("Lack of quantity")
+            open("Notification 2", <p className="mb-5">Lack of stock</p>, false);
         }
     }
 
@@ -95,8 +132,8 @@ export function Product({ product }: { product: IProduct }) {
                                 <button
                                     className="p-[10px] text-2xl hover:bg-[#9f9f9f] transitioned"
                                     onClick={() =>
-                                        changeProductQuantity(product, () =>
-                                            setProductQuantity((prev) => Math.max(prev - 1, 1))
+                                        changeProductQuantity(product, "decrease", () =>
+                                            setProductQuantity(prev => Math.max(prev - 1, 1))
                                         )
                                     }
                                 >
@@ -108,8 +145,8 @@ export function Product({ product }: { product: IProduct }) {
                                 <button
                                     className="p-[10px] text-2xl hover:bg-[#9f9f9f] transitioned"
                                     onClick={() =>
-                                        changeProductQuantity(product, () =>
-                                            setProductQuantity((prev) => Math.min(prev + 1, product.quantity))
+                                        changeProductQuantity(product, "increase", () =>
+                                            setProductQuantity(prev => Math.min(prev + 1, product.quantity))
                                         )
                                     }
                                 >
@@ -117,7 +154,7 @@ export function Product({ product }: { product: IProduct }) {
                                 </button>
                             </div>
                             {/* BTN */}
-                            <button className="px-[50px] py-[15px] text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]" onClick={() => { product.addToCart(productQuantity); setProductQuantity(1) }}>To Cart</button>
+                            <button className="px-[50px] py-[15px] text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]" onClick={() => { handleAddToCart(product) }}>{buttonText}</button>
                         </div>
                     </motion.div>
                 </div>

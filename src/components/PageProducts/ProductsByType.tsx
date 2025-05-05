@@ -36,7 +36,7 @@ export function ProductsByType() {
         ).then(setProductsRerender);
     }, [filteredProducts]);
 
-    function isButtonToCartPossible(product: IProduct): boolean {
+    function isToCartPossible(product: IProduct): boolean {
         if (product.id && product.quantity > 0) {
             const productInCart: IProductWithCartQuantity | undefined = findSameProductInCartById(product.id);
             if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity < productInCart.quantity) {
@@ -63,7 +63,7 @@ export function ProductsByType() {
                                 key={index}
                                 className="!flex !flex-col !items-stretch !p-[18px] !h-auto flex-[0_1_calc(25%-15px)] max-xl:flex-[0_1_calc(33%-13.33px)] max-lg:flex-[0_1_calc(50%-10px)] max-sm:flex-[1_1_auto]"
                             >
-                                <div className="h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_10px_20px_rgba(0,0,0,0.5)] transitioned hover:scale-98">
+                                <div className={"h-full mb-[10px] border-2 border-solid border-gray-300 p-[18px] hover:shadow-[0px_10px_20px_rgba(0,0,0,0.5)] transitioned hover:scale-98" + " " + `${isToCartPossible(product) ? "" : "bg-gray-200"}`}>
                                     <Link to={`/${capitalizeFirstLetter(product.kindOfProduct)}/${product.id}`}>
                                         <ProductPhoto product={product} />
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
@@ -110,7 +110,7 @@ export function ProductsByType() {
                                         </div>
                                     </Link>
                                 </div>
-                                {isButtonToCartPossible(product) && (
+                                {isToCartPossible(product) && (
                                     <button
                                         className={styles.buttonBuy}
                                         onClick={() => product.addToCart()}
@@ -118,9 +118,9 @@ export function ProductsByType() {
                                         Add to cart
                                     </button>
                                 )}
-                                {!isButtonToCartPossible(product) && (
+                                {!isToCartPossible(product) && (
                                     <button
-                                        className={styles.buttonBuy}
+                                        className={styles.buttonBuy + " " + `${isToCartPossible(product) ? "" : "!bg-gray-200 !border-black !text-black"}`}
                                         disabled
                                     >
                                         Lack of quantity

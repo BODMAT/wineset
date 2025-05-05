@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { IProduct, KindOfProduct } from "../../architecture/Pruduct";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { fetchProductById } from "../../api/product";
 import { PageMessage } from "../PageError/PageError";
 import { Product } from "./Product";
@@ -24,17 +24,20 @@ export function PageProduct() {
                     setLoading(false);
                     setProduct(result);
                 } else {
-                    setTimeout(() => {
-                        setLoading(false);
-                        setProduct(null);
-                        console.error(`Product with category "${category}" and ID "${id}" not found`);
-                    }, 1500);
+                    setLoading(false);
+                    setProduct(null);
+                    console.error(`Product with category "${category}" and ID "${id}" not found`);
                 }
             }
         };
 
         fetchData();
     }, [category, id]);
+
+    const randomProduct = useMemo(
+        () => product ? getRandomProduct(product.kindOfProduct) : null,
+        [product]
+    );
 
     if (loading) {
         return <PageMessage message="Loading..." />;
@@ -53,7 +56,9 @@ export function PageProduct() {
                         subTitle="ARTICLES ABOUT WINE"
                         subTitleLink="/Articles"
                         contentWidth={893} />
-                    <Recommended productFilter={getRandomProduct(product.kindOfProduct)} />
+                    {product && randomProduct && (
+                        <Recommended productFilter={randomProduct} />
+                    )}
                     <Instagram />
                 </section>
             )}
