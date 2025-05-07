@@ -20,7 +20,7 @@ export function Articles() {
                 opacity: opacity,
             }}
                 className="absolute w-[902px] h-[509px] top-[-5%] left-[-10%] rotate-180 max-xl:top-0">
-                <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
+                <img src="./WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
         </section>
     )

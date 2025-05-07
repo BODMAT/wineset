@@ -50,7 +50,7 @@ export function PageProduct() {
                     <Product product={product} />
                     <AdditionalInfo product={product} />
                     <Reviews product={product} />
-                    <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
+                    <SpecialOffer imgSrc={`${import.meta.env.BASE_URL}HomePage/sommelier.jpg`}
                         supTitle="Sommelier Choice"
                         title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
                         subTitle="ARTICLES ABOUT WINE"

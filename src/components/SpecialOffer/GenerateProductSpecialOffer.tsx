@@ -8,7 +8,7 @@ export function GenerateProductSpecialOffer() {
     if (!titlePostfix) return null;
     return (
         <SpecialOffer
-            imgSrc={`/ProductsPage/GenerateProductSpecialOffer/${product.charAt(0).toUpperCase() + product.slice(1)}.jpg`}
+            imgSrc={`${import.meta.env.BASE_URL}ProductsPage/GenerateProductSpecialOffer/${product.charAt(0).toUpperCase() + product.slice(1)}.jpg`}
             supTitle="Special offer"
             title={`${titlePostfix.toUpperCase()} FOR BEST PRICE`}
             subTitle={`ORDER DISCOUNTED ${titlePostfix.toUpperCase()}`}

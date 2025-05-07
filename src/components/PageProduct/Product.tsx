@@ -163,7 +163,7 @@ export function Product({ product }: { product: IProduct }) {
                 opacity: opacity,
             }}
                 className="absolute w-[702px] h-[509px] bottom-[10%] right-[-10%] rotate-180 max-lg:bottom-[-10%] max-md:right-[-50%] max-md:bottom-[0]">
-                <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
+                <img src={`${import.meta.env.BASE_URL}WineSpots/wine-spot-1.png`} alt="wine-spot-1" />
             </div>
         </motion.section>
     );

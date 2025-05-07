@@ -2,12 +2,22 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { KindOfProduct, ProductConfig, StructureConfig, Countries } from "../../architecture/Pruduct";
 import { SAUCES } from "../../data/Products/Sauce";
+import { BOXES } from "../../data/Products/Box";
+import { CANDLES } from "../../data/Products/Candle";
+import { CHAMPAGNES } from "../../data/Products/Champagne";
+import { CHEESES } from "../../data/Products/Cheese";
+import { COOKIES } from "../../data/Products/Cookie";
+import { DELICACIES } from "../../data/Products/Delicacy";
+import { GLASSES } from "../../data/Products/Glass";
+import { VODKAS } from "../../data/Products/Vodka";
+import { WHISKEYS } from "../../data/Products/Whiskey";
+import { WINES } from "../../data/Products/Wine";
 
 export async function uploadInfo() {
     try {
-        const itemsRef = collection(db, "Products", "Sauce", "items");
+        const itemsRef = collection(db, "Products", "Wine", "items");
 
-        for (const item of SAUCES) {
+        for (const item of WINES) {
             const itemRef = doc(itemsRef, item.id);
 
             const productData: ProductConfig = {

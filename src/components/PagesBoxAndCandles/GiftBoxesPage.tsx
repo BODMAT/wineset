@@ -6,7 +6,7 @@ import { Instagram } from "../PageHome/Instagram/Instagram";
 export function GiftBoxesPage() {
     return (
         <div className='relative pt-[143px] max-md:pt-[84px]'>
-            <SpecialOffer imgSrc="/GiftBoxesPage/gifts.jpg"
+            <SpecialOffer imgSrc="./GiftBoxesPage/gifts.jpg"
                 supTitle="Special offer"
                 title="gift sets & boxes"
                 subTitle="ORDER GIFT SET"
@@ -16,7 +16,7 @@ export function GiftBoxesPage() {
             <CandleLights />
             <Recommended productFilter="box" filterByDiscount={true} />
 
-            <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
+            <SpecialOffer imgSrc="./HomePage/sommelier.jpg"
                 supTitle="Sommelier Choice"
                 title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
                 subTitle="ARTICLES ABOUT WINE"

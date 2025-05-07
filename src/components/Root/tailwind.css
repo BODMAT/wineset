@@ -31,31 +31,30 @@
     }
 
     .range-slider {
-      -webkit-appearance: none; /* Убирает стандартное оформление */
+      -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       width: 100%;
-      height: 8px; /* Высота трека */
-      background: #d7d7d7; /* Цвет трека */
+      height: 8px; 
+      background: #d7d7d7; 
       border-radius: 5px;
       outline: none;
-      cursor: pointer; /* Курсор указателя */
+      cursor: pointer;
     }
     
-    /* Убираем точку в центре */
     .range-slider::-webkit-slider-runnable-track {
-      height: 8px; /* Высота трека */
-      background: #d7d7d7; /* Цвет трека */
+      height: 8px; 
+      background: #d7d7d7; 
       border-radius: 5px;
     }
     
     .range-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      background-color: #f2622d; /* Цвет ползунка */
+      background-color: #f2622d; 
       border: none;
       border-radius: 50%;
-      width: 18px; /* Размер ползунка */
+      width: 18px;
       height: 18px;
       cursor: pointer;
     }
@@ -63,10 +62,10 @@
     .range-slider::-moz-range-thumb {
       -moz-appearance: none;
       appearance: none;
-      background-color: #f2622d; /* Цвет ползунка */
+      background-color: #f2622d;
       border: none;
       border-radius: 50%;
-      width: 18px; /* Размер ползунка */
+      width: 18px;
       height: 18px;
       cursor: pointer;
     }

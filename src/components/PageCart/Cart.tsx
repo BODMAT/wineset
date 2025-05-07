@@ -114,7 +114,7 @@ export function Cart() {
                 opacity: opacity,
             }}
                 className="absolute w-[902px] h-[509px] top-[60%] right-[-20%] rotate-180 max-[1070px]:top-[90%]">
-                <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
+                <img src="./WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
         </motion.section >
     )

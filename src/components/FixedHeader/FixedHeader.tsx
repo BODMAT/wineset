@@ -103,7 +103,7 @@ export function FixedHeader() {
                         <div className={styles.header__body_top}>
                             <div className={styles.header__logo}>
                                 <Link to="/">
-                                    <img src="/logo.svg" alt="logo" />
+                                    <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="logo" />
                                 </Link>
                                 {!state.isLargeScreen && (
                                     <button

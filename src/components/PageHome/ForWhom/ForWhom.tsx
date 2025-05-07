@@ -64,43 +64,43 @@ export function ForWhom() {
 
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/table-with-glasses.jpg" alt="table-with-glasses" />
+                        <img src="./HomePage/ForWhom/table-with-glasses.jpg" alt="table-with-glasses" />
                     </div>
                     <h3 className={styles.for__slide_label}>Wedding agencies</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/table-with-flowers.jpg" alt="table-with-flowers" />
+                        <img src="./HomePage/ForWhom/table-with-flowers.jpg" alt="table-with-flowers" />
                     </div>
                     <h3 className={styles.for__slide_label}>Flower shops</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/glasses-with-wine.jpg" alt="Corporate clients" />
+                        <img src="./HomePage/ForWhom/glasses-with-wine.jpg" alt="Corporate clients" />
                     </div>
                     <h3 className={styles.for__slide_label}>Corporate clients</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/restaurants.jpg" alt="Restaurants and cafes" />
+                        <img src="./HomePage/ForWhom/restaurants.jpg" alt="Restaurants and cafes" />
                     </div>
                     <h3 className={styles.for__slide_label}>Restaurants and cafes</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/tourism.jpg" alt="Tourism Agency" />
+                        <img src="./HomePage/ForWhom/tourism.jpg" alt="Tourism Agency" />
                     </div>
                     <h3 className={styles.for__slide_label}>Tourism Agency</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/blog.jpg" alt="Food bloggers and influencers" />
+                        <img src="./HomePage/ForWhom/blog.jpg" alt="Food bloggers and influencers" />
                     </div>
                     <h3 className={styles.for__slide_label}>Food bloggers and influencers</h3>
                 </SwiperSlide>
                 <SwiperSlide className={styles.for__slide}>
                     <div className={styles.for__slide_img}>
-                        <img src="/HomePage/ForWhom/hotel.jpg" alt="Hotel networks" />
+                        <img src="./HomePage/ForWhom/hotel.jpg" alt="Hotel networks" />
                     </div>
                     <h3 className={styles.for__slide_label}>Hotel networks</h3>
                 </SwiperSlide>

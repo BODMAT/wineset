@@ -13,7 +13,7 @@ export function CandleLights() {
                 <motion.h2 variants={textFromTopAnimation} className={styles.basicTitle}>Candles</motion.h2>
                 <div className="flex justify-between gap-[30px] mt-[50px] max-xl:flex-wrap max-xl:justify-evenly max-md:mt-[30px]">
                     <div className="w-[640px] max-xl:flex-[1_1_100%]">
-                        <img className="relative w-[100%] h-[429px] left-0 top-0 object-cover" src="/GiftBoxesPage/CandleLights/candles.png" alt="candles" />
+                        <img className="relative w-[100%] h-[429px] left-0 top-0 object-cover" src="./GiftBoxesPage/CandleLights/candles.png" alt="candles" />
                     </div>
                     <div className={styles.basicText}>
                         Candles are not just a source of light but a true symbol of comfort and tranquility. They fill the space with gentle warmth and a subtle fragrance, creating an atmosphere of harmony and relaxation. Natural wax candles burn longer and have a pleasant honey scent, while scented varieties can evoke memories or set a special mood for the evening. They are used for meditation, romantic gatherings, or simply for a cozy retreat after a long day.

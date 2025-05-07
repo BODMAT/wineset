@@ -89,3 +89,9 @@ export function getForcedImageUrl(url: string) {
     const forcedUrl = `${url}?t=${new Date().getTime()}`;
     return forcedUrl;
 }
+
+export function resolveImageUrl(relativePath: string): string {
+    // Видаляємо './' з початку, якщо є
+    const cleaned = relativePath.replace(/^\.?\//, '');
+    return `${import.meta.env.BASE_URL}${cleaned}`;
+}

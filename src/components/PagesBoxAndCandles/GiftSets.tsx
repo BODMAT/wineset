@@ -20,15 +20,15 @@ export function GiftSets() {
                 </div>
                 <div className="flex flex-wrap justify-evenly gap-[20px] mt-[50px]">
                     <Link to="/Gift-sets/Boxes" className='hover:scale-105 transitioned cursor-pointer'>
-                        <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/with-glasses.png" alt="with-glasses" /></div>
+                        <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="./GiftBoxesPage/GiftBoxes/with-glasses.png" alt="with-glasses" /></div>
                         <h4 className='pl-4 hover:underline'>With glasses</h4>
                     </Link>
                     <Link to="/Gift-sets/Boxes" className='hover:scale-105 transitioned cursor-pointer'>
-                        <div className="w-[420px] mt-30 max-lg:mt-0 max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/with-delicacies.png" alt="with-delicacies" /></div>
+                        <div className="w-[420px] mt-30 max-lg:mt-0 max-md:w-[100%]"><img className="object-cover" src="./GiftBoxesPage/GiftBoxes/with-delicacies.png" alt="with-delicacies" /></div>
                         <h4 className='pl-4 hover:underline'>with Delicacies</h4>
                     </Link>
                     <Link to="/Soon" className='hover:scale-105 transitioned cursor-pointer'>
-                        <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="/GiftBoxesPage/GiftBoxes/constructor.png" alt="constructor" /></div>
+                        <div className="w-[420px] max-md:w-[100%]"><img className="object-cover" src="./GiftBoxesPage/GiftBoxes/constructor.png" alt="constructor" /></div>
                         <h4 className='pl-4 hover:underline'>Constructor</h4>
                     </Link>
                 </div>
@@ -37,7 +37,7 @@ export function GiftSets() {
                 opacity: opacity,
             }}
                 className="absolute w-[902px] h-[509px] bottom-[-5%] right-[-10%] rotate-180 max-xl:top-0">
-                <img src="/WineSpots/wine-spot-1.png" alt="wine-spot-1" />
+                <img src="./WineSpots/wine-spot-1.png" alt="wine-spot-1" />
             </div>
         </motion.section>
     )

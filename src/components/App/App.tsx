@@ -58,7 +58,7 @@ export function App() {
 
 
   return (
-    <Router>
+    <Router basename="/wineset/">
       <ScrollRestoration />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -68,17 +68,17 @@ export function App() {
           <Route path="Wine-and-alcohol" element={<PageWineAndAlco />} />
           <Route path="Delicacies" element={<PageMessage message="This page will be added later" />} />
           //!
-          <Route path="/Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
-          <Route path="/Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
-          <Route path="/Wine-and-alcohol/Wine" element={<PageProducts product="wine" />} />
-          <Route path="/Wine-and-alcohol/Champagne" element={<PageProducts product="champagne" />} />
-          <Route path="/Wine-and-alcohol/Whiskey" element={<PageProducts product="whiskey" />} />
-          <Route path="/Wine-and-alcohol/Vodka" element={<PageProducts product="vodka" />} />
-          <Route path="/Delicacies/Delicacies" element={<PageProducts product="delicacy" />} />
-          <Route path="/Delicacies/Cheese" element={<PageProducts product="cheese" />} />
-          <Route path="/Delicacies/Cookies" element={<PageProducts product="cookie" />} />
-          <Route path="/Delicacies/Sauce" element={<PageProducts product="sauce" />} />
-          <Route path="/Gift-sets/Boxes" element={<PageProducts product="box" />} />
+          <Route path="Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
+          <Route path="Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
+          <Route path="Wine-and-alcohol/Wine" element={<PageProducts product="wine" />} />
+          <Route path="Wine-and-alcohol/Champagne" element={<PageProducts product="champagne" />} />
+          <Route path="Wine-and-alcohol/Whiskey" element={<PageProducts product="whiskey" />} />
+          <Route path="Wine-and-alcohol/Vodka" element={<PageProducts product="vodka" />} />
+          <Route path="Delicacies/Delicacies" element={<PageProducts product="delicacy" />} />
+          <Route path="Delicacies/Cheese" element={<PageProducts product="cheese" />} />
+          <Route path="Delicacies/Cookies" element={<PageProducts product="cookie" />} />
+          <Route path="Delicacies/Sauce" element={<PageProducts product="sauce" />} />
+          <Route path="Gift-sets/Boxes" element={<PageProducts product="box" />} />
           //!
           <Route
             path="/:category/:id"

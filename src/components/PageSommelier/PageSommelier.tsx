@@ -10,7 +10,7 @@ export function PageSommelier() {
             <OurSommeliers />
             <Recommended productFilter="wine" />
             <CustomVideoFrame />
-            <SpecialOffer imgSrc="/HomePage/sommelier.jpg"
+            <SpecialOffer imgSrc="./HomePage/sommelier.jpg"
                 supTitle="Sommelier Choice"
                 title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
                 subTitle="ARTICLES ABOUT WINE"

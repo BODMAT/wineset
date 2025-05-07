@@ -13,7 +13,7 @@ export function FixedFooter() {
             <div className={styles.footer__container}>
                 <div className={styles.footer__first}>
                     <Link to="/" className={styles.footer__link}>
-                        <img src="/logo.svg" alt="logo" />
+                        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="logo" />
                     </Link>
                 </div>
                 <nav className={styles.footer__navigation}>

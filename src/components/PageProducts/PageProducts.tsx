@@ -29,7 +29,7 @@ export function PageProducts({ product }: { product: KindOfProduct }) {
                 <ProductsByType />
                 <Recommended productFilter={randomProduct} />
                 <SpecialOffer
-                    imgSrc="/HomePage/sommelier.jpg"
+                    imgSrc={`${import.meta.env.BASE_URL}HomePage/sommelier.jpg`}
                     supTitle="Sommelier Choice"
                     title="NOT SURE WHICH TO CHOOSE? WE ARE READY TO HELP!"
                     subTitle="ARTICLES ABOUT WINE"

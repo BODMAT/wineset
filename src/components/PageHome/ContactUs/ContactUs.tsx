@@ -81,7 +81,7 @@ export function ContactUs() {
                     )}
                 </div>
                 <div className={styles.contact__img}>
-                    <img src="/HomePage/ContactUs/wine-glass1.jpg" alt="wine-glasses" />
+                    <img src="./HomePage/ContactUs/wine-glass1.jpg" alt="wine-glasses" />
                 </div>
             </div>
             <div
@@ -90,7 +90,7 @@ export function ContactUs() {
                 }}
                 className={styles.contact__winespot}
             >
-                <img src="/WineSpots/wine-spot.png" alt="wine-spot" />
+                <img src="./WineSpots/wine-spot.png" alt="wine-spot" />
             </div>
         </section>
     );

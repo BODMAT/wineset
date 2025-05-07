@@ -113,7 +113,7 @@ export function AdditionalInfo({ product }: { product: IProduct }) {
                 opacity: opacity,
             }}
                 className="absolute w-[402px] h-[309px] bottom-[10%] right-[-10%] rotate-180 max-lg:bottom-[-10%] max-md:right-[-50%] max-md:bottom-[0]">
-                <img src="/WineSpots/wine-spot-2.png" alt="wine-spot-2" />
+                <img src={`${import.meta.env.BASE_URL}WineSpots/wine-spot-2.png`} alt="wine-spot-2" />
             </div>
         </motion.section >
     )

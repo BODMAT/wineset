@@ -17,7 +17,7 @@ export function Description() {
                     <BorderedLink to="/Articles" children={"MOREOVER"} />
                 </div>
                 <div className="">
-                    <img src="/PageWineAndAlco/wine.jpg" alt="wine" />
+                    <img src="./PageWineAndAlco/wine.jpg" alt="wine" />
                 </div>
             </div>
         </motion.section>
