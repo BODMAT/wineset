@@ -17,7 +17,8 @@ import { PageSommelier } from "../PageSommelier/PageSommelier";
 import { PopUpPortal } from "../../portals/PopUpPortal";
 import { usePopupStore } from "../../store/popup";
 import { PageGlassesAndCandles } from "../PagesBoxAndCandles/PageGlassesAndCandles";
-import { PageWineAndAlco } from "../PageWineAndAlco/PageWineAndAlco";
+import { PageWineAndAlco } from "../PagesWineAlcoAndDelicacies/PageWineAndAlco";
+import { PageDelicacies } from "../PagesWineAlcoAndDelicacies/PageDelicacies";
 
 export function App() {
   //!time-limited upload to DB function
@@ -66,7 +67,7 @@ export function App() {
           <Route path="Glasses-and-candles" element={<PageGlassesAndCandles />} />
           <Route path="Gift-sets" element={<GiftBoxesPage />} />
           <Route path="Wine-and-alcohol" element={<PageWineAndAlco />} />
-          <Route path="Delicacies" element={<PageMessage message="This page will be added later" />} />
+          <Route path="Delicacies" element={<PageDelicacies />} />
           //!
           <Route path="Glasses-and-candles/Glasses" element={<PageProducts product="glass" />} />
           <Route path="Glasses-and-candles/Candles" element={<PageProducts product="candle" />} />
