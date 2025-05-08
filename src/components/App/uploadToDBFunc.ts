@@ -15,9 +15,9 @@ import { WINES } from "../../data/Products/Wine";
 
 export async function uploadInfo() {
     try {
-        const itemsRef = collection(db, "Products", "Wine", "items");
+        const itemsRef = collection(db, "Products", "Champagne", "items");
 
-        for (const item of WINES) {
+        for (const item of CHAMPAGNES) {
             const itemRef = doc(itemsRef, item.id);
 
             const productData: ProductConfig = {

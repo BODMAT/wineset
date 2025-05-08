@@ -1,18 +1,17 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import {
-    getAuth,
     signOut,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     fetchSignInMethodsForEmail,
     signInWithPopup,
-    GoogleAuthProvider,
 } from "firebase/auth";
 import { IAuthState } from "../types/interfaces";
+import { auth, googleProvider } from "../firebaseConfig";
+import { useWishlist } from "./wishlist";
 
-const googleProvider = new GoogleAuthProvider();
-const auth = getAuth();
+
 
 export const useAuthStore = create<IAuthState>()(
     devtools(
@@ -24,16 +23,28 @@ export const useAuthStore = create<IAuthState>()(
                 setFirebaseAlert: (message) => set({ firebaseAlert: message }),
 
                 logout: async () => {
+                    const user = auth.currentUser;
                     set({ loading: true });
+
                     try {
+                        if (user) {
+                            const { saveWishlistByUserToDB } = useWishlist.getState();
+                            await saveWishlistByUserToDB(user);
+                        }
+
                         await signOut(auth);
                         set({ user: null, firebaseAlert: "User logged out", loading: false });
+
+                        const { clearWishlist } = useWishlist.getState();
+                        await clearWishlist();
                     } catch (error: any) {
                         set({ firebaseAlert: `Logout failed: ${error.message}`, loading: false });
                     }
                 },
 
                 register: async (email, password) => {
+                    const { logout } = useAuthStore.getState();
+                    await logout();
                     set({ loading: true });
                     try {
                         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -52,6 +63,8 @@ export const useAuthStore = create<IAuthState>()(
                 },
 
                 handleFirebaseAuth: async () => {
+                    const { logout } = useAuthStore.getState();
+                    await logout();
                     set({ loading: true });
                     try {
                         const result = await signInWithPopup(auth, googleProvider);
@@ -73,6 +86,8 @@ export const useAuthStore = create<IAuthState>()(
                 },
 
                 login: async (email, password) => {
+                    const { logout } = useAuthStore.getState();
+                    await logout();
                     set({ loading: true });
                     try {
                         const userCredential = await signInWithEmailAndPassword(auth, email, password);

@@ -44,7 +44,7 @@ export function FixedFooter() {
                         <a target="_blank" href="https://web.telegram.org/"><img src={telegramIcon} alt="tg" /></a>
                         <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={instagramIcon} alt="inst" /></a>
                     </div>
-                    <button className={styles.footer__btn}>Contact us</button>
+                    <Link to="/Delivery" className={styles.footer__btn}>Delivery</Link>
                 </div>
             </div>
         </footer>

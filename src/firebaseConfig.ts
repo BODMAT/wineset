@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 // Читання значень з .env
@@ -25,5 +26,7 @@ const app = initializeApp(firebaseConfig);
 
 // Ініціалізація Firestore
 const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+const auth = getAuth();
 
-export { db, collection, getDocs, app };
+export { db, collection, getDocs, app, googleProvider, auth };

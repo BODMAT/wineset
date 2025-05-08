@@ -197,10 +197,26 @@
         }
 
         &__wish {
+            position: relative;
             background-color: transparent;
             transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
             &:hover{
                 transform: scale(1.1);
+            }
+            & span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 14px;
+                position: absolute;
+                width: 17px;
+                height: 17px;
+                bottom: -5px;
+                right: -5px;
+                background-color: #7A0000;
+                border-radius: 50%;
+                color: #fff;
+                overflow: hidden;
             }
         }
 

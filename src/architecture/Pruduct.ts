@@ -1,5 +1,6 @@
 import { useCart } from "../store/cart";
 import { fetchDetailedStructureOfBox } from "../api/product";
+import { useWishlist } from "../store/wishlist";
 
 export type KindOfAlco = "wine" | "champagne" | "whiskey" | "vodka";
 export type KindOfOthers = "delicacy" | "glass" | "candle" | "box" | "cheese" | "cookie" | "sauce";
@@ -101,6 +102,10 @@ export interface IProduct {
 
     addToCart(quantity?: number): void;
     removeFromCart(quantity?: number): void;
+
+    addToWishList(): void;
+    removeFromWishList(): void;
+
     getAsyncPrice(): Promise<number>;
     getDiscountedPrice(): number;
 
@@ -187,6 +192,16 @@ abstract class Product implements IProduct {
             const cart = useCart.getState();
             cart.removeFromCart(this, quantity);
         }
+    }
+
+    addToWishList(): void {
+        const wishlist = useWishlist.getState();
+        wishlist.addToWishlist(this);
+    }
+
+    removeFromWishList(): void {
+        const wishlist = useWishlist.getState();
+        wishlist.removeFromWishlist(this);
     }
 
     async getAsyncPrice(): Promise<number> {

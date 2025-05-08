@@ -13,19 +13,24 @@ export function AsyncProductPrices({ cartItem }: { cartItem: IProductWithCartQua
     useEffect(() => {
         const fetchPrices = async () => {
             try {
-                let crossedPrice = await cartItem.getAsyncPrice();
-                cartItem.cartQuantity ? crossedPrice *= cartItem.cartQuantity : crossedPrice;
-                let disountedPrice = cartItem.getDiscountedPrice();
-                cartItem.cartQuantity ? disountedPrice *= cartItem.cartQuantity : disountedPrice;
+                if (cartItem.getAsyncPrice && typeof cartItem.getAsyncPrice === 'function') {
+                    let crossedPrice = await cartItem.getAsyncPrice();
+                    cartItem.cartQuantity ? crossedPrice *= cartItem.cartQuantity : crossedPrice;
+                    let disountedPrice = cartItem.getDiscountedPrice();
+                    cartItem.cartQuantity ? disountedPrice *= cartItem.cartQuantity : disountedPrice;
 
-                setPrice({
-                    crossedPrice: crossedPrice.toFixed(2),
-                    disountedPrice: disountedPrice.toFixed(2),
-                });
+                    setPrice({
+                        crossedPrice: crossedPrice.toFixed(2),
+                        disountedPrice: disountedPrice.toFixed(2),
+                    });
+                } else {
+                    console.error('getAsyncPrice is not a function on cartItem');
+                }
             } catch (error) {
-                console.error("Error getting price:", error);
+                console.warn("Error getting price:", error);
             }
         };
+
 
         fetchPrices();
     }, [cartItem, cartIds]);

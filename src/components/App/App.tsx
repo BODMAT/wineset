@@ -19,6 +19,8 @@ import { usePopupStore } from "../../store/popup";
 import { PageGlassesAndCandles } from "../PagesBoxAndCandles/PageGlassesAndCandles";
 import { PageWineAndAlco } from "../PagesWineAlcoAndDelicacies/PageWineAndAlco";
 import { PageDelicacies } from "../PagesWineAlcoAndDelicacies/PageDelicacies";
+import { PageDelivery } from "../PageDelivery/PageDelivery";
+import { useWishlist } from "../../store/wishlist";
 
 export function App() {
   //!time-limited upload to DB function
@@ -29,8 +31,10 @@ export function App() {
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
 
   const { initializeCart } = useCart()
+  const { initializeWishlist } = useWishlist()
   useEffect(() => {
     initializeCart()
+    initializeWishlist()
   }, [])
 
   const { open } = usePopupStore();
@@ -90,7 +94,7 @@ export function App() {
           <Route path="Order" element={<PageOrder />} />
           <Route path="Articles" element={<PageArticles />} />
           <Route path="Sommelier" element={<PageSommelier />} />
-          <Route path="Delivery" element={<PageMessage message="This page will be added later" />} />
+          <Route path="Delivery" element={<PageDelivery />} />
             //!
           <Route path="Soon" element={<PageMessage message="This page will be added later" />} />
           <Route path="*" element={<PageMessage message="404 Not Found" />} />

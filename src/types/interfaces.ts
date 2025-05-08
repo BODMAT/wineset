@@ -1,5 +1,5 @@
 import { User } from "firebase/auth";
-import { BankType, CartIdsType, DeliveryType } from "./types";
+import { BankType, CartIdsType, DeliveryType, WishListIdsType } from "./types";
 import { IProduct, IProductWithCartQuantity } from "../architecture/Pruduct";
 import { CSSObjectWithLabel } from "react-select";
 
@@ -149,6 +149,23 @@ export interface ICart {
     clearCart: () => void;
 
     findSameProductInCartById: (id: string) => IProductWithCartQuantity | undefined;
+}
+
+export interface IWishList {
+    wishlistIds: WishListIdsType[];
+    wishlistProducts: IProduct[];
+
+    initializeWishlist: () => Promise<void>;
+    loadWishlistProducts: (cartIds: WishListIdsType[]) => Promise<IProductWithCartQuantity[]>;
+    addToWishlist: (product: IProduct) => void;
+    removeFromWishlist: (product: IProduct) => void;
+    clearWishlist: () => void;
+
+    findSameProductInCartById: (id: string) => IProduct | undefined;
+
+    saveWishlistByUserToDB: (user: User) => void;
+    loadWishlistByUserFromDB: (user: User) => WishListIdsType[] | undefined;
+    getWishlistTotal: () => number;
 }
 
 export interface IFilterState {

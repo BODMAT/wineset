@@ -1,6 +1,9 @@
 import { Box, IProduct, IProductWithCartQuantity } from "../../architecture/Pruduct";
 import ShareSVG from "../../assets/Product/share.svg";
+
 import HeartSVG from "../../assets/Product/heart.svg";
+import HeartAddedSVG from "../../assets/Product/heart-added.svg";
+
 import { copyAndGetCurrentUrl } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import { useCart } from "../../store/cart";
@@ -11,6 +14,8 @@ import { usePopupStore } from "../../store/popup";
 import { PhotoByCountries } from "./PhotoByCountries";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
 import { ProductCharacteristics } from "./ProductCharacteristics";
+import { useWishlist } from "../../store/wishlist";
+import { useAuthStore } from "../../store/auth";
 
 export function Product({ product }: { product: IProduct }) {
     const [productQuantity, setProductQuantity] = useState(1);
@@ -75,6 +80,34 @@ export function Product({ product }: { product: IProduct }) {
         }
     }, [product]);
 
+    const { addToWishlist, removeFromWishlist, wishlistIds } = useWishlist();
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const [heartImg, setHeartImg] = useState<string>(HeartSVG);
+
+    useEffect(() => {
+        // Перевіряємо, чи є продукт у списку бажаного
+        const isProductInWishlist = wishlistIds.some(([id]) => id === product.id);
+        setIsInWishlist(isProductInWishlist);
+        // Встановлюємо відповідну картинку
+        setHeartImg(isProductInWishlist ? HeartAddedSVG : HeartSVG);
+    }, [wishlistIds, product.id]);
+
+    const { user } = useAuthStore();
+    const handleWishlistToggle = () => {
+        if (!user) {
+            open("Notification wishlist", <p className="mb-5">Before adding product to wishlist, please Sign In to your account</p>, false);
+        } else {
+            if (isInWishlist) {
+                removeFromWishlist(product);
+                setHeartImg(HeartSVG)
+            } else {
+                addToWishlist(product);
+                setHeartImg(HeartAddedSVG)
+            }
+            setIsInWishlist(!isInWishlist);
+        }
+    };
+
     return (
         <motion.section
             initial={"hidden"}
@@ -96,8 +129,9 @@ export function Product({ product }: { product: IProduct }) {
                             className="transitioned hover:scale-110">
                             <img src={ShareSVG} alt="share" />
                         </button>
-                        <button className="transitioned hover:scale-110">
-                            <img src={HeartSVG} alt="heart" />
+                        <button onClick={handleWishlistToggle}
+                            className="transitioned hover:scale-110">
+                            <img src={heartImg} alt="wishlist togle" />
                         </button>
                     </div>
                 </div>
