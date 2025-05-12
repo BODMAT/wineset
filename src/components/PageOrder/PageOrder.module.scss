@@ -74,18 +74,3 @@
         }
     }
 }
-
-.buttonBuy {
-    border-radius: 4px;
-    padding: 24px 100px;
-    background: linear-gradient(to right, #7A0000, #990000);
-
-    color: #fff;
-    font-style: normal;
-    font-family: "Inter",sans-serif;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    @include mixins.adaptiv-font (24, 22);
-}

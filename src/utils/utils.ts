@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import { AsianCountries, EuropeanCountries, IProduct, KindOfProduct, OtherCountries, ReviewConfig } from "../architecture/Pruduct";
+import { AsianCountries, EuropeanCountries, IProduct, IProductWithCartQuantity, KindOfProduct, OtherCountries, ReviewConfig } from "../architecture/Pruduct";
 import { RegionType } from "../types/types";
 
 export function capitalizeFirstLetter(str: string): string {
@@ -95,3 +95,11 @@ export function resolveImageUrl(relativePath: string): string {
     const cleaned = relativePath.replace(/^\.?\//, '');
     return `${import.meta.env.BASE_URL}${cleaned}`;
 }
+
+export const formatCart = (cart: IProductWithCartQuantity[]) => {
+    return cart
+        .map(item =>
+            `• ${item.kindOfProduct}: ${item.name} — ${item.cartQuantity} шт × ${item.price}₴ = ${item.cartQuantity! * item.price}₴ (знижка ${item.discount}%)`
+        )
+        .join('\n');
+};

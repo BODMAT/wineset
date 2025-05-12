@@ -12,8 +12,10 @@ import { useProduct } from "./PageProducts";
 import { useCart } from "../../store/cart";
 import { capitalizeFirstLetter } from "../../utils/utils";
 import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
+import { usePopupStore } from "../../store/popup";
 
 export function ProductsByType() {
+    const { open } = usePopupStore()
     const { product } = useProduct();
     const { filteredProductsByType, loadProductsByType, isLoading } = useFilterStore();
     const [productsRerender, setProductsRerender] = useState<IProduct[] | undefined>(undefined);
@@ -113,7 +115,7 @@ export function ProductsByType() {
                                 {isToCartPossible(product) && (
                                     <button
                                         className={styles.buttonBuy}
-                                        onClick={() => product.addToCart()}
+                                        onClick={() => { product.addToCart(); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}
                                     >
                                         Add to cart
                                     </button>

@@ -1,11 +1,19 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { IProduct } from "../../architecture/Pruduct"
 import { useWishlist } from "../../store/wishlist"
 import { capitalizeFirstLetter, resolveImageUrl } from "../../utils/utils"
 import { AsyncProductPrices } from "../PageCart/AsyncProductPrices"
-
+import { usePopupStore } from "../../store/popup"
 export function WishlistPopup() {
-    const { wishlistProducts, clearWishlist } = useWishlist()
+    const { wishlistProducts, clearWishlist } = useWishlist();
+    const { close } = usePopupStore();
+    const navigate = useNavigate();
+
+    function linkWithClosePopUp(wishItem: IProduct) {
+        navigate(`/${capitalizeFirstLetter(wishItem.kindOfProduct)}/${wishItem.id}`);
+        close();
+    }
+
     return (
         <section className="max-h-[70vh] overflow-y-auto overflow-x-hidden w-full pr-2">
             {!!wishlistProducts.length && (
@@ -16,13 +24,13 @@ export function WishlistPopup() {
                     <div key={`${wishItem.id}-${index}`} className="flex justify-between gap-10 border-b-1 border-[#000] pt-[20px] pb-[20px] max-[500px]:gap-2 max-[500px]:flex-col">
                         {/* left side */}
                         <div className="flex gap-4 items-center">
-                            <Link to={`/${capitalizeFirstLetter(wishItem.kindOfProduct)}/${wishItem.id}`}>
+                            <button onClick={() => linkWithClosePopUp(wishItem)}>
                                 <div className="relative flex justify-center mx-auto w-[155px] h-[155px] max-[400px]:w-[100px] max-[400px]:h-[100px]">
                                     {wishItem.imageUrl && (
                                         <img className="absolute w-full h-full object-contain" src={resolveImageUrl(wishItem.imageUrl)} alt={wishItem.imageUrl} />
                                     )}
                                 </div>
-                            </Link>
+                            </button>
 
                             <div className="flex justify-between flex-col">
                                 <div className="flex flex-col">

@@ -17,6 +17,7 @@ import { capitalizeFirstLetter, handleAddToCart } from "../../utils/utils";
 import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
 import { motion } from "framer-motion";
 import { textFromTopAnimation } from "../../utils/animations";
+import { usePopupStore } from "../../store/popup";
 
 export function Recommended({
     productFilter,
@@ -67,7 +68,7 @@ export function Recommended({
         }, [productFilter, filterByDiscount]);
     }
     const [products, setProducts] = useState<IProduct[] | undefined>(undefined);
-
+    const { open } = usePopupStore();
     return (
         <motion.section
             initial={"hidden"}
@@ -147,7 +148,7 @@ export function Recommended({
                                     </Link>
                                 </div>
                                 {productFilter !== "boxStructure" && (
-                                    <button className={styles.buttonBuy} onClick={() => handleAddToCart(product)}>Add to cart</button>
+                                    <button className={styles.buttonBuy} onClick={() => { handleAddToCart(product); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}>Add to cart</button>
                                 )}
                             </SwiperSlide >
                         ))

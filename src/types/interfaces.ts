@@ -149,6 +149,7 @@ export interface ICart {
     clearCart: () => void;
 
     findSameProductInCartById: (id: string) => IProductWithCartQuantity | undefined;
+    getCartTotal: () => number;
 }
 
 export interface IWishList {

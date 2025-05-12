@@ -201,9 +201,14 @@ export const useCart = create<ICart>()(
                         cartIds: [],
                         cartProducts: [],
                         totalCartPriceWithoutDiscount: 0,
+                        totalCartPriceWithDiscount: 0,
                         totalCartDiscount: 0,
                     }));
                 },
+
+                getCartTotal: (): number => {
+                    return get().cartProducts.length;
+                }
             }),
             {
                 name: "cart-storage",

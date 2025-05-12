@@ -11,6 +11,8 @@ import { MenuType } from "../../types/types";
 import { useWishlist } from "../../store/wishlist";
 import { usePopupStore } from "../../store/popup";
 import { WishlistPopup } from "../PopUps/WishlistPopup";
+import { CartPopUp } from "../PopUps/CartPopUp";
+import { useCart } from "../../store/cart";
 
 export function FixedHeader() {
     const [state, setState] = useState<IHeaderState>({
@@ -100,6 +102,7 @@ export function FixedHeader() {
     const { user } = useAuthStore();
     const { getWishlistTotal } = useWishlist()
     const { open } = usePopupStore()
+    const { getCartTotal } = useCart()
     return (
         <>
             <header className={`${styles.header} ${state.isScrolledDown ? styles.sticky : ""}`}>
@@ -187,7 +190,10 @@ export function FixedHeader() {
                                         <span>{getWishlistTotal()}</span>
                                     )}
                                 </button>
-                                <button className={styles.header__cart}>
+                                <button onClick={() => {
+                                    open("Cart", <CartPopUp />, false);
+                                }}
+                                    className={styles.header__cart}>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M11 28C12.1046 28 13 27.1046 13 26C13 24.8954 12.1046 24 11 24C9.89543 24 9 24.8954 9 26C9 27.1046 9.89543 28 11 28Z"
@@ -211,6 +217,9 @@ export function FixedHeader() {
                                             strokeLinejoin="round"
                                         />
                                     </svg>
+                                    {getCartTotal() > 0 && (
+                                        <span>{getCartTotal()}</span>
+                                    )}
                                 </button>
 
                             </div>

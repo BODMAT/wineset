@@ -3,11 +3,17 @@ import emailjs from "@emailjs/browser";
 import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { IPersonalData } from '../../types/interfaces';
-import { formatCardNumber } from '../../utils/utils';
+import { formatCardNumber, formatCart } from '../../utils/utils';
 import { motion } from 'framer-motion';
 import { textFromTopAnimation } from '../../utils/animations';
+import { FinalCart } from './FinalCart';
+import { useAuthStore } from '../../store/auth';
+import { usePopupStore } from '../../store/popup';
+import { useCart } from '../../store/cart';
+import { updateProductQuantities } from '../../api/product';
 
 export function PersonalDataForm() {
+    const { clearCart, cartProducts, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart()
     const {
         control,
         register,
@@ -26,30 +32,43 @@ export function PersonalDataForm() {
     }, []);
 
     const formRef = useRef<HTMLFormElement>(null);
+    const { user } = useAuthStore();
+    const [firstName = "", lastName = ""] = user?.displayName?.split(" ") || [];
+    const email = user?.email ? user.email : "";
+    const { open } = usePopupStore()
 
     const sendMail = async (data: IPersonalData) => {
         const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ORDER_ID;
+        const myMail = "matula.bohdan@gmail.com";
+        const cart = formatCart(cartProducts);
+        const to_email = `${myMail}, ${data.email}`; // обидва отримувача
 
         try {
-            await emailjs.send(serviceId, templateId, { ...data });
-            alert("Your order has been successfully sent. We will contact you soon.");
+            await emailjs.send(serviceId, templateId, {
+                ...data,
+                to_email,
+                cart,
+                totalCartPriceWithoutDiscount,
+                totalCartPriceWithDiscount,
+            });
+
+            open("Notification", <p className="pb-5">Your order has been successfully sent. We will contact you soon.</p>);
+            await updateProductQuantities(cartProducts);
+            clearCart();
             reset();
         } catch (error) {
-            alert("Your order has been rejected, check error in console.");
+            open("Notification", <p className="pb-5">Your order has been rejected, check error in console.</p>);
             console.log(error);
         }
     };
 
     return (
-        <motion.section
-            initial={"hidden"}
-            whileInView={"visible"}
-            viewport={{ once: false, amount: 0.2 }} className='py-8'>
+        <section className='py-8'>
             <div className={styles.container}>
-                <motion.h2 variants={textFromTopAnimation} className={styles.title}>Personally Identifiable Information</motion.h2>
-                <div className="flex justify-between items-center gap-30 mt-5">
-                    <form ref={formRef} id="oeder" className='flex-[0_1_50%] flex flex-col gap-10' onSubmit={handleSubmit(sendMail)}>
+                <h2 className={styles.title}>Personally Identifiable Information</h2>
+                <div className="flex justify-between items-center gap-30 mt-5 max-[900px]:flex-col">
+                    <form ref={formRef} id="oeder" className='flex-[0_1_50%] flex flex-col gap-10 max-[900px]:w-full' onSubmit={handleSubmit(sendMail)}>
                         <div className={styles.formBlock}>
                             <label htmlFor="name" className={styles.label}>Recipient</label>
 
@@ -57,6 +76,7 @@ export function PersonalDataForm() {
                                 placeholder='First name...'
                                 type="text"
                                 id='name'
+                                defaultValue={firstName ?? ''}
                                 {...register("name", { required: "Name is required" })}
                                 autoComplete="given-name"
                             />
@@ -66,6 +86,7 @@ export function PersonalDataForm() {
                                 placeholder='Surname...'
                                 type="text"
                                 id='surname'
+                                defaultValue={lastName ?? ''}
                                 {...register("surname", { required: "Surname is required" })}
                                 autoComplete="family-name"
                             />
@@ -90,6 +111,7 @@ export function PersonalDataForm() {
                                 placeholder='Email...'
                                 type="email"
                                 id='email'
+                                defaultValue={email ?? ''}
                                 {...register("email", {
                                     required: "Email is required",
                                     pattern: {
@@ -237,13 +259,9 @@ export function PersonalDataForm() {
                         </div>
                     </form>
 
-                    <div className="flex-[0_1_50%] min-h-[960px] bg-[#A4A4A4]">
-                        <button onClick={() => formRef.current && formRef.current.dispatchEvent(new Event("submit", { bubbles: true }))} className={styles.buttonBuy} type='submit' form='order' disabled={isSubmitting}>
-                            {isSubmitting ? "Pending..." : "Place your order"}
-                        </button>
-                    </div>
+                    <FinalCart isSubmitting={isSubmitting} formRef={formRef} />
                 </div>
             </div>
-        </motion.section >
+        </section >
     )
 }

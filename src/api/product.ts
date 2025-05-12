@@ -1,6 +1,7 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import { Box, Candle, Champagne, Cheese, Cookie, Delicacy, Glass, IProduct, KindOfProduct, Sauce, Vodka, Whiskey, Wine } from "../architecture/Pruduct";
+import { Box, Candle, Champagne, Cheese, Cookie, Delicacy, Glass, IProduct, IProductWithCartQuantity, KindOfProduct, Sauce, Vodka, Whiskey, Wine } from "../architecture/Pruduct";
+import { capitalizeFirstLetter } from "../utils/utils";
 
 // to create an instance of a product when I make a request with DB and others
 export const productClassesMap: Record<KindOfProduct, new (data: any) => IProduct> = {
@@ -91,4 +92,30 @@ export const fetchDetailedStructureOfBox = async function (this: Box): Promise<I
     }
 
     return products;
+};
+
+export const updateProductQuantities = async (products: IProductWithCartQuantity[]): Promise<void> => {
+    const updates = products.map(async (product) => {
+        const { id, cartQuantity = 0, quantity, kindOfProduct } = product;
+
+        if (!id || quantity === undefined) return;
+
+        const newQuantity = quantity - cartQuantity;
+
+        // Пропускаємо, якщо нова кількість некоректна (але це неможливо)
+        if (isNaN(newQuantity) || newQuantity < 0) {
+            console.warn(`Пропущено товар з id ${id} через некоректну кількість`);
+            return;
+        }
+
+        const productRef = doc(db, "Products", capitalizeFirstLetter(kindOfProduct), "items", id);
+
+        try {
+            await updateDoc(productRef, { quantity: newQuantity });
+        } catch (error) {
+            console.error(` Failed to update item with id ${id}:`, error);
+        }
+    });
+
+    await Promise.all(updates);
 };
