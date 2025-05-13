@@ -24,7 +24,7 @@ export function PageDelicacies() {
                         </p>
                     </>
                 }
-                link="/Delicacies"
+                link="/Delicacies/Delicacies"
                 imgSrc={`${import.meta.env.BASE_URL}PageWineAlcoAndDelicacies/delicacy.jpeg`}
             />
 

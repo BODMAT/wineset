@@ -8,9 +8,12 @@ import { motion } from "framer-motion";
 import { blockFromRightAnimation, textFromTopAnimation } from "../../utils/animations";
 import { CartProducts } from "./CartProducts";
 import { usePopupStore } from "../../store/popup";
+import { useBonusStore } from "../../store/bonus"; // Імпорт твоєї бонусної логіки
+import { BonusPopUp } from "../PopUps/BonusPopUp";
 
 export function Cart() {
     const { cartProducts, totalCartDiscount, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart();
+    const { bonusesYouCanUse, bonusesYouWillReceive } = useBonusStore(); // Використовуємо бонуси з бонусного стору
     const { opacity, blockRef } = useOpacity();
     const navigate = useNavigate();
     const { open } = usePopupStore();
@@ -19,7 +22,7 @@ export function Cart() {
         if (cartProducts.length > 0) {
             navigate(link);
         } else {
-            open("Notification", <p className="pb-5">Firstly add items to Cart</p>)
+            open("Notification", <p className="pb-5">Firstly add items to Cart</p>);
         }
     }
 
@@ -52,18 +55,20 @@ export function Cart() {
                                     <h6 className={styles.orderRedPrice}>-{totalCartDiscount}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
-                                    <h6 className={styles.title}>Bonuses discount</h6>
-                                    <h6 className={styles.orderRedPrice}>-0$</h6>
+                                    <button
+                                        onClick={() => { open("About Bonus System", <BonusPopUp />) }}
+                                        className={`${styles.title} transitioned !text-[#7a0000] hover:underline cursor-pointer`}>Bonuses discount available</button>
+                                    <h6 className={styles.orderRedPrice}>-{bonusesYouCanUse}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
                                     <h6 className={styles.title}>Bonuses recieved</h6>
-                                    <h6 className={styles.orderRedPrice}>+0$</h6>
+                                    <h6 className={styles.orderRedPrice}>+{bonusesYouWillReceive}$</h6>
                                 </div>
                             </div>
                         </div>
                         <div className="border-b-2 border-[rgb(95,95,95)] py-[25px] flex justify-between gap-3">
                             <h2 className={styles.orderFont}>Total</h2>
-                            <h2 className={styles.orderFont}>{totalCartPriceWithDiscount}$</h2>
+                            <h2 className={styles.orderFont}>{Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0)}$</h2>
                         </div>
                         <div className="mt-[80px] flex justify-center">
                             <button onClick={() => handleLinkWithCheck("/Order")}>

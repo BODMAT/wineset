@@ -25,6 +25,7 @@ dist-ssr
 
 # keys and apis
 .env
+.env.production
 
 # DB local hidden
 src/data/Products/*.ts

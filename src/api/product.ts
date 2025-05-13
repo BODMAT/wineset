@@ -119,3 +119,28 @@ export const updateProductQuantities = async (products: IProductWithCartQuantity
 
     await Promise.all(updates);
 };
+
+export const fetchAllProductsToSearch = async (): Promise<IProduct[]> => {
+    const allProducts: IProduct[] = [];
+    for (const kindOfProduct of Object.keys(productClassesMap) as KindOfProduct[]) {
+        try {
+            const querySnapshot = await getDocs(collection(db, "Products", capitalizeFirstLetter(kindOfProduct), "items"));
+
+            querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+
+                try {
+                    const ProductClass = createProductInstance(data);
+                    const productInstance = new ProductClass(data);
+                    allProducts.push(productInstance);
+                } catch (err) {
+                    console.error(`Помилка створення продукту з категорії ${kindOfProduct}:`, err);
+                }
+            });
+        } catch (err) {
+            console.error(`Помилка запиту категорії ${kindOfProduct}:`, err);
+        }
+    }
+
+    return allProducts;
+};

@@ -1,6 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 import { AsianCountries, EuropeanCountries, IProduct, IProductWithCartQuantity, KindOfProduct, OtherCountries, ReviewConfig } from "../architecture/Pruduct";
 import { RegionType } from "../types/types";
+import { PageRoute } from "../types/interfaces";
 
 export function capitalizeFirstLetter(str: string): string {
     if (!str) return "";
@@ -102,4 +103,27 @@ export const formatCart = (cart: IProductWithCartQuantity[]) => {
             `• ${item.kindOfProduct}: ${item.name} — ${item.cartQuantity} шт × ${item.price}₴ = ${item.cartQuantity! * item.price}₴ (знижка ${item.discount}%)`
         )
         .join('\n');
+};
+
+export function isProduct(result: IProduct | PageRoute): result is IProduct {
+    return (result as IProduct).id !== undefined;
+}
+
+export function isPage(result: IProduct | PageRoute): result is PageRoute {
+    return (result as PageRoute).path !== undefined;
+}
+
+export const isTodayHoliday = (): boolean => {
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+
+    const HOLIDAYS = [
+        { day: 1, month: 1 },   // Новий Рік
+        { day: 8, month: 3 },   // 8 Березня
+        { day: 11, month: 5 },  // День вина
+        { day: 4, month: 10 },  // День алкоголю
+    ];
+
+    return HOLIDAYS.some(h => h.day === day && h.month === month);
 };

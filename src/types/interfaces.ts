@@ -216,3 +216,38 @@ export interface ArticleProps {
     img: string;
     sublabel?: string;
 }
+
+export interface SearchStore {
+    allProducts: IProduct[];
+    searchQuery: string;
+    matchedResults: SearchResult[];
+    isDropdownOpen: boolean;
+
+    fetchAndStoreAllProducts: () => Promise<void>;
+    setSearchQuery: (query: string) => void;
+    clearSearch: () => void;
+}
+export interface PageRoute {
+    path: string;
+    label: string;
+}
+
+export interface SearchResult {
+    type: "product" | "page";
+    value: IProduct | PageRoute;
+    score: number;
+}
+
+export interface IBonus {
+    bonusesAlreadyHas: number; // Current bonuses the user has
+    bonusesYouWillReceive: number; // Bonuses the user will receive based on the order
+    useBonuses: boolean; // Whether the user has chosen to use their bonuses
+    bonusesYouCanUse: number; // Maximum bonuses that can be used based on available bonuses and order value
+
+    // Method to initialize bonus calculations based on the order value, promotions, and holidays
+    initializeBonus: () => Promise<void>;
+    setBonusesAlreadyHas: (value: number) => void;
+    clearAllBonuses: () => void;
+    toggleUseBonuses: () => Promise<void>;
+    updateBonusesInDBAfterPurchase: () => Promise<void>;
+}

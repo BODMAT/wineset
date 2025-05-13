@@ -21,6 +21,8 @@ import { PageWineAndAlco } from "../PagesWineAlcoAndDelicacies/PageWineAndAlco";
 import { PageDelicacies } from "../PagesWineAlcoAndDelicacies/PageDelicacies";
 import { PageDelivery } from "../PageDelivery/PageDelivery";
 import { useWishlist } from "../../store/wishlist";
+import { useBonusStore } from "../../store/bonus";
+import { useAuthStore } from "../../store/auth";
 
 export function App() {
   //!time-limited upload to DB function
@@ -29,13 +31,17 @@ export function App() {
   // }, []);
 
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
-
-  const { initializeCart } = useCart()
-  const { initializeWishlist } = useWishlist()
+  const { initializeBonus, toggleUseBonuses } = useBonusStore();
+  const { user } = useAuthStore();
+  const { initializeCart, totalCartPriceWithoutDiscount, cartProducts } = useCart();
+  const { initializeWishlist } = useWishlist();
   useEffect(() => {
     initializeCart()
     initializeWishlist()
   }, [])
+  useEffect(() => {
+    initializeBonus();
+  }, [cartProducts, totalCartPriceWithoutDiscount, initializeBonus, user, toggleUseBonuses]);
 
   const { open } = usePopupStore();
   useEffect(() => {

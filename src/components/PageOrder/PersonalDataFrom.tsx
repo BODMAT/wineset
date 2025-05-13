@@ -4,15 +4,15 @@ import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { IPersonalData } from '../../types/interfaces';
 import { formatCardNumber, formatCart } from '../../utils/utils';
-import { motion } from 'framer-motion';
-import { textFromTopAnimation } from '../../utils/animations';
 import { FinalCart } from './FinalCart';
 import { useAuthStore } from '../../store/auth';
 import { usePopupStore } from '../../store/popup';
 import { useCart } from '../../store/cart';
 import { updateProductQuantities } from '../../api/product';
+import { useBonusStore } from '../../store/bonus';
 
 export function PersonalDataForm() {
+    const { updateBonusesInDBAfterPurchase, bonusesYouCanUse, useBonuses } = useBonusStore();
     const { clearCart, cartProducts, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart()
     const {
         control,
@@ -42,7 +42,10 @@ export function PersonalDataForm() {
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ORDER_ID;
         const myMail = "matula.bohdan@gmail.com";
         const cart = formatCart(cartProducts);
-        const to_email = `${myMail}, ${data.email}`; // обидва отримувача
+        const to_email = `${myMail}, ${data.email}`;
+
+        const totalCartPriceWithDiscountAndBonusUsed =
+            useBonuses ? totalCartPriceWithDiscount - bonusesYouCanUse : totalCartPriceWithDiscount;
 
         try {
             await emailjs.send(serviceId, templateId, {
@@ -51,9 +54,18 @@ export function PersonalDataForm() {
                 cart,
                 totalCartPriceWithoutDiscount,
                 totalCartPriceWithDiscount,
+                totalCartPriceWithDiscountAndBonusUsed,
             });
 
-            open("Notification", <p className="pb-5">Your order has been successfully sent. We will contact you soon.</p>);
+            open("Notification",
+                <div className="pb-5">
+                    <p className="pb-2">Your order has been successfully submitted. We will contact you shortly.</p>
+                    <p>{!user ? "However, you did not receive your bonuses because you are not logged in." : ""}</p>
+                </div>
+            );
+
+            // Списання використаних бонусів та нарахування нових
+            await updateBonusesInDBAfterPurchase();
             await updateProductQuantities(cartProducts);
             clearCart();
             reset();
@@ -62,6 +74,7 @@ export function PersonalDataForm() {
             console.log(error);
         }
     };
+
 
     return (
         <section className='py-8'>

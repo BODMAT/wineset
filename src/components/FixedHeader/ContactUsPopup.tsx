@@ -28,7 +28,7 @@ export function ContactUsPopup({ state, setState }: ContactUsPopupProps) {
                     <a target="_blank" href="https://web.telegram.org/"><img src={TelegramIcon} alt="tg" /></a>
                     <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={InstagramIcon} alt="inst" /></a>
                 </div>
-                <Link className={styles.header__contactInfo_about} to="/about">More information</Link>
+                <Link className={styles.header__contactInfo_about} to="/Soon">More information</Link>
             </div>
         </div>
     )

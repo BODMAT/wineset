@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { CartProducts } from "../PageCart/CartProducts";
 import { useCart } from "../../store/cart";
 import { usePopupStore } from "../../store/popup";
+import { useBonusStore } from "../../store/bonus";
 
 export function FinalCart({ formRef, isSubmitting }: { formRef: RefObject<HTMLFormElement>, isSubmitting: boolean }) {
     const { totalCartPriceWithDiscount, cartProducts } = useCart()
     const { open } = usePopupStore()
+    const { bonusesYouCanUse } = useBonusStore();
     function handleSubmit() {
         if (cartProducts.length > 0) {
-            formRef.current && formRef.current.dispatchEvent(new Event("submit", { bubbles: true }))
+            formRef.current && formRef.current.dispatchEvent(new Event("submit", { bubbles: true }));
         } else {
             open("Notification", <p className="pb-5">Firstly add items to Cart</p>)
         }
@@ -24,8 +26,8 @@ export function FinalCart({ formRef, isSubmitting }: { formRef: RefObject<HTMLFo
             <CartProducts changable={false} />
 
             <div className="border-b-1 py-5 flex gap-10 justify-between items-center">
-                <h3 className="!font-semibold !text-[22px] uppercase text-black">Total</h3>
-                <h3 className="!font-semibold !text-[22px] uppercase text-black">{totalCartPriceWithDiscount}$</h3>
+                <h3 className="!font-semibold !text-[22px] uppercase text-black">Total with discount and bonuses</h3>
+                <h3 className="!font-semibold !text-[22px] uppercase text-black">{Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0)}$</h3>
             </div>
 
             <div className="text-center mt-5">

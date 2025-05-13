@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
 import styles from "./FixedHeader.module.scss";
-import searchSVG from "../../assets/search.svg";
 import { useEffect, useState } from "react";
 import { Menu } from "../../data/Other/Menu";
 import { ContactUsPopup } from "./ContactUsPopup";
@@ -13,6 +12,7 @@ import { usePopupStore } from "../../store/popup";
 import { WishlistPopup } from "../PopUps/WishlistPopup";
 import { CartPopUp } from "../PopUps/CartPopUp";
 import { useCart } from "../../store/cart";
+import { Search } from "./Search";
 
 export function FixedHeader() {
     const [state, setState] = useState<IHeaderState>({
@@ -123,12 +123,7 @@ export function FixedHeader() {
                                 )}
                             </div>
                             <div className={`${styles.header__info} ${state.isBurgerActive ? styles.active_burger : ""}`}>
-                                <form action="#" className={styles.header__form}>
-                                    <input className={styles.header__form_input} type="text" placeholder="Find a drink..." />
-                                    <button className={styles.header__form_btn} type="submit">
-                                        <img src={searchSVG} alt="search" />
-                                    </button>
-                                </form>
+                                <Search />
                                 <div className={styles.header__buttons}>
                                     <button onClick={() => setLoginActive(true)} className="text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent">
                                         {user ? user.displayName : "Sing in"}
