@@ -1,4 +1,4 @@
-import StarSVG from "../../assets/Product/star.svg";
+import StarSVG from "../../assets/Product/Star.svg";
 import EmptyStarSVG from "../../assets/Product/EmptyStar.svg";
 
 export function RatingStars({ rating }: { rating: number }) {

@@ -30,7 +30,7 @@ jobs:
           gpg --quiet --batch --yes --decrypt --passphrase="$SECRET_PASSPHRASE" \
             --output .env.production .env.production.gpg
         env:
-          SECRET_PASSPHRASE: ${{ SECRET_PASSPHRASE }}
+          SECRET_PASSPHRASE: ${{ secrets.SECRET_PASSPHRASE }}
 
       # Крок 5: Створюємо білд
       - name: Build the project
@@ -42,4 +42,4 @@ jobs:
         with:
           personal_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist  # директорія, де знаходиться результат білду
-          target_branch: gh-pages 
+          publish_branch: gh-pages
