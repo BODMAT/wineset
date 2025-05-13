@@ -9,7 +9,7 @@ import { useReviews } from "../../hooks/useReviews";
 export function ProductCharacteristics({ product }: { product: IProduct }) {
     const productClass: string = capitalizeFirstLetter(product.kindOfProduct);
     const productId: string = product.id ? product.id : "anonymous";
-    const { data: reviews = [], refetch } = useReviews([productClass, "items", productId]);
+    const { data: reviews = [] } = useReviews([productClass, "items", productId]);
 
     const rating = getRating(reviews);
     return (

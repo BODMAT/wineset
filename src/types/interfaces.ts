@@ -157,16 +157,19 @@ export interface IWishList {
     wishlistProducts: IProduct[];
 
     initializeWishlist: () => Promise<void>;
-    loadWishlistProducts: (cartIds: WishListIdsType[]) => Promise<IProductWithCartQuantity[]>;
+    loadWishlistProducts: (cartIds: WishListIdsType[]) => Promise<IProduct[]>;
     addToWishlist: (product: IProduct) => void;
     removeFromWishlist: (product: IProduct) => void;
     clearWishlist: () => void;
 
-    findSameProductInCartById: (id: string) => IProduct | undefined;
+    findSameProductInWishlistById: (id: string) => IProduct | undefined;
 
     saveWishlistByUserToDB: (user: User) => void;
     loadWishlistByUserFromDB: (user: User) => WishListIdsType[] | undefined;
     getWishlistTotal: () => number;
+
+    setWishlistIds: (wishlistIds: WishListIdsType[]) => void;
+    setWishlistProducts: (wishlistProducts: IProduct[]) => void;
 }
 
 export interface IFilterState {

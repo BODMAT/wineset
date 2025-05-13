@@ -18,18 +18,20 @@ export async function addWishList(wishlistIds: WishListIdsType[], user: User) {
     }
 }
 
-export async function loadWishlList(user: User) {
-    const { wishlistIds, loadWishlistProducts } = useWishlist()
+export async function loadWishList(user: User) {
+    const { setWishlistIds, setWishlistProducts, loadWishlistProducts } = useWishlist.getState(); // Використовуємо Zustand, щоб отримати доступ до стейту
     try {
         const docSnap = await getDoc(doc(db, "wishlists", user.uid));
         if (docSnap.exists()) {
             const wishlistJson = docSnap.data().wishlist;
-            const wishlist = JSON.parse(wishlistJson); // Перетворюємо JSON назад у масив
-            set({ wishlistIds: wishlist });
-            const products = await get().loadWishlistProducts(wishlist);
-            set({ wishlistProducts: products });
+            const wishlist: WishListIdsType[] = JSON.parse(wishlistJson); // Перетворюємо JSON назад у масив
+            setWishlistIds(wishlist); // Оновлюємо стан wishlistIds через Zustand
+            const products = await loadWishlistProducts(wishlist); // Завантажуємо продукти на основі списку
+            setWishlistProducts(products); // Оновлюємо стан wishlistProducts
         }
     } catch (error) {
         console.error("Error loading wishlist from DB:", error);
     }
 }
+
+

@@ -7,6 +7,8 @@
 - add advanced forms (React Hook Form);
 - add styles (TailwindCSS, module.scss);
 - use Firebase Spark for DataBase;
+- implement state management using Zustand for simple and efficient global state control;
+- use TanStack Query for managing server state, caching, and efficient data fetching.
 - additionally make authorization using Firebase Authentication (Google + email/password);
 - additionally make reviews for authorized users;
 

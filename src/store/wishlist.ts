@@ -108,5 +108,10 @@ export const useWishlist = create<IWishList>()(
         getWishlistTotal: (): number => {
             return get().wishlistProducts.length;
         },
+
+        // Функції для оновлення стану
+        setWishlistIds: (wishlistIds: WishListIdsType[]) => set({ wishlistIds }), // Оновлення wishlistIds
+        setWishlistProducts: (wishlistProducts: IProduct[]) => set({ wishlistProducts }), // Оновлення wishlistProducts
+
     }))
 );

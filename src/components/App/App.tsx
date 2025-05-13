@@ -8,7 +8,6 @@ import { PageProducts } from "../PageProducts/PageProducts";
 import { PageOrder } from "../PageOrder/PageOrder";
 import { PageArticles } from "../PageArticles/PageArticles";
 import { useAgeStore } from "../../store/fullAged";
-import { uploadInfo } from "./uploadToDBFunc";
 import { PageProduct } from "../PageProduct/PageProduct";
 import { PageCart } from "../PageCart/PageCart";
 import { useEffect } from "react";
@@ -25,10 +24,6 @@ import { useBonusStore } from "../../store/bonus";
 import { useAuthStore } from "../../store/auth";
 
 export function App() {
-  //!time-limited upload to DB function
-  // useEffect(() => {
-  //   uploadInfo();
-  // }, []);
 
   const { isFullAgedActive, setIsFullAgedActive } = useAgeStore();
   const { initializeBonus, toggleUseBonuses } = useBonusStore();
