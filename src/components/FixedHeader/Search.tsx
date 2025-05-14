@@ -64,7 +64,7 @@ export function Search() {
     return (
         <form
             onSubmit={handleSubmit}
-            className="relative flex items-center border-2 focus:outline-none border-b-white py-2 w-[calc(300px+2vw)]"
+            className="relative z-20 flex items-center border-b-2 focus:outline-none border-b-white py-2 w-[calc(300px+2vw)]"
             autoComplete="off"
         >
             <input

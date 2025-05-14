@@ -54,7 +54,7 @@ export function App() {
           onClick={() => setIsFullAgedActive(false)} // Close popup
           className="bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[250px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000] ml-6 mb-8"
         >
-          I was 18
+          I am 18+
         </button>
       </div>,
       true,

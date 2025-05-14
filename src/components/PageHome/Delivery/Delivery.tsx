@@ -33,7 +33,7 @@ export function Delivery() {
                 opacity: opacity,
             }}
                 className={styles.delivery__winespot2}>
-                <img src="./Delivery/wine-spot-3.png" alt="wine-spot-3" />
+                <img src="./WineSpots/wine-spot-2.png" alt="wine-spot-2" />
             </div>
         </motion.section>
     )

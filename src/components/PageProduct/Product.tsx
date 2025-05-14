@@ -29,7 +29,7 @@ export function Product({ product }: { product: IProduct }) {
         direction: "increase" | "decrease",
         updateQuantity: () => void
     ): void {
-        if (!product.id || product.quantity <= 0) return;
+        if (!product.id) return;
 
         const productInCart = findSameProductInCartById(product.id);
         const cartQty = productInCart?.cartQuantity ?? 0;
@@ -39,6 +39,8 @@ export function Product({ product }: { product: IProduct }) {
             if (productQuantity > 1) {
                 updateQuantity();
                 setButtonText("To Cart");
+            } else {
+                setButtonText("Lack of quantity");
             }
             return;
         }
@@ -48,15 +50,16 @@ export function Product({ product }: { product: IProduct }) {
             updateQuantity();
             setButtonText("To Cart");
         } else {
+            setButtonText("Max of quantity");
             open("Notification 1", <p className="mb-5">Lack of stock</p>, false);
-            setButtonText("Lack of quantity");
         }
     }
 
+
     function handleAddToCart(product: IProductWithCartQuantity): void {
-        if (product.id && product.quantity > 0) {
+        if (product.id && product.quantity >= 0) {
             const productInCart: IProductWithCartQuantity | undefined = findSameProductInCartById(product.id);
-            if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity + productQuantity < productInCart.quantity) {
+            if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity + productQuantity <= productInCart.quantity) {
                 product.addToCart(productQuantity); setProductQuantity(1);
                 open("Cart Updated", <p className="mb-5">{productQuantity} {product.name} added to Cart!</p>, false);
                 return
