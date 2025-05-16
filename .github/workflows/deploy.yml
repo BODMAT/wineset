@@ -36,6 +36,10 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      # Копіюємо index.html як 404.html (для правильної обробки роутів)
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html
+
       # Крок 6: Деплой на gh-pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
