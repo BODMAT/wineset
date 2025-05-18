@@ -17,7 +17,6 @@ export function Auth({ loginActive, setLoginActive }: AuthProps) {
     const { loadWishlistByUserFromDB, saveWishlistByUserToDB, wishlistIds } = useWishlist();
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-    // Загрузка wishlist при входе
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -29,7 +28,6 @@ export function Auth({ loginActive, setLoginActive }: AuthProps) {
         return () => unsubscribe();
     }, []);
 
-    // Сохранение wishlist при скрытии вкладки
     useEffect(() => {
         if (!currentUser) return;
 

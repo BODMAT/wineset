@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ReviewConfig } from "../architecture/Pruduct";
 import { addReview, deleteReview, fetchReviews } from "../api/review";
 
-
 // reviewsRefArr example ["Wine", "items", "wineId"]
 export const useReviews = (reviewsRefArr: string[]) => {
     return useQuery<ReviewConfig[]>({

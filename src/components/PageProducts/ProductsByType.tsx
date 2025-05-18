@@ -44,7 +44,7 @@ export function ProductsByType() {
             if (productInCart && productInCart.cartQuantity && productInCart.cartQuantity < productInCart.quantity) {
                 return true;
             } else if (!productInCart) {
-                return true; //ще не доданий
+                return true;
             }
         }
         return false

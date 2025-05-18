@@ -88,10 +88,8 @@ export function Product({ product }: { product: IProduct }) {
     const [heartImg, setHeartImg] = useState<string>(HeartSVG);
 
     useEffect(() => {
-        // Перевіряємо, чи є продукт у списку бажаного
         const isProductInWishlist = wishlistIds.some(([id]) => id === product.id);
         setIsInWishlist(isProductInWishlist);
-        // Встановлюємо відповідну картинку
         setHeartImg(isProductInWishlist ? HeartAddedSVG : HeartSVG);
     }, [wishlistIds, product.id]);
 

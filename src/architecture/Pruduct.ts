@@ -204,12 +204,13 @@ abstract class Product implements IProduct {
         wishlist.removeFromWishlist(this);
     }
 
+    //! Перевизначений поліморфізм (див Box) 
     async getAsyncPrice(): Promise<number> {
         // cause of Box, which price is calculated separately
         return this._price;
     }
 
-    //Polimorphic method 1
+    //! Параметризований поліморфізм
     getDiscountedPrice(): number {
         return this._discount
             ? this._price - (this._price * this._discount) / 100
@@ -314,7 +315,7 @@ export class Box extends Product {
 
     get price(): number { return this._price }
 
-    //Polimorphic method 2
+    //!
     async getAsyncPrice(): Promise<number> {
         if (this._price !== 0) {
             return this._price; //cached
@@ -352,6 +353,7 @@ export class Box extends Product {
         };
     }
 
+    //! Гібридний поліморфізм
     getWeightOrVolume(product: IProduct): string {
         if (product instanceof AlcoholDrink) {
             return `${product.volume}L`;

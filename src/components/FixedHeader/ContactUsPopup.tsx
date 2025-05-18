@@ -19,8 +19,8 @@ export function ContactUsPopup({ state, setState }: ContactUsPopupProps) {
             <div className={styles.header__contactInfo_content}>
                 <div className={styles.header__contactInfo_contacts}>
                     <div className={styles.header__contactInfo_adress}><span>Address:</span> Zabuttsia Sahakanskiy, 25, Kyiv</div>
-                    <div className={styles.header__contactInfo_phone}><span>Phone:</span>1235123123, 15121231231</div>
-                    <div className={styles.header__contactInfo_email}><span>Email:</span>delivery@wineset.ua</div>
+                    <div className={styles.header__contactInfo_phone}><span>Phone:</span> 1235123123, 15121231231</div>
+                    <div className={styles.header__contactInfo_email}><span>Email:</span> delivery@wineset.ua</div>
                 </div>
                 <LeafletMap height={"180px"} />
                 <div className={styles.header__contactInfo_socials}>
@@ -28,7 +28,7 @@ export function ContactUsPopup({ state, setState }: ContactUsPopupProps) {
                     <a target="_blank" href="https://web.telegram.org/"><img src={TelegramIcon} alt="tg" /></a>
                     <a target="_blank" href="https://www.instagram.com/wineshop.kyiv/"><img src={InstagramIcon} alt="inst" /></a>
                 </div>
-                <Link className={styles.header__contactInfo_about} to="/Soon">More information</Link>
+                <Link className={styles.header__contactInfo_about} to="/Delivery">About Delivery</Link>
             </div>
         </div>
     )

@@ -15,15 +15,12 @@ export const useCart = create<ICart>()(
                 totalCartPriceWithDiscount: 0,
                 totalCartDiscount: 0,
 
-                //Asyc initialization of Cart from localStorage
                 //! IMPORTANT TO USE IN USEEFFECT IN ALL CASES OR PARENT COMPONENT TO UPD CART
                 initializeCart: async () => {
                     const cartData = localStorage.getItem("cart-storage");
                     if (cartData) {
                         try {
-                            const parsedCart = JSON.parse(cartData); // Парсимо весь об'єкт
-
-                            // Витягуємо лише cartIds з state
+                            const parsedCart = JSON.parse(cartData);
                             const parsedCartIds = parsedCart?.state?.cartIds;
 
                             if (Array.isArray(parsedCartIds)) {
@@ -45,7 +42,6 @@ export const useCart = create<ICart>()(
                     }
                 },
 
-                //Loading of products by identifiers
                 loadCartProducts: async (cartIds: CartIdsType[]) => {
                     try {
                         const products = await Promise.all(
@@ -99,7 +95,7 @@ export const useCart = create<ICart>()(
                                 cartProducts: cartProducts,
                             });
 
-                            get().updateCartTotals(cartProducts); //!
+                            get().updateCartTotals(cartProducts);
                         } else {
                             console.warn("Кількість, яку ви хочете додати, перевищує доступну.");
                         }
@@ -120,7 +116,7 @@ export const useCart = create<ICart>()(
                                 cartIds: updatedCartIds,
                                 cartProducts: updatedCartProducts,
                             });
-                            get().updateCartTotals(updatedCartProducts); //!
+                            get().updateCartTotals(updatedCartProducts);
                         } else {
                             console.warn("Кількість, яку ви хочете додати, перевищує доступну.");
                         }
@@ -129,8 +125,6 @@ export const useCart = create<ICart>()(
 
                 removeFromCart: (product: IProductWithCartQuantity, quantity: number = 1) => {
                     const { cartIds, cartProducts } = get();
-
-                    // Проверяем, есть ли продукт в корзине
                     const existingProductIndex = cartIds.findIndex(([id]) => id === product.id);
 
                     if (existingProductIndex !== -1) {
@@ -142,11 +136,9 @@ export const useCart = create<ICart>()(
                             const newQuantity = (currentCartQuantity || 0) - quantity;
 
                             if (newQuantity > 0) {
-                                // Если количество больше 0, обновляем cartQuantity
                                 updatedCartIds[existingProductIndex] = [id, kind, newQuantity];
                                 existingCartProduct.cartQuantity = newQuantity;
                             } else {
-                                // Если количество равно 0 или меньше, удаляем продукт из корзины
                                 updatedCartIds.splice(existingProductIndex, 1);
 
                                 const updatedCartProducts = cartProducts.filter((p) => p.id !== product.id);
@@ -155,17 +147,15 @@ export const useCart = create<ICart>()(
                                     cartIds: updatedCartIds,
                                     cartProducts: updatedCartProducts,
                                 });
-                                get().updateCartTotals(updatedCartProducts); // Пересчет
-                                return; // Завершаем выполнение, так как продукт полностью удален
+                                get().updateCartTotals(updatedCartProducts);
+                                return;
                             }
 
-                            // Обновляем состояние корзины
                             set({
                                 cartIds: updatedCartIds,
                                 cartProducts: [...cartProducts],
                             });
 
-                            // Пересчитываем итоговые значения
                             get().updateCartTotals(cartProducts);
                         } else {
                             console.warn(`Продукт с ID ${product.id} не найден в cartProducts.`);

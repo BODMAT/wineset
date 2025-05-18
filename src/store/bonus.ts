@@ -101,7 +101,5 @@ export const useBonusStore = create<IBonus>((set, get) => ({
         });
     },
 
-
-
 }));
 

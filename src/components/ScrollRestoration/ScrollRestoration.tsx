@@ -17,12 +17,10 @@ export function ScrollRestoration() {
             window.scrollTo(0, 0);
         }
 
-        // Save position only before leaving current route
         const saveScrollPosition = () => {
             sessionStorage.setItem(location.pathname, window.scrollY.toString());
         };
 
-        // Restore position after full page load (for reboots)
         const handlePageLoad = () => {
             const reloadedScrollPosition = sessionStorage.getItem(location.pathname);
             if (reloadedScrollPosition) {

@@ -8,12 +8,12 @@ import { motion } from "framer-motion";
 import { blockFromRightAnimation, textFromTopAnimation } from "../../utils/animations";
 import { CartProducts } from "./CartProducts";
 import { usePopupStore } from "../../store/popup";
-import { useBonusStore } from "../../store/bonus"; // Імпорт твоєї бонусної логіки
+import { useBonusStore } from "../../store/bonus";
 import { BonusPopUp } from "../PopUps/BonusPopUp";
 
 export function Cart() {
     const { cartProducts, totalCartDiscount, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart();
-    const { bonusesYouCanUse, bonusesYouWillReceive } = useBonusStore(); // Використовуємо бонуси з бонусного стору
+    const { bonusesYouCanUse, bonusesYouWillReceive } = useBonusStore();
     const { opacity, blockRef } = useOpacity();
     const navigate = useNavigate();
     const { open } = usePopupStore();

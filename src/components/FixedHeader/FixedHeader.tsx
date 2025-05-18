@@ -134,7 +134,7 @@ export function FixedHeader() {
                                             <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={styles.header__contact}>Contact us</button>
                                         )}
                                         {!state.isLargeScreen && (
-                                            <Link to="/about" className={styles.header__contact}>Contact us</Link>
+                                            <Link to="/Delivery" className={styles.header__contact}>Delivery</Link>
                                         )}
                                         <ContactUsPopup state={state} setState={setState} />
                                     </div>

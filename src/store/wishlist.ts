@@ -82,8 +82,6 @@ export const useWishlist = create<IWishList>()(
                 await setDoc(doc(db, "wishlists", user.uid), {
                     wishlist: wishlistJson,
                 });
-                // console.log("Wishlist saved for user:", user.uid);
-                // console.log(wishlistJson);
             } catch (error) {
                 console.error("Error saving wishlist to DB:", error);
             }
@@ -95,7 +93,7 @@ export const useWishlist = create<IWishList>()(
                 const docSnap = await getDoc(doc(db, "wishlists", user.uid));
                 if (docSnap.exists()) {
                     const wishlistJson = docSnap.data().wishlist;
-                    const wishlist = JSON.parse(wishlistJson); // Перетворюємо JSON назад у масив
+                    const wishlist = JSON.parse(wishlistJson);
                     set({ wishlistIds: wishlist });
                     const products = await get().loadWishlistProducts(wishlist);
                     set({ wishlistProducts: products });
@@ -109,9 +107,7 @@ export const useWishlist = create<IWishList>()(
             return get().wishlistProducts.length;
         },
 
-        // Функції для оновлення стану
-        setWishlistIds: (wishlistIds: WishListIdsType[]) => set({ wishlistIds }), // Оновлення wishlistIds
-        setWishlistProducts: (wishlistProducts: IProduct[]) => set({ wishlistProducts }), // Оновлення wishlistProducts
-
+        setWishlistIds: (wishlistIds: WishListIdsType[]) => set({ wishlistIds }),
+        setWishlistProducts: (wishlistProducts: IProduct[]) => set({ wishlistProducts }),
     }))
 );

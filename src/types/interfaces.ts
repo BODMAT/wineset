@@ -242,12 +242,11 @@ export interface SearchResult {
 }
 
 export interface IBonus {
-    bonusesAlreadyHas: number; // Current bonuses the user has
-    bonusesYouWillReceive: number; // Bonuses the user will receive based on the order
-    useBonuses: boolean; // Whether the user has chosen to use their bonuses
-    bonusesYouCanUse: number; // Maximum bonuses that can be used based on available bonuses and order value
+    bonusesAlreadyHas: number;
+    bonusesYouWillReceive: number;
+    useBonuses: boolean;
+    bonusesYouCanUse: number;
 
-    // Method to initialize bonus calculations based on the order value, promotions, and holidays
     initializeBonus: () => Promise<void>;
     setBonusesAlreadyHas: (value: number) => void;
     clearAllBonuses: () => void;

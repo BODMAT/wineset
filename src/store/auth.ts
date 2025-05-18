@@ -11,8 +11,6 @@ import { IAuthState } from "../types/interfaces";
 import { auth, googleProvider } from "../firebaseConfig";
 import { useWishlist } from "./wishlist";
 
-
-
 export const useAuthStore = create<IAuthState>()(
     devtools(
         persist(
@@ -68,16 +66,13 @@ export const useAuthStore = create<IAuthState>()(
                     set({ loading: true });
                     try {
                         const result = await signInWithPopup(auth, googleProvider);
-                        // Получаем пользователя из результата входа
                         const user = result.user;
-                        // Обновляем состояние с данными пользователя и успешным сообщением
                         set({
                             user: user,
                             firebaseAlert: `Google sign-in successful. Welcome, ${user.displayName || user.email}!`,
                             loading: false,
                         });
                     } catch (error: any) {
-                        // Обрабатываем ошибку
                         set({
                             firebaseAlert: `Authorization failed: ${error.message}`,
                             loading: false,
