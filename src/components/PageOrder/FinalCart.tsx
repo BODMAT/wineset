@@ -27,7 +27,7 @@ export function FinalCart({ formRef, isSubmitting }: { formRef: RefObject<HTMLFo
 
             <div className="border-b-1 py-5 flex gap-10 justify-between items-center">
                 <h3 className="!font-semibold !text-[22px] uppercase text-black">Total with discount and bonuses</h3>
-                <h3 className="!font-semibold !text-[22px] uppercase text-black">{Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0)}$</h3>
+                <h3 className="!font-semibold !text-[22px] uppercase text-black">{(Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0).toFixed(2))}$</h3>
             </div>
 
             <div className="text-center mt-5">

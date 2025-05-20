@@ -44,9 +44,9 @@ export function PersonalDataForm() {
         const cart = formatCart(cartProducts);
         const to_email = `${myMail}, ${data.email}`;
 
-        const totalCartPriceWithDiscountAndBonusUsed =
+        let totalCartPriceWithDiscountAndBonusUsed: number =
             useBonuses ? totalCartPriceWithDiscount - bonusesYouCanUse : totalCartPriceWithDiscount;
-
+        totalCartPriceWithDiscountAndBonusUsed = Number(Math.max(Number(totalCartPriceWithDiscountAndBonusUsed), 0).toFixed(2));
         try {
             await emailjs.send(serviceId, templateId, {
                 ...data,

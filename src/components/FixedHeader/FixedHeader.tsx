@@ -63,11 +63,14 @@ export function FixedHeader() {
     //for hovered links
     useEffect(() => {
         if (state.isLargeScreen && !state.isScrolledDown) {
-            const handleMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
+            const handleMouseEnter = (event: MouseEvent) => {
                 const target = event.target as HTMLElement;
                 const link = target.closest(`.${styles.header__li}`);
                 if (link) {
-                    setState((prev) => ({ ...prev, activeLink: link.getAttribute('data-key') || null }));
+                    setState((prev) => ({
+                        ...prev,
+                        activeLink: link.getAttribute('data-key') || null,
+                    }));
                 }
             };
 
@@ -77,18 +80,19 @@ export function FixedHeader() {
 
             const menu = document.querySelector(`.${styles.header__ul}`);
             if (menu) {
-                menu.addEventListener('mouseover', handleMouseEnter as unknown as EventListener);
-                menu.addEventListener('mouseout', handleMouseLeave as unknown as EventListener);
+                menu.addEventListener('mouseover', handleMouseEnter as EventListener);
+                menu.addEventListener('mouseout', handleMouseLeave);
             }
 
             return () => {
                 if (menu) {
-                    menu.removeEventListener('mouseover', handleMouseEnter as unknown as EventListener);
-                    menu.removeEventListener('mouseout', handleMouseLeave as unknown as EventListener);
+                    menu.removeEventListener('mouseover', handleMouseEnter as EventListener);
+                    menu.removeEventListener('mouseout', handleMouseLeave);
                 }
             };
         }
     }, [state.isLargeScreen, state.isScrolledDown]);
+
 
     //disable links when bottom-header was hidden
     useEffect(() => {

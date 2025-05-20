@@ -57,7 +57,7 @@ export function Cart() {
                                 <div className="flex justify-between gap-3">
                                     <button
                                         onClick={() => { open("About Bonus System", <BonusPopUp />) }}
-                                        className={`${styles.title} transitioned !text-[#7a0000] hover:underline cursor-pointer`}>Bonuses discount available</button>
+                                        className={`${styles.title} transitioned !text-[#7a0000] hover:underline cursor-pointer text-left`}>Bonuses discount available</button>
                                     <h6 className={styles.orderRedPrice}>-{bonusesYouCanUse}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
@@ -68,7 +68,7 @@ export function Cart() {
                         </div>
                         <div className="border-b-2 border-[rgb(95,95,95)] py-[25px] flex justify-between gap-3">
                             <h2 className={styles.orderFont}>Total</h2>
-                            <h2 className={styles.orderFont}>{Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0)}$</h2>
+                            <h2 className={styles.orderFont}>{(Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0).toFixed(2))}$</h2>
                         </div>
                         <div className="mt-[80px] flex justify-center">
                             <button onClick={() => handleLinkWithCheck("/Order")}>

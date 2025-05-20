@@ -4,15 +4,15 @@ import './tailwind.css'
 import { App } from '../App/App.tsx'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { StrictMode } from 'react'
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
-  //strict double render (useEffect, useLayoutEffect)
-  // <StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <App />
-    <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>
-  // </StrictMode>,
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </StrictMode>,
 )
