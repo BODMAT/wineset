@@ -29,7 +29,7 @@ export default defineConfig({
       },
       workbox: {
         // SPA fallback so client-side routes keep working offline. The path is
-        // resolved against Vite's `base` ("/wineset/") automatically.
+        // resolved against Vite's `base` ("/") automatically.
         navigateFallback: 'index.html',
         // Precache only the app shell. Product photos (large png/jpg/webp) are
         // intentionally left to load from the network so the precache stays
@@ -54,5 +54,4 @@ export default defineConfig({
       }
     }
   },
-  base: "/wineset/"
 });

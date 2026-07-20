@@ -64,7 +64,7 @@ export function App() {
 
 
   return (
-    <Router basename="/wineset/">
+    <Router basename="/">
       <ScrollRestoration />
       <Routes>
         <Route path="/" element={<Layout />}>
