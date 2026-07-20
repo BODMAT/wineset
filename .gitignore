@@ -24,6 +24,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# Claude Code local memory
+memory/
+
 # keys and apis
 .env
 .env.production
