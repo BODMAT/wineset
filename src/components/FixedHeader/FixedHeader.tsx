@@ -117,8 +117,8 @@ export function FixedHeader() {
             <header className="relative">
                 <div className="z-[11] fixed w-full h-[84px] top-0 left-0 bg-[#121212]">
                     <div className="myContainer">
-                        <div className="flex items-center justify-between h-[84px] gap-5 max-md:relative max-md:block">
-                            <div className="flex-[0_1_33.333%] max-md:z-[250] max-md:relative max-md:top-[25px] max-md:max-w-[229px]">
+                        <div className="h-[84px] gap-5 md:flex md:items-center md:justify-between max-md:relative max-md:block">
+                            <div className="md:flex-[0_1_33.333%] max-md:z-[250] max-md:relative max-md:top-[25px] max-md:max-w-[229px]">
                                 <Link to="/">
                                     <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="logo" />
                                 </Link>
@@ -131,7 +131,7 @@ export function FixedHeader() {
                                     </button>
                                 )}
                             </div>
-                            <div className={"flex-auto flex items-center justify-between gap-5 max-md:transition-all max-md:duration-500 max-md:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "max-md:opacity-100 max-md:visible max-md:absolute max-md:z-[200] max-md:w-full max-md:h-auto max-md:top-0 max-md:left-0 max-md:pt-[25vh] max-md:flex-col max-md:justify-center max-md:items-center max-md:text-center" : "max-md:opacity-0 max-md:invisible")}>
+                            <div className={"md:flex-auto md:flex md:items-center md:justify-between md:gap-5 " + (state.isBurgerActive ? "max-md:flex max-md:absolute max-md:z-[200] max-md:w-full max-md:h-auto max-md:top-0 max-md:left-0 max-md:pt-[25vh] max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-5 max-md:text-center" : "max-md:hidden")}>
                                 <Search />
                                 <div className="flex gap-2.5 items-center max-[991.98px]:gap-[5px]">
                                     <button onClick={() => setLoginActive(true)} className="text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent">
@@ -155,11 +155,11 @@ export function FixedHeader() {
                         </div>
                     </div>
                 </div>
-                <div className={"transition-all duration-500 ease-[cubic-bezier(0.075,0.82,0.165,1)] fixed z-10 w-full h-[59px] left-0 bg-white pt-0 " + (state.isScrolledDown ? "top-[-59px] " : "top-[84px] ") + (state.isBurgerActive ? "max-md:opacity-100 max-md:visible max-md:absolute max-md:w-full max-md:h-screen max-md:bottom-0 max-md:left-0 max-md:top-auto max-md:z-[9] max-md:bg-[rgba(0,0,0,0.91)]" : "max-md:opacity-0 max-md:invisible")}>
+                <div className={"md:transition-all md:duration-500 md:ease-[cubic-bezier(0.075,0.82,0.165,1)] md:fixed md:z-10 md:w-full md:h-[59px] md:left-0 md:bg-white md:pt-0 " + (state.isScrolledDown ? "md:top-[-59px] " : "md:top-[84px] ") + (state.isBurgerActive ? "max-md:fixed max-md:inset-0 max-md:z-[9] max-md:bg-[rgba(0,0,0,0.91)]" : "max-md:hidden")}>
                     <div className="myContainer">
-                        <div className={"flex justify-between items-center h-[59px] max-md:transition-all max-md:duration-500 max-md:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "max-md:h-auto max-md:opacity-100 max-md:visible max-md:z-[200] max-md:absolute max-md:w-full max-md:top-0 max-md:left-0 max-md:pt-[35vh] max-md:flex-col max-md:text-center max-md:gap-y-[25px]" : "max-md:h-0 max-md:opacity-0 max-md:invisible")}>
+                        <div className="md:flex md:justify-between md:items-center md:h-[59px] max-md:flex max-md:flex-col max-md:text-center max-md:gap-y-[25px] max-md:pt-[35vh] max-md:h-full">
                             <nav>
-                                <ul className="header__ul flex gap-0 max-md:mt-5 max-md:flex-col max-md:gap-5">
+                                <ul className="header__ul flex md:gap-0 max-md:mt-5 max-md:flex-col max-md:gap-5">
                                     {Menu.map(([menuKey, subLinks]: MenuType) => {
                                         const isActive = state.activeLink === menuKey;
                                         return (
@@ -168,7 +168,7 @@ export function FixedHeader() {
                                                 data-key={menuKey}
                                                 className="header__li group relative"
                                             >
-                                                <Link className="transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] pt-5 pr-[35px] pb-5 pl-[25px] text-[#121212] relative md:group-hover:text-white md:group-hover:bg-[#7a0000bf] max-md:text-[22px] max-md:text-white max-md:pr-0 max-md:pl-0" to={menuKey.trim().replace(/\s+/g, '-')}>
+                                                <Link className="transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] py-5 relative md:pr-[35px] md:pl-[25px] md:text-[#121212] md:group-hover:text-white md:group-hover:bg-[#7a0000bf] max-md:text-[22px] max-md:text-white max-md:pr-0 max-md:pl-0" to={menuKey.trim().replace(/\s+/g, '-')}>
                                                     {menuKey}
                                                     <img src={arrToBottomGray} alt="" className={"absolute w-[7px] h-[7px] bottom-[43%] right-[10px] transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] max-md:hidden " + (isActive ? "opacity-0 rotate-[-90deg]" : "")} />
                                                 </Link>

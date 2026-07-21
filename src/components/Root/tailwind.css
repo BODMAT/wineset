@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+/* Reset is imported into the base layer so Tailwind utilities (fluid-text,
+   font-bold, list-[circle]...) win over the h1-h6 / ul-li resets. */
+@import "./nullstyle.css" layer(base);
 /* Google fonts (Inter, Alex Brush, Cormorant, Roboto) are loaded via <link> in index.html
    so the @import ordering rules of the bundled CSS are not violated. */
 
