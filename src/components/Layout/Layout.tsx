@@ -1,13 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { FixedHeader } from "../FixedHeader/FixedHeader";
-import styles from "./Layout.module.scss";
 import { FixedFooter } from "../FixedFooter/FixedFooter";
 
 export function Layout() {
     return (
-        <div className={styles.wrapper}>
+        <div className="min-h-screen overflow-hidden flex flex-col relative">
             <FixedHeader />
-            <main className={styles.main}>
+            <main className="flex-auto">
                 <Outlet />
             </main>
             <FixedFooter />

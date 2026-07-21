@@ -1,5 +1,5 @@
 import { useMap } from "../../hooks/useMap";
-import styles from "./LeafletMap.module.scss";
+import "leaflet/dist/leaflet.css";
 
 export function LeafletMap({ height = undefined, zoom = 17 }: { height?: string, zoom?: number }) {
     const mapContainerRef = useMap({
@@ -11,5 +11,5 @@ export function LeafletMap({ height = undefined, zoom = 17 }: { height?: string,
         popupContent: "<b>Wineset</b><br>Zabuttsia Sahakanskiy, 25, Kyiv",
     });
 
-    return <div ref={mapContainerRef} className={styles.map} style={{ height: height }}></div>;
+    return <div ref={mapContainerRef} className="relative z-[5] h-[571px] max-[1379.98px]:h-[500px] max-[991.98px]:h-[400px] max-md:h-[350px] max-[479.98px]:h-[300px]" style={{ height: height }}></div>;
 }
