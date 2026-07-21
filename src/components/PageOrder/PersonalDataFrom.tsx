@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import emailjs from "@emailjs/browser";
-import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { IPersonalData } from '../../types/interfaces';
 import { formatCardNumber, formatCart } from '../../utils/utils';
@@ -10,6 +9,9 @@ import { usePopupStore } from '../../store/popup';
 import { useCart } from '../../store/cart';
 import { updateProductQuantities } from '../../api/product';
 import { useBonusStore } from '../../store/bonus';
+
+const labelCls = "text-[#121212] font-inter font-semibold leading-normal uppercase fluid-text [--fmin:22] [--fmax:26]";
+const formBlockCls = "flex flex-col items-stretch justify-stretch gap-5 w-full [&_label]:mb-2.5 [&_input]:grow [&_input]:w-full [&_input]:p-5 [&_input]:bg-[#F4F4F4] [&_input]:text-black [&_input]:font-inter [&_input]:font-normal [&_input]:leading-normal [&_input::placeholder]:text-[#898989] [&_input::placeholder]:font-inter [&_input::placeholder]:font-normal [&_input::placeholder]:leading-normal [&_input[type=radio]]:grow-0 [&_input[type=radio]]:w-5 [&_textarea]:grow [&_textarea]:w-full [&_textarea]:h-[200px] [&_textarea]:resize-none [&_textarea]:p-5 [&_textarea]:bg-[#F4F4F4] [&_textarea]:text-black [&_textarea]:font-inter [&_textarea]:font-normal [&_textarea]:leading-normal [&_textarea::placeholder]:text-[#898989] [&_textarea::placeholder]:font-inter [&_textarea::placeholder]:font-normal [&_textarea::placeholder]:leading-normal";
 
 export function PersonalDataForm() {
     const { updateBonusesInDBAfterPurchase, bonusesYouCanUse, useBonuses } = useBonusStore();
@@ -78,12 +80,12 @@ export function PersonalDataForm() {
 
     return (
         <section className='py-8'>
-            <div className={styles.container}>
-                <h2 className={styles.title}>Personally Identifiable Information</h2>
+            <div className="myContainer">
+                <h2 className="text-[#121212] font-cormorant font-bold leading-normal uppercase fluid-text [--fmin:36] [--fmax:48]">Personally Identifiable Information</h2>
                 <div className="flex justify-between items-center gap-30 mt-5 max-[900px]:flex-col">
                     <form ref={formRef} id="oeder" className='flex-[0_1_50%] flex flex-col gap-10 max-[900px]:w-full' onSubmit={handleSubmit(sendMail)}>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="name" className={styles.label}>Recipient</label>
+                        <div className={formBlockCls}>
+                            <label htmlFor="name" className={labelCls}>Recipient</label>
 
                             <input
                                 placeholder='First name...'
@@ -136,8 +138,8 @@ export function PersonalDataForm() {
                             />
                             {errors.email && <p className="text-red-400 text-sm">{errors.email.message}</p>}
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="address" className={styles.label}>Delivery</label>
+                        <div className={formBlockCls}>
+                            <label htmlFor="address" className={labelCls}>Delivery</label>
                             <label htmlFor="courier" className="flex gap-2">
                                 <input
                                     type="radio"
@@ -189,8 +191,8 @@ export function PersonalDataForm() {
                             />
                             {errors.address && <p className="text-red-400 text-sm">{errors.address.message}</p>}
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="payment" className={styles.label}>Payment</label>
+                        <div className={formBlockCls}>
+                            <label htmlFor="payment" className={labelCls}>Payment</label>
 
                             <label htmlFor="Privat24" className="flex gap-2">
                                 <input
@@ -260,8 +262,8 @@ export function PersonalDataForm() {
                             />
                             {errors.cardNumber && <p className="text-red-400 text-sm">{errors.cardNumber.message}</p>}
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="comment" className={styles.label}>Your comment</label>
+                        <div className={formBlockCls}>
+                            <label htmlFor="comment" className={labelCls}>Your comment</label>
 
                             <textarea
                                 placeholder='Comment...'
