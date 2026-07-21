@@ -1,6 +1,5 @@
 import Select from "react-select";
 import { useProduct } from "./PageProducts";
-import styles from "./PageProducts.module.scss";
 import { useFilterStore } from "../../store/filterProducts";
 import { customSelectStyles } from "../../data/Other/FilterCustomSelect";
 import { countryOptions, discountOptions } from "../../data/Other/ReusableProduct";
@@ -19,7 +18,7 @@ export function FilterBy() {
             whileInView={"visible"}
             viewport={{ once: false, amount: 0.2 }}
             className="flex justify-between items-center gap-x-20 gap-y-4 pb-2 max-md:flex-col max-md:text-center">
-            <motion.h3 variants={textFromTopAnimation} className={styles.basicTitle}>Add filters to find your best {product}: </motion.h3>
+            <motion.h3 variants={textFromTopAnimation} className="text-[#121212] font-cormorant font-bold leading-normal uppercase fluid-text [--fmin:36] [--fmax:48]">Add filters to find your best {product}: </motion.h3>
             <div className="flex gap-2 max-[420px]:flex-col">
                 <Select
                     options={discountOptions}
