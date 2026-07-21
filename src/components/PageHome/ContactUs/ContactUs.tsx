@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import styles from "./ContactUs.module.scss";
 import emailjs from "@emailjs/browser";
 import { useOpacity } from "../../../hooks/useOpacity";
 import { useForm } from "react-hook-form";
@@ -40,20 +39,20 @@ export function ContactUs() {
     return (
         <section
             ref={blockRef}
-            className={styles.contact}>
-            <div className={styles.contact__container}>
-                <div className={styles.contact__info}>
-                    <h2 className={styles.contact__title}>Contact us</h2>
-                    <form className={styles.contact__form} id="contact" onSubmit={handleSubmit(sendMail)}>
+            className="relative max-w-[1280px] mx-auto box-content px-[50px] max-[991.98px]:mb-[50px] max-[991.98px]:px-[15px]">
+            <div className="relative z-[6] translate-y-[12%] flex items-center shadow-[0_15px_50px_12px_rgba(0,0,0,.1)] bg-[url('/HomePage/ContactUs/TEXTURE.png')] bg-cover bg-no-repeat bg-white max-[991.98px]:flex-col max-[991.98px]:translate-y-0">
+                <div className="flex-[0_1_50%] text-center overflow-hidden max-[991.98px]:flex-auto max-[991.98px]:w-full">
+                    <h2 className="text-[#121212] text-[32px] font-cormorant font-bold leading-normal uppercase mb-[80px] max-[991.98px]:my-[30px]">Contact us</h2>
+                    <form className="flex flex-col gap-y-[30px] px-[80px] max-[991.98px]:py-[30px] max-[991.98px]:max-w-full" id="contact" onSubmit={handleSubmit(sendMail)}>
                         <input
                             placeholder="Enter your name..."
-                            className={styles.contact__form_name}
+                            className="bg-[#f4f4f4] p-5 rounded-[3px] max-w-full"
                             type="text"
                             {...register("name", { required: "Name is required" })}
                         />
                         <input
                             placeholder="Enter your email..."
-                            className={styles.contact__form_email}
+                            className="bg-[#f4f4f4] p-5 rounded-[3px] max-w-full"
                             type="email"
                             {...register("email", {
                                 required: "Email is required",
@@ -65,30 +64,30 @@ export function ContactUs() {
                         />
                         <textarea
                             placeholder="Your message..."
-                            className={styles.contact__form_message}
+                            className="bg-[#f4f4f4] p-5 rounded-[3px] max-w-full h-[202px] resize-none"
                             {...register("text", { required: "Message is required" })}
                         />
-                        <button type="submit" className={styles.contact__form_btn} disabled={isSubmitting}>
+                        <button type="submit" className="mt-[50px] mx-auto rounded-[3px] text-center text-white font-inter font-semibold leading-normal uppercase px-[70px] py-[15px] bg-[#7A0000] border-2 border-[#7A0000] transitioned fluid-text [--fmin:14] [--fmax:16] hover:bg-white hover:text-[#7A0000] max-[991.98px]:mt-0" disabled={isSubmitting}>
                             {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
                     </form>
                     {Object.keys(errors).length > 0 && (
-                        <p className={styles.contact__form_status}>
+                        <p className="pt-2.5 max-[991.98px]:pb-[50px]">
                             {[errors.name?.message, errors.email?.message, errors.text?.message]
                                 .filter(Boolean)
                                 .join(", ")}
                         </p>
                     )}
                 </div>
-                <div className={styles.contact__img}>
-                    <img src="./HomePage/ContactUs/wine-glass1.jpg" alt="wine-glasses" />
+                <div className="h-[800px] flex-[0_1_50%] relative max-[991.98px]:flex-auto max-[991.98px]:w-full max-[991.98px]:h-[300px]">
+                    <img className="absolute w-full h-full top-0 left-0 object-cover" src="./HomePage/ContactUs/wine-glass1.jpg" alt="wine-glasses" />
                 </div>
             </div>
             <div
                 style={{
                     opacity: opacity,
                 }}
-                className={styles.contact__winespot}
+                className="absolute w-[260px] h-auto top-0 right-0"
             >
                 <img src="./WineSpots/wine-spot.png" alt="wine-spot" />
             </div>

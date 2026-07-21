@@ -1,4 +1,3 @@
-import styles from "./GiftBackets.module.scss";
 import arrRightSvg from '../../../assets/arr-right-red.svg';
 import arrLeftSvg from '../../../assets/arr-left-red.svg';
 import { useEffect, useRef, useState } from "react";
@@ -39,19 +38,19 @@ export function GiftBackets() {
             initial={"hidden"}
             whileInView={"visible"}
             viewport={{ once: false, amount: 0.2 }}
-            className={styles.gift}>
-            <div className={styles.gift__container}>
-                <div className={styles.gift__top}>
-                    <motion.h2 variants={textFromTopAnimation} className={styles.gift__title}>Gift baskets</motion.h2>
-                    <div className={styles.gift__buttons}>
+            className="pt-[100px] pb-[90px]">
+            <div className="myContainer">
+                <div className="flex justify-between items-center mb-[47px]">
+                    <motion.h2 variants={textFromTopAnimation} className="text-[#121212] font-cormorant font-bold uppercase fluid-text [--fmin:30] [--fmax:48]">Gift baskets</motion.h2>
+                    <div className="flex gap-5 max-[379.98px]:gap-2.5">
                         <button
-                            className={`${styles.gift__prev} swiper-button-prev`}
+                            className="bg-transparent swiper-button-prev"
                             onClick={() => swiperRef.current.swiper.slidePrev()}
                         >
                             <img src={arrLeftSvg} alt="prev" />
                         </button>
                         <button
-                            className={`${styles.gift__next} swiper-button-next`}
+                            className="bg-transparent swiper-button-next"
                             onClick={() => swiperRef.current.swiper.slideNext()}
                         >
                             <img src={arrRightSvg} alt="next" />
@@ -74,25 +73,25 @@ export function GiftBackets() {
                             970: { slidesPerView: 2 },
                             480: { slidesPerView: 1 },
                             0: { slidesPerView: 1 },
-                        }} className={styles.gift__slider}>
+                        }} className="h-full mb-[30px] min-h-full [&>*]:h-full [&>*]:flex [&>*]:items-stretch">
                         {products.map((box: Box, index: number) => {
                             const productInfo = productsInfo ? productsInfo[index] : null;
 
                             return (
-                                <SwiperSlide key={index} className={styles.gift__slide}>
-                                    <Link className={styles.gift__slide_wrap} to={`/Box/${box.id}`}>
-                                        <div className="">
-                                            <div className={styles.gift__slide_img}>
-                                                <img src={box.imageUrl} alt={box.imageUrl} />
+                                <SwiperSlide key={index} className="flex! flex-col items-stretch h-auto! grow self-stretch py-[11px] border-[3px] border-[#a4a4a4a0] cursor-pointer transitioned hover:scale-95 hover:shadow-[0_5px_15px_5px_rgba(0,0,0,.3)]">
+                                    <Link className="flex flex-col grow h-full" to={`/Box/${box.id}`}>
+                                        <div>
+                                            <div className="flex-[0_0_377px] h-[377px] w-auto relative">
+                                                <img className="absolute w-full h-full top-0 left-0 object-contain" src={box.imageUrl} alt={box.imageUrl} />
                                             </div>
-                                            <div className={styles.gift__slide_content}>
-                                                <h3 className={styles.gift__slide_name}>{box.name}</h3>
-                                                <div className={styles.gift__slide_structure}>
-                                                    <span>Composition: </span>
-                                                    <ul className={styles.gift__slide_list}>
+                                            <div className="mb-auto p-[15px] grow flex flex-col">
+                                                <h3 className="flex text-black font-inter font-semibold leading-normal mb-[25px] fluid-text [--fmin:18] [--fmax:20]">{box.name}</h3>
+                                                <div className="grow flex flex-col text-black font-inter font-normal leading-normal gap-2.5">
+                                                    <span className="font-semibold">Composition: </span>
+                                                    <ul className="mt-auto pt-[7px] pl-5 flex flex-col gap-[5px]">
                                                         {!productInfo && <p>Loading...</p>}
                                                         {productInfo?.structureInfo?.map((info: any, idx: number) => (
-                                                            <li className={styles.gift__slide_li} key={idx}>
+                                                            <li className="list-[circle] font-normal" key={idx}>
                                                                 <strong>{info.name}</strong>: {info.description} (Maker: {info.maker}, {info.weightOrVolume})
                                                             </li>
                                                         ))}
@@ -106,7 +105,7 @@ export function GiftBackets() {
                         })}
                     </Swiper>
                 )}
-                <Link to="/Gift-sets/Boxes" className={styles.gift__link}>View all</Link>
+                <Link to="/Gift-sets/Boxes" className="text-[#970000] font-inter font-bold leading-normal hover:underline">View all</Link>
             </div>
         </motion.section>
     );

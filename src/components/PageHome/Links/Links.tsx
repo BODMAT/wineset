@@ -1,4 +1,3 @@
-import styles from "./Links.module.scss";
 import { links } from "../../../data/Other/Link";
 import { Link } from "react-router-dom";
 
@@ -29,15 +28,15 @@ export function Links() {
     };
 
     return (
-        <section className={styles.links}>
+        <section className="min-h-[248px] py-[5px]">
             <Swiper {...swiperSettings} modules={[Autoplay]}>
                 {links.map((link: ILink) => (
                     <SwiperSlide key={link.index}>
-                        <div className={styles.links__link} key={link.index}>
-                            <div className={styles.links__img}>
-                                <img src={link.imgSrc} alt={`img for ${link.label}`} />
+                        <div className="group" key={link.index}>
+                            <div className="h-[248px] overflow-hidden">
+                                <img className="transitioned object-cover w-full h-full group-hover:scale-105" src={link.imgSrc} alt={`img for ${link.label}`} />
                             </div>
-                            <Link to={link.link} className={styles.links__label}>
+                            <Link to={link.link} className="transitioned bg-[#0000006e] absolute w-full h-full top-0 left-0 p-2.5 text-center flex items-center justify-center uppercase text-white font-inter font-semibold leading-normal tracking-[1px] fluid-text [--fmin:20] [--fmax:26] group-hover:bg-[#000000a5] active:[--fmin:22] active:[--fmax:32]">
                                 {link.label}
                             </Link>
                         </div>
