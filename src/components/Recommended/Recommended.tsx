@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import arrRightSvg from '../../assets/arr-right-red.svg';
 import arrLeftSvg from '../../assets/arr-left-red.svg';
 
@@ -147,7 +148,7 @@ export function Recommended({
                                     </Link>
                                 </div>
                                 {productFilter !== "boxStructure" && (
-                                    <button className="max-w-full text-white text-[16px] font-inter font-semibold leading-normal uppercase rounded-[3px] bg-[#7A0000] px-[64px] py-[15px] border-2 border-[#7A0000] transitioned hover:bg-transparent hover:text-[#7A0000]" onClick={() => { handleAddToCart(product); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}>Add to cart</button>
+                                    <Button variant="wine" size="free" className="max-w-full text-[16px] font-inter font-semibold leading-normal uppercase px-[64px] py-[15px] duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)]" onClick={() => { handleAddToCart(product); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}>Add to cart</Button>
                                 )}
                             </SwiperSlide >
                         ))

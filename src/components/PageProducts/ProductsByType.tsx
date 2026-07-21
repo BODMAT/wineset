@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Box, IProduct, IProductWithCartQuantity } from "../../architecture/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
@@ -18,7 +19,7 @@ const labelCls = "text-black font-inter font-medium leading-[1.2] uppercase flui
 const descriptionCls = "text-black font-inter font-medium leading-[20px] uppercase fluid-text [--fmin:12] [--fmax:14]";
 const priceCls = "text-[#7a0000] font-inter font-semibold leading-[23px] fluid-text [--fmin:16] [--fmax:18]";
 const prevPriceCls = "text-[#00000075] text-[14px] font-inter font-semibold leading-[18px] line-through";
-const buttonBuyCls = "max-w-full text-white text-[16px] font-inter font-semibold leading-normal uppercase rounded-[3px] bg-[#7A0000] px-[64px] py-[15px] border-2 border-[#7A0000] transitioned hover:bg-transparent hover:text-[#7A0000]";
+const buyBtnCls = "max-w-full text-[16px] font-inter font-semibold leading-normal uppercase px-[64px] py-[15px] duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)]";
 
 export function ProductsByType() {
     const { open } = usePopupStore()
@@ -119,20 +120,24 @@ export function ProductsByType() {
                                     </Link>
                                 </div>
                                 {isToCartPossible(product) && (
-                                    <button
-                                        className={buttonBuyCls}
+                                    <Button
+                                        variant="wine"
+                                        size="free"
+                                        className={buyBtnCls}
                                         onClick={() => { product.addToCart(); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}
                                     >
                                         Add to cart
-                                    </button>
+                                    </Button>
                                 )}
                                 {!isToCartPossible(product) && (
-                                    <button
-                                        className={buttonBuyCls + " " + `${isToCartPossible(product) ? "" : "!bg-gray-200 !border-black !text-black"}`}
+                                    <Button
+                                        variant="wine"
+                                        size="free"
+                                        className={buyBtnCls + " !bg-gray-200 !border-black !text-black"}
                                         disabled
                                     >
                                         Lack of quantity
-                                    </button>
+                                    </Button>
                                 )
                                 }
                             </div>

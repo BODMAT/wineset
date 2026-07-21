@@ -9,6 +9,7 @@ import { CartProducts } from "./CartProducts";
 import { usePopupStore } from "../../store/popup";
 import { useBonusStore } from "../../store/bonus";
 import { BonusPopUp } from "../PopUps/BonusPopUp";
+import { Button } from "@/components/ui/button";
 
 const titleCls = "font-inter font-medium leading-[1.3] capitalize text-black fluid-text [--fmin:16] [--fmax:18]";
 const orderRedPriceCls = "font-inter font-semibold leading-[1.3] capitalize text-center text-[#7a0000] fluid-text [--fmin:16] [--fmax:18]";
@@ -75,11 +76,9 @@ export function Cart() {
                             <h2 className={orderFontCls}>{(Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0).toFixed(2))}$</h2>
                         </div>
                         <div className="mt-[80px] flex justify-center">
-                            <button onClick={() => handleLinkWithCheck("/Order")}>
-                                <div className="text-center text-2xl bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[400px] px-[84px] py-[20px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]">
-                                    Place an order
-                                </div>
-                            </button>
+                            <Button variant="wine" size="free" onClick={() => handleLinkWithCheck("/Order")} className="text-center text-2xl font-semibold max-w-[400px] px-[84px] py-[20px] duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)]">
+                                Place an order
+                            </Button>
                         </div>
                     </motion.div>
                 </div>

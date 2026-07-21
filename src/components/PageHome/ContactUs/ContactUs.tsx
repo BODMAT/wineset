@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 import { useOpacity } from "../../../hooks/useOpacity";
 import { useForm } from "react-hook-form";
 import { IContactUsData } from "../../../types/interfaces";
+import { Button } from "@/components/ui/button";
 
 export function ContactUs() {
     const { opacity, blockRef } = useOpacity();
@@ -67,9 +68,9 @@ export function ContactUs() {
                             className="bg-[#f4f4f4] p-5 rounded-[3px] max-w-full h-[202px] resize-none"
                             {...register("text", { required: "Message is required" })}
                         />
-                        <button type="submit" className="mt-[50px] mx-auto rounded-[3px] text-center text-white font-inter font-semibold leading-normal uppercase px-[70px] py-[15px] bg-[#7A0000] border-2 border-[#7A0000] transitioned fluid-text [--fmin:14] [--fmax:16] hover:bg-white hover:text-[#7A0000] max-[991.98px]:mt-0" disabled={isSubmitting}>
+                        <Button type="submit" variant="wine" size="free" className="mt-[50px] mx-auto text-center font-inter font-semibold leading-normal uppercase px-[70px] py-[15px] fluid-text [--fmin:14] [--fmax:16] hover:bg-white max-[991.98px]:mt-0" disabled={isSubmitting}>
                             {isSubmitting ? "Submitting..." : "Submit"}
-                        </button>
+                        </Button>
                     </form>
                     {Object.keys(errors).length > 0 && (
                         <p className="pt-2.5 max-[991.98px]:pb-[50px]">
