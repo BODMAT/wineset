@@ -1,5 +1,4 @@
 import { Link, useLocation } from "react-router-dom";
-import styles from "./FixedHeader.module.scss";
 import { useEffect, useState } from "react";
 import { Menu } from "../../data/Other/Menu";
 import { ContactUsPopup } from "./ContactUsPopup";
@@ -13,6 +12,12 @@ import { WishlistPopup } from "../PopUps/WishlistPopup";
 import { CartPopUp } from "../PopUps/CartPopUp";
 import { useCart } from "../../store/cart";
 import { Search } from "./Search";
+import arrToBottom from "../../assets/arr-to-bottom.svg";
+import arrToBottomGray from "../../assets/arr-to-bottom-gray.svg";
+
+const badgeCls = "flex justify-center items-center text-[14px] absolute w-[17px] h-[17px] bottom-[-5px] right-[-5px] bg-[#7A0000] rounded-full text-white overflow-hidden";
+const contactBaseCls = "text-center flex justify-center font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transitioned relative";
+const subLinkCls = "text-white font-inter font-normal leading-normal py-3 max-w-full border-b border-white transitioned first:pt-0 first:pb-3 hover:text-[#b9b9b9] active:underline";
 
 export function FixedHeader() {
     const [state, setState] = useState<IHeaderState>({
@@ -65,7 +70,7 @@ export function FixedHeader() {
         if (state.isLargeScreen && !state.isScrolledDown) {
             const handleMouseEnter = (event: MouseEvent) => {
                 const target = event.target as HTMLElement;
-                const link = target.closest(`.${styles.header__li}`);
+                const link = target.closest('.header__li');
                 if (link) {
                     setState((prev) => ({
                         ...prev,
@@ -78,7 +83,7 @@ export function FixedHeader() {
                 setState((prev) => ({ ...prev, activeLink: null }));
             };
 
-            const menu = document.querySelector(`.${styles.header__ul}`);
+            const menu = document.querySelector('.header__ul');
             if (menu) {
                 menu.addEventListener('mouseover', handleMouseEnter as EventListener);
                 menu.addEventListener('mouseout', handleMouseLeave);
@@ -109,36 +114,39 @@ export function FixedHeader() {
     const { getCartTotal } = useCart()
     return (
         <>
-            <header className={`${styles.header} ${state.isScrolledDown ? styles.sticky : ""}`}>
-                <div className={styles.header__top}>
-                    <div className={styles.header__container}>
-                        <div className={styles.header__body_top}>
-                            <div className={styles.header__logo}>
+            <header className="relative">
+                <div className="z-[11] fixed w-full h-[84px] top-0 left-0 bg-[#121212]">
+                    <div className="myContainer">
+                        <div className="flex items-center justify-between h-[84px] gap-5 max-md:relative max-md:block">
+                            <div className="flex-[0_1_33.333%] max-md:z-[250] max-md:relative max-md:top-[25px] max-md:max-w-[229px]">
                                 <Link to="/">
                                     <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="logo" />
                                 </Link>
                                 {!state.isLargeScreen && (
                                     <button
                                         onClick={() => setState(prev => ({ ...prev, isBurgerActive: !prev.isBurgerActive }))}
-                                        className={`${styles.burgerIcon} ${state.isBurgerActive ? styles.active : ""}`}
+                                        className={"[transform:translate(calc(100vw-259px),0)] bg-transparent z-[1000] block absolute bottom-2 right-0 w-[30px] h-[18px] cursor-pointer before:content-[''] before:left-0 before:absolute before:bg-white before:h-[10%] before:w-full before:transition-all before:duration-300 before:ease-[cubic-bezier(0.075,0.82,0.165,1)] after:content-[''] after:left-0 after:absolute after:bg-white after:h-[10%] after:w-full after:transition-all after:duration-300 after:ease-[cubic-bezier(0.075,0.82,0.165,1)] [&_span]:top-1/2 [&_span]:left-0 [&_span]:absolute [&_span]:bg-white [&_span]:h-[10%] [&_span]:w-full [&_span]:transition-all [&_span]:duration-300 [&_span]:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "before:top-1/2 before:[transform:rotate(-45deg)_translate(0,-50%)] after:bottom-1/2 after:[transform:rotate(45deg)_translate(0,50%)] [&_span]:[transform:scale(0)_translate(0,-50%)]" : "before:top-0 after:bottom-0 [&_span]:[transform:scale(1)_translate(0,-50%)]")}
                                     >
                                         <span></span>
                                     </button>
                                 )}
                             </div>
-                            <div className={`${styles.header__info} ${state.isBurgerActive ? styles.active_burger : ""}`}>
+                            <div className={"flex-auto flex items-center justify-between gap-5 max-md:transition-all max-md:duration-500 max-md:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "max-md:opacity-100 max-md:visible max-md:absolute max-md:z-[200] max-md:w-full max-md:h-auto max-md:top-0 max-md:left-0 max-md:pt-[25vh] max-md:flex-col max-md:justify-center max-md:items-center max-md:text-center" : "max-md:opacity-0 max-md:invisible")}>
                                 <Search />
-                                <div className={styles.header__buttons}>
+                                <div className="flex gap-2.5 items-center max-[991.98px]:gap-[5px]">
                                     <button onClick={() => setLoginActive(true)} className="text-center bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent">
                                         {user ? user.displayName : "Sing in"}
                                     </button>
 
-                                    <div className={styles.header__contact_wrap}>
+                                    <div className="relative">
                                         {state.isLargeScreen && (
-                                            <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={styles.header__contact}>Contact us</button>
+                                            <button onClick={() => setState(prev => ({ ...prev, moreInfo: !prev.moreInfo }))} className={contactBaseCls + " bg-transparent"}>
+                                                Contact us
+                                                <img src={arrToBottom} alt="" className={"absolute w-[7px] h-[7px] bottom-[40%] right-[10%] transitioned " + (state.moreInfo ? "rotate-[-90deg]" : "rotate-0")} />
+                                            </button>
                                         )}
                                         {!state.isLargeScreen && (
-                                            <Link to="/Delivery" className={styles.header__contact}>Delivery</Link>
+                                            <Link to="/Delivery" className={contactBaseCls + " bg-[#7A0000] border-2 border-[#7A0000] hover:bg-transparent"}>Delivery</Link>
                                         )}
                                         <ContactUsPopup state={state} setState={setState} />
                                     </div>
@@ -147,34 +155,40 @@ export function FixedHeader() {
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.header__bottom} ${state.isScrolledDown ? styles.stickyBottom : ""} ${state.isBurgerActive ? styles.active_burger : ""}`}>
-                    <div className={styles.header__container}>
-                        <div className={`${styles.header__body_bottom} ${state.isBurgerActive ? styles.active_burger : ""}`}>
-                            <nav className={styles.header__menu}>
-                                <ul className={styles.header__ul}>
-                                    {Menu.map(([menuKey, subLinks]: MenuType) => (
-                                        <li
-                                            key={menuKey}
-                                            data-key={menuKey}
-                                            className={`${styles.header__li} ${state.activeLink === menuKey ? styles.active : ''}`}
-                                        >
-                                            <Link className={styles.header__a} to={menuKey.trim().replace(/\s+/g, '-')}>{menuKey}</Link>
-                                            <div className={styles.header__subLinks}>
-                                                {subLinks.map((subLink: string) => (
-                                                    <Link className={styles.header__subLink} to={`${menuKey.trim().replace(/\s+/g, '-')}/${subLink}`} key={`${menuKey}-${subLink}`}>
-                                                        {subLink}
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        </li>
-                                    ))}
+                <div className={"transition-all duration-500 ease-[cubic-bezier(0.075,0.82,0.165,1)] fixed z-10 w-full h-[59px] left-0 bg-white pt-0 " + (state.isScrolledDown ? "top-[-59px] " : "top-[84px] ") + (state.isBurgerActive ? "max-md:opacity-100 max-md:visible max-md:absolute max-md:w-full max-md:h-screen max-md:bottom-0 max-md:left-0 max-md:top-auto max-md:z-[9] max-md:bg-[rgba(0,0,0,0.91)]" : "max-md:opacity-0 max-md:invisible")}>
+                    <div className="myContainer">
+                        <div className={"flex justify-between items-center h-[59px] max-md:transition-all max-md:duration-500 max-md:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "max-md:h-auto max-md:opacity-100 max-md:visible max-md:z-[200] max-md:absolute max-md:w-full max-md:top-0 max-md:left-0 max-md:pt-[35vh] max-md:flex-col max-md:text-center max-md:gap-y-[25px]" : "max-md:h-0 max-md:opacity-0 max-md:invisible")}>
+                            <nav>
+                                <ul className="header__ul flex gap-0 max-md:mt-5 max-md:flex-col max-md:gap-5">
+                                    {Menu.map(([menuKey, subLinks]: MenuType) => {
+                                        const isActive = state.activeLink === menuKey;
+                                        return (
+                                            <li
+                                                key={menuKey}
+                                                data-key={menuKey}
+                                                className="header__li group relative"
+                                            >
+                                                <Link className="transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] pt-5 pr-[35px] pb-5 pl-[25px] text-[#121212] relative md:group-hover:text-white md:group-hover:bg-[#7a0000bf] max-md:text-[22px] max-md:text-white max-md:pr-0 max-md:pl-0" to={menuKey.trim().replace(/\s+/g, '-')}>
+                                                    {menuKey}
+                                                    <img src={arrToBottomGray} alt="" className={"absolute w-[7px] h-[7px] bottom-[43%] right-[10px] transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] max-md:hidden " + (isActive ? "opacity-0 rotate-[-90deg]" : "")} />
+                                                </Link>
+                                                <div className={"flex flex-col p-[22px] transitioned absolute w-full h-auto top-0 left-0 bg-[#500000bf] opacity-0 invisible translate-y-0 " + (isActive ? "md:opacity-100 md:visible md:translate-y-[37px]" : "")}>
+                                                    {subLinks.map((subLink: string) => (
+                                                        <Link className={subLinkCls} to={`${menuKey.trim().replace(/\s+/g, '-')}/${subLink}`} key={`${menuKey}-${subLink}`}>
+                                                            {subLink}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </nav>
-                            <div className={styles.header__buy}>
+                            <div className="flex items-center gap-5">
                                 <button onClick={() => {
                                     open("Wishlist", <WishlistPopup />, false);
                                 }}
-                                    className={styles.header__wish}
+                                    className="relative bg-transparent transitioned hover:scale-110 max-md:[&_svg_path]:stroke-white"
                                 >
                                     <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -186,13 +200,13 @@ export function FixedHeader() {
                                         />
                                     </svg>
                                     {getWishlistTotal() > 0 && (
-                                        <span>{getWishlistTotal()}</span>
+                                        <span className={badgeCls}>{getWishlistTotal()}</span>
                                     )}
                                 </button>
                                 <button onClick={() => {
                                     open("Cart", <CartPopUp />, false);
                                 }}
-                                    className={styles.header__cart}>
+                                    className="relative bg-transparent transitioned hover:scale-110 max-md:[&_svg_path]:stroke-white">
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M11 28C12.1046 28 13 27.1046 13 26C13 24.8954 12.1046 24 11 24C9.89543 24 9 24.8954 9 26C9 27.1046 9.89543 28 11 28Z"
@@ -217,7 +231,7 @@ export function FixedHeader() {
                                         />
                                     </svg>
                                     {getCartTotal() > 0 && (
-                                        <span>{getCartTotal()}</span>
+                                        <span className={badgeCls}>{getCartTotal()}</span>
                                     )}
                                 </button>
 
