@@ -157,7 +157,7 @@ export function FixedHeader() {
                 </div>
                 <div className={"md:transition-all md:duration-500 md:ease-[cubic-bezier(0.075,0.82,0.165,1)] md:fixed md:z-10 md:w-full md:h-[59px] md:left-0 md:bg-white md:pt-0 " + (state.isScrolledDown ? "md:top-[-59px] " : "md:top-[84px] ") + (state.isBurgerActive ? "max-md:fixed max-md:inset-0 max-md:z-[9] max-md:bg-[rgba(0,0,0,0.91)]" : "max-md:hidden")}>
                     <div className="myContainer">
-                        <div className="md:flex md:justify-between md:items-center md:h-[59px] max-md:flex max-md:flex-col max-md:text-center max-md:gap-y-[25px] max-md:pt-[35vh] max-md:h-full">
+                        <div className="md:flex md:justify-between md:items-center md:h-[59px] max-md:flex max-md:flex-col max-md:items-center max-md:text-center max-md:gap-y-[25px] max-md:pt-[35vh] max-md:h-full">
                             <nav>
                                 <ul className="header__ul flex md:gap-0 max-md:mt-5 max-md:flex-col max-md:gap-5">
                                     {Menu.map(([menuKey, subLinks]: MenuType) => {
