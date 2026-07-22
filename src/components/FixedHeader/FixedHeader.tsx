@@ -1,120 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Menu } from "../../data/Other/Menu";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { ContactUsPopup } from "./ContactUsPopup";
 import { Auth } from "../Auth/Auth";
 import { useAuthStore } from "../../store/auth";
-import { IHeaderState } from "../../types/interfaces";
-import { MenuType } from "../../types/types";
-import { useWishlist } from "../../store/wishlist";
-import { usePopupStore } from "../../store/popup";
-import { WishlistPopup } from "../PopUps/WishlistPopup";
-import { CartPopUp } from "../PopUps/CartPopUp";
-import { useCart } from "../../store/cart";
 import { Search } from "./Search";
 import arrToBottom from "../../assets/arr-to-bottom.svg";
-import arrToBottomGray from "../../assets/arr-to-bottom-gray.svg";
+import { useHeaderState } from "./useHeaderState";
+import { BurgerButton } from "./BurgerButton";
+import { HeaderMenu } from "./HeaderMenu";
+import { HeaderBuyButtons } from "./HeaderBuyButtons";
 
-const badgeCls = "flex justify-center items-center text-[14px] absolute w-[17px] h-[17px] bottom-[-5px] right-[-5px] bg-[#7A0000] rounded-full text-white overflow-hidden";
 const contactBaseCls = "text-center flex justify-center font-semibold max-w-[220px] px-[34px] py-[10px] rounded-[3px] text-white transitioned relative";
-const subLinkCls = "text-white font-inter font-normal leading-normal py-3 max-w-full border-b border-white transitioned first:pt-0 first:pb-3 hover:text-[#b9b9b9] active:underline";
 
 export function FixedHeader() {
-    const [state, setState] = useState<IHeaderState>({
-        isScrolledDown: false,
-        lastScrollTop: 0,
-        isLargeScreen: window.innerWidth > 767,
-        isBurgerActive: false,
-        activeLink: null,
-        moreInfo: false,
-    });
-
-    const location = useLocation();
-
-    //set burger closed
-    useEffect(() => setState(prev => ({ ...prev, isBurgerActive: false })), [location]);
-
-    //burger no-scroll
-    useEffect(() => {
-        const root = document.getElementById('root');
-        root?.classList.toggle('no-scroll', state.isBurgerActive && !state.isLargeScreen);
-        return () => root?.classList.remove('no-scroll');
-    }, [state.isBurgerActive, state.isLargeScreen]);
-
-    //isLargeScreen
-    useEffect(() => {
-        const handleResize = () => setState(prev => ({ ...prev, isLargeScreen: window.innerWidth > 767 }));
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    //for bottom-header
-    useEffect(() => {
-        if (!state.isLargeScreen) return;
-
-        const handleScroll = () => {
-            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            setState(prev => ({
-                ...prev,
-                isScrolledDown: currentScroll > prev.lastScrollTop && currentScroll > 59,
-                lastScrollTop: Math.max(currentScroll, 0)
-            }));
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [state.lastScrollTop, state.isLargeScreen]);
-
-    //for hovered links
-    useEffect(() => {
-        if (state.isLargeScreen && !state.isScrolledDown) {
-            const handleMouseEnter = (event: MouseEvent) => {
-                const target = event.target as HTMLElement;
-                const link = target.closest('.header__li');
-                if (link) {
-                    setState((prev) => ({
-                        ...prev,
-                        activeLink: link.getAttribute('data-key') || null,
-                    }));
-                }
-            };
-
-            const handleMouseLeave = () => {
-                setState((prev) => ({ ...prev, activeLink: null }));
-            };
-
-            const menu = document.querySelector('.header__ul');
-            if (menu) {
-                menu.addEventListener('mouseover', handleMouseEnter as EventListener);
-                menu.addEventListener('mouseout', handleMouseLeave);
-            }
-
-            return () => {
-                if (menu) {
-                    menu.removeEventListener('mouseover', handleMouseEnter as EventListener);
-                    menu.removeEventListener('mouseout', handleMouseLeave);
-                }
-            };
-        }
-    }, [state.isLargeScreen, state.isScrolledDown]);
-
-
-    //disable links when bottom-header was hidden
-    useEffect(() => {
-        if (state.isScrolledDown) setState(prev => ({ ...prev, activeLink: null }));
-    }, [state.isScrolledDown]);
-
-    //close more info when change isLargeScreen
-    useEffect(() => setState(prev => ({ ...prev, moreInfo: false })), [state.isLargeScreen]);
-
+    const { state, setState } = useHeaderState();
     const [loginActive, setLoginActive] = useState(false);
     const { user } = useAuthStore();
-    const { getWishlistTotal } = useWishlist()
-    const { open } = usePopupStore()
-    const { getCartTotal } = useCart()
+
     return (
         <>
             <header className="relative">
+                {/* top bar: logo, search, account and contact */}
                 <div className="z-[11] fixed w-full h-[84px] top-0 left-0 bg-[#121212]">
                     <div className="myContainer">
                         <div className="h-[84px] gap-5 md:flex md:items-center md:justify-between max-md:relative max-md:block">
@@ -123,12 +29,10 @@ export function FixedHeader() {
                                     <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="logo" />
                                 </Link>
                                 {!state.isLargeScreen && (
-                                    <button
+                                    <BurgerButton
+                                        isActive={state.isBurgerActive}
                                         onClick={() => setState(prev => ({ ...prev, isBurgerActive: !prev.isBurgerActive }))}
-                                        className={"[transform:translate(calc(100vw-259px),0)] bg-transparent z-[1000] block absolute bottom-2 right-0 w-[30px] h-[18px] cursor-pointer before:content-[''] before:left-0 before:absolute before:bg-white before:h-[10%] before:w-full before:transition-all before:duration-300 before:ease-[cubic-bezier(0.075,0.82,0.165,1)] after:content-[''] after:left-0 after:absolute after:bg-white after:h-[10%] after:w-full after:transition-all after:duration-300 after:ease-[cubic-bezier(0.075,0.82,0.165,1)] [&_span]:top-1/2 [&_span]:left-0 [&_span]:absolute [&_span]:bg-white [&_span]:h-[10%] [&_span]:w-full [&_span]:transition-all [&_span]:duration-300 [&_span]:ease-[cubic-bezier(0.075,0.82,0.165,1)] " + (state.isBurgerActive ? "before:top-1/2 before:[transform:rotate(-45deg)_translate(0,-50%)] after:bottom-1/2 after:[transform:rotate(45deg)_translate(0,50%)] [&_span]:[transform:scale(0)_translate(0,-50%)]" : "before:top-0 after:bottom-0 [&_span]:[transform:scale(1)_translate(0,-50%)]")}
-                                    >
-                                        <span></span>
-                                    </button>
+                                    />
                                 )}
                             </div>
                             <div className={"md:flex-auto md:flex md:items-center md:justify-between md:gap-5 " + (state.isBurgerActive ? "max-md:flex max-md:absolute max-md:z-[200] max-md:w-full max-md:h-auto max-md:top-0 max-md:left-0 max-md:pt-[25vh] max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-5 max-md:text-center" : "max-md:hidden")}>
@@ -155,87 +59,13 @@ export function FixedHeader() {
                         </div>
                     </div>
                 </div>
+
+                {/* bottom bar on desktop, full screen burger overlay on mobile */}
                 <div className={"md:transition-all md:duration-500 md:ease-[cubic-bezier(0.075,0.82,0.165,1)] md:fixed md:z-10 md:w-full md:h-[59px] md:left-0 md:bg-white md:pt-0 " + (state.isScrolledDown ? "md:top-[-59px] " : "md:top-[84px] ") + (state.isBurgerActive ? "max-md:fixed max-md:inset-0 max-md:z-[9] max-md:bg-[rgba(0,0,0,0.91)]" : "max-md:hidden")}>
                     <div className="myContainer">
                         <div className="md:flex md:justify-between md:items-center md:h-[59px] max-md:flex max-md:flex-col max-md:items-center max-md:text-center max-md:gap-y-[25px] max-md:pt-[35vh] max-md:h-full">
-                            <nav>
-                                <ul className="header__ul flex md:gap-0 max-md:mt-5 max-md:flex-col max-md:gap-5">
-                                    {Menu.map(([menuKey, subLinks]: MenuType) => {
-                                        const isActive = state.activeLink === menuKey;
-                                        return (
-                                            <li
-                                                key={menuKey}
-                                                data-key={menuKey}
-                                                className="header__li group relative"
-                                            >
-                                                <Link className="transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] py-5 relative md:pr-[35px] md:pl-[25px] md:text-[#121212] md:group-hover:text-white md:group-hover:bg-[#7a0000bf] max-md:text-[22px] max-md:text-white max-md:pr-0 max-md:pl-0" to={menuKey.trim().replace(/\s+/g, '-')}>
-                                                    {menuKey}
-                                                    <img src={arrToBottomGray} alt="" className={"absolute w-[7px] h-[7px] bottom-[43%] right-[10px] transition-all duration-700 ease-[cubic-bezier(0.075,0.82,0.165,1)] max-md:hidden " + (isActive ? "opacity-0 rotate-[-90deg]" : "")} />
-                                                </Link>
-                                                <div className={"flex flex-col p-[22px] transitioned absolute w-full h-auto top-0 left-0 bg-[#500000bf] opacity-0 invisible translate-y-0 " + (isActive ? "md:opacity-100 md:visible md:translate-y-[37px]" : "")}>
-                                                    {subLinks.map((subLink: string) => (
-                                                        <Link className={subLinkCls} to={`${menuKey.trim().replace(/\s+/g, '-')}/${subLink}`} key={`${menuKey}-${subLink}`}>
-                                                            {subLink}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </nav>
-                            <div className="flex items-center gap-5">
-                                <button onClick={() => {
-                                    open("Wishlist", <WishlistPopup />, false);
-                                }}
-                                    className="relative bg-transparent transitioned hover:scale-110 max-md:[&_svg_path]:stroke-white"
-                                >
-                                    <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M23.1494 2.85655C22.5629 2.26797 21.8667 1.80107 21.1003 1.48251C20.334 1.16396 19.5126 1 18.6831 1C17.8535 1 17.0321 1.16396 16.2658 1.48251C15.4994 1.80107 14.8032 2.26797 14.2167 2.85655L12.9997 4.07749L11.7826 2.85655C10.5981 1.66822 8.99152 1.00062 7.31633 1.00062C5.64114 1.00062 4.03455 1.66822 2.85001 2.85655C1.66547 4.04489 1 5.65662 1 7.33718C1 9.01774 1.66547 10.6295 2.85001 11.8178L4.06705 13.0387L12.9997 22L21.9323 13.0387L23.1494 11.8178C23.7361 11.2295 24.2015 10.531 24.519 9.76219C24.8366 8.99339 25 8.16936 25 7.33718C25 6.50499 24.8366 5.68096 24.519 4.91216C24.2015 4.14336 23.7361 3.44486 23.1494 2.85655V2.85655Z"
-                                            stroke="black"
-                                            strokeWidth="1.48837"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                    {getWishlistTotal() > 0 && (
-                                        <span className={badgeCls}>{getWishlistTotal()}</span>
-                                    )}
-                                </button>
-                                <button onClick={() => {
-                                    open("Cart", <CartPopUp />, false);
-                                }}
-                                    className="relative bg-transparent transitioned hover:scale-110 max-md:[&_svg_path]:stroke-white">
-                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11 28C12.1046 28 13 27.1046 13 26C13 24.8954 12.1046 24 11 24C9.89543 24 9 24.8954 9 26C9 27.1046 9.89543 28 11 28Z"
-                                            stroke="black"
-                                            strokeWidth="1.48837"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                        <path
-                                            d="M24 28C25.1046 28 26 27.1046 26 26C26 24.8954 25.1046 24 24 24C22.8954 24 22 24.8954 22 26C22 27.1046 22.8954 28 24 28Z"
-                                            stroke="black"
-                                            strokeWidth="1.48837"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                        <path
-                                            d="M1 1H6.09091L9.50182 17.9603C9.6182 18.5434 9.93697 19.0672 10.4023 19.4401C10.8677 19.8129 11.45 20.0109 12.0473 19.9995H24.4182C25.0155 20.0109 25.5978 19.8129 26.0631 19.4401C26.5285 19.0672 26.8473 18.5434 26.9636 17.9603L29 7.33318H7.36364"
-                                            stroke="black"
-                                            strokeWidth="1.48837"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                    {getCartTotal() > 0 && (
-                                        <span className={badgeCls}>{getCartTotal()}</span>
-                                    )}
-                                </button>
-
-                            </div>
+                            <HeaderMenu activeLink={state.activeLink} />
+                            <HeaderBuyButtons />
                         </div>
                     </div>
                 </div>
