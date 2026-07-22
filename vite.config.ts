@@ -44,14 +44,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@mixins': path.resolve(__dirname, 'src/mixins')
-    }
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use '@mixins' as mixins;`
-      }
+      '@': path.resolve(__dirname, 'src'),
     }
   },
 });

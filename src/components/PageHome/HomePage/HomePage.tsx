@@ -7,10 +7,9 @@ import { GiftBackets } from "../GiftBaskets/GiftBackets";
 import { Instagram } from "../Instagram/Instagram";
 import { Links } from "../Links/Links";
 import { WhatMakesUsSpecial } from "../WhatMakesUsSpecial/WhatMakesUsSpecial";
-import styles from "./HomePage.module.scss";
 export function HomePage() {
     return (
-        <div className={styles.content}>
+        <div className="relative pt-[143px] max-md:pt-[84px]">
             <SpecialOffer imgSrc="./HomePage/table-with-glasses.jpg"
                 supTitle="Special offer"
                 title="glasses & сandles"

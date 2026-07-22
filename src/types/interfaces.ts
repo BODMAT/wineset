@@ -1,7 +1,6 @@
 import { User } from "firebase/auth";
 import { BankType, CartIdsType, DeliveryType, WishListIdsType } from "./types";
 import { IProduct, IProductWithCartQuantity } from "../architecture/Pruduct";
-import { CSSObjectWithLabel } from "react-select";
 
 export interface AuthProps {
     loginActive: boolean;
@@ -192,15 +191,6 @@ export interface IArticleProps {
     link: string,
     img: string
     sublabel: string
-}
-
-export interface CustomSelectStyles {
-    control: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
-    singleValue: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
-    placeholder: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
-    dropdownIndicator: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
-    option: (base: CSSObjectWithLabel, state: any) => CSSObjectWithLabel;
-    menu: (base: CSSObjectWithLabel) => CSSObjectWithLabel;
 }
 
 export interface PopupStateProps {

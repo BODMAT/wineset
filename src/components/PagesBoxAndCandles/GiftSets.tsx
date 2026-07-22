@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import styles from './PageGiftBoxesPage.module.scss';
 import { useOpacity } from '../../hooks/useOpacity';
 import { motion } from 'framer-motion';
 import { textFromTopAnimation } from '../../utils/animations';
+
+const basicTextCls = "max-w-[320px] text-[#121212] font-inter font-normal leading-[22px] lowercase max-lg:max-w-full";
+
 export function GiftSets() {
     const { opacity, blockRef } = useOpacity();
     return (
@@ -12,11 +14,11 @@ export function GiftSets() {
             viewport={{ once: false, amount: 0.2 }}
             ref={blockRef}
             className="relative pt-[80px] pb-[43px] max-md:pt-[50px] max-md:pb-[20px]">
-            <div className={`${styles.container} relative z-2`}>
+            <div className="myContainer relative z-2">
                 <div className="flex justify-between gap-[15px] mb-[50px] max-lg:flex-col max-lg:items-center">
-                    <motion.h1 variants={textFromTopAnimation} className={styles.basicTitle}>Gift sets</motion.h1>
-                    <div className={`${styles.basicText} max-lg:text-center`}>The shape of each glass is unique, thanks to which you can feel the most subtle nuances of taste your favorite drinks.</div>
-                    <div className={`${styles.basicText} max-lg:text-center`}>YOU CAN BUY THE GLASSES SEPARATELY OR IN A BEAUTIFUL GIFT PACKAGING.</div>
+                    <motion.h1 variants={textFromTopAnimation} className="text-[#121212] font-cormorant font-bold leading-normal uppercase fluid-text [--fmin:36] [--fmax:48]">Gift sets</motion.h1>
+                    <div className={`${basicTextCls} max-lg:text-center`}>The shape of each glass is unique, thanks to which you can feel the most subtle nuances of taste your favorite drinks.</div>
+                    <div className={`${basicTextCls} max-lg:text-center`}>YOU CAN BUY THE GLASSES SEPARATELY OR IN A BEAUTIFUL GIFT PACKAGING.</div>
                 </div>
                 <div className="flex flex-wrap justify-evenly gap-[20px] mt-[50px]">
                     <Link to="/Gift-sets/Boxes" className='hover:scale-105 transitioned cursor-pointer'>

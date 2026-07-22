@@ -1,4 +1,4 @@
-import styles from "./PageProducts.module.scss";
+import { Button } from "@/components/ui/button";
 import { Box, IProduct, IProductWithCartQuantity } from "../../architecture/Pruduct";
 import { Link } from "react-router-dom";
 import { ProductPhoto } from "../ProductPhoto/ProductPhoto";
@@ -13,6 +13,13 @@ import { useCart } from "../../store/cart";
 import { capitalizeFirstLetter } from "../../utils/utils";
 import { alcoTypes, othersTypes } from "../../data/Other/ReusableProduct";
 import { usePopupStore } from "../../store/popup";
+
+const basicTitleCls = "text-[#121212] font-cormorant font-bold leading-normal uppercase fluid-text [--fmin:36] [--fmax:48]";
+const labelCls = "text-black font-inter font-medium leading-[1.2] uppercase fluid-text [--fmin:16] [--fmax:18]";
+const descriptionCls = "text-black font-inter font-medium leading-[20px] uppercase fluid-text [--fmin:12] [--fmax:14]";
+const priceCls = "text-[#7a0000] font-inter font-semibold leading-[23px] fluid-text [--fmin:16] [--fmax:18]";
+const prevPriceCls = "text-[#00000075] text-[14px] font-inter font-semibold leading-[18px] line-through";
+const buyBtnCls = "max-w-full text-[16px] font-inter font-semibold leading-normal uppercase px-[64px] py-[15px] duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)]";
 
 export function ProductsByType() {
     const { open } = usePopupStore()
@@ -52,12 +59,12 @@ export function ProductsByType() {
 
     return (
         <section className="products mt-14 mb-10 max-lg:mt-7 max-lg:mb-7">
-            <div className={styles.container}>
+            <div className="myContainer">
                 <FilterBy /> {/* Filter component */}
                 <div className="flex gap-[20px] flex-wrap">
-                    {isLoading && <p className={styles.basicTitle}>Loading...</p>}
+                    {isLoading && <p className={basicTitleCls}>Loading...</p>}
                     {!isLoading && filteredProducts.length === 0 && (
-                        <p className={styles.basicTitle}>Nothing found for the selected filters.</p>
+                        <p className={basicTitleCls}>Nothing found for the selected filters.</p>
                     )}
                     {!isLoading && filteredProducts.length > 0 &&
                         filteredProducts.map((product: IProduct, index: number) => (
@@ -69,7 +76,7 @@ export function ProductsByType() {
                                     <Link to={`/${capitalizeFirstLetter(product.kindOfProduct)}/${product.id}`}>
                                         <ProductPhoto product={product} />
                                         <div className="!mt-auto grid grid-rows-3 grid-cols-1 gap-[7px]">
-                                            <h3 className={styles.label}>{product.name}</h3>
+                                            <h3 className={labelCls}>{product.name}</h3>
                                             <div className="flex flex-col gap-[7px] flex-1">
                                                 <p className="flex gap-2 items-center" key={index + "i"}>
                                                     <span className="w-[17px] h-[17px] flex-[0_0_17px]">
@@ -80,7 +87,7 @@ export function ProductsByType() {
                                                             <img className="w-full h-full" src={descriptionFoodSVG} alt="descriptionFoodSVG" />
                                                         )}
                                                     </span>
-                                                    <span className={styles.description}>
+                                                    <span className={descriptionCls}>
                                                         {Array.isArray(product.description)
                                                             ? product.description[0]
                                                             : product.description}
@@ -91,18 +98,18 @@ export function ProductsByType() {
                                                         <span className="w-[17px] h-[17px] flex-[0_0_17px]">
                                                             <img className="w-full h-full" src={descriptionOthersSVG} alt="descriptionOthersSVG" />
                                                         </span>
-                                                        <span className={styles.description}>{product.description[1]}</span>
+                                                        <span className={descriptionCls}>{product.description[1]}</span>
                                                     </p>
                                                 )}
                                             </div>
                                             <div className="flex gap-6 items-center">
                                                 {productsRerender && (
                                                     <>
-                                                        <h4 className={styles.price}>
+                                                        <h4 className={priceCls}>
                                                             {product.getDiscountedPrice()}$
                                                         </h4>
                                                         {product.discount !== undefined && product.discount > 0 && (
-                                                            <h4 className={styles.prev_price}>
+                                                            <h4 className={prevPriceCls}>
                                                                 {product.price}$
                                                             </h4>
                                                         )}
@@ -113,20 +120,24 @@ export function ProductsByType() {
                                     </Link>
                                 </div>
                                 {isToCartPossible(product) && (
-                                    <button
-                                        className={styles.buttonBuy}
+                                    <Button
+                                        variant="wine"
+                                        size="free"
+                                        className={buyBtnCls}
                                         onClick={() => { product.addToCart(); open("Notification", <p className="pb-5">{product.name} is added to Cart</p>) }}
                                     >
                                         Add to cart
-                                    </button>
+                                    </Button>
                                 )}
                                 {!isToCartPossible(product) && (
-                                    <button
-                                        className={styles.buttonBuy + " " + `${isToCartPossible(product) ? "" : "!bg-gray-200 !border-black !text-black"}`}
+                                    <Button
+                                        variant="wine"
+                                        size="free"
+                                        className={buyBtnCls + " !bg-gray-200 !border-black !text-black"}
                                         disabled
                                     >
                                         Lack of quantity
-                                    </button>
+                                    </Button>
                                 )
                                 }
                             </div>

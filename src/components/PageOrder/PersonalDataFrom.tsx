@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import emailjs from "@emailjs/browser";
-import styles from './PageOrder.module.scss';
 import { Controller, useForm } from 'react-hook-form';
 import { IPersonalData } from '../../types/interfaces';
 import { formatCardNumber, formatCart } from '../../utils/utils';
@@ -10,6 +9,11 @@ import { usePopupStore } from '../../store/popup';
 import { useCart } from '../../store/cart';
 import { updateProductQuantities } from '../../api/product';
 import { useBonusStore } from '../../store/bonus';
+import { deliveryOptions, paymentOptions } from '../../data/Other/OrderOptions';
+import { formBlockCls, labelCls } from './orderFormClasses';
+import { FieldError } from './FieldError';
+import { RadioField } from './RadioField';
+import { RecipientFields } from './RecipientFields';
 
 export function PersonalDataForm() {
     const { updateBonusesInDBAfterPurchase, bonusesYouCanUse, useBonuses } = useBonusStore();
@@ -78,107 +82,19 @@ export function PersonalDataForm() {
 
     return (
         <section className='py-8'>
-            <div className={styles.container}>
-                <h2 className={styles.title}>Personally Identifiable Information</h2>
+            <div className="myContainer">
+                <h2 className="text-[#121212] font-cormorant font-bold leading-normal uppercase fluid-text [--fmin:36] [--fmax:48]">Personally Identifiable Information</h2>
                 <div className="flex justify-between items-center gap-30 mt-5 max-[900px]:flex-col">
                     <form ref={formRef} id="oeder" className='flex-[0_1_50%] flex flex-col gap-10 max-[900px]:w-full' onSubmit={handleSubmit(sendMail)}>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="name" className={styles.label}>Recipient</label>
-
-                            <input
-                                placeholder='First name...'
-                                type="text"
-                                id='name'
-                                defaultValue={firstName ?? ''}
-                                {...register("name", { required: "Name is required" })}
-                                autoComplete="given-name"
-                            />
-                            {errors.name && <p className="text-red-400 text-sm">{errors.name.message}</p>}
-
-                            <input
-                                placeholder='Surname...'
-                                type="text"
-                                id='surname'
-                                defaultValue={lastName ?? ''}
-                                {...register("surname", { required: "Surname is required" })}
-                                autoComplete="family-name"
-                            />
-                            {errors.surname && <p className="text-red-400 text-sm">{errors.surname.message}</p>}
-
-                            <input
-                                placeholder='Phone number...'
-                                type="text"
-                                id='tel'
-                                {...register("tel", {
-                                    required: "Phone number is required",
-                                    pattern: {
-                                        value: /^\+?3?8?(0\d{9})$/,
-                                        message: "Invalid phone number"
-                                    },
-                                })}
-                                autoComplete="tel"
-                            />
-                            {errors.tel && <p className="text-red-400 text-sm">{errors.tel.message}</p>}
-
-                            <input
-                                placeholder='Email...'
-                                type="email"
-                                id='email'
-                                defaultValue={email ?? ''}
-                                {...register("email", {
-                                    required: "Email is required",
-                                    pattern: {
-                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                        message: "Invalid email address"
-                                    },
-                                })}
-                                autoComplete="email"
-                            />
-                            {errors.email && <p className="text-red-400 text-sm">{errors.email.message}</p>}
+                        <div className={formBlockCls}>
+                            <label htmlFor="name" className={labelCls}>Recipient</label>
+                            <RecipientFields register={register} errors={errors} firstName={firstName} lastName={lastName} email={email} />
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="address" className={styles.label}>Delivery</label>
-                            <label htmlFor="courier" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="courier"
-                                    value="courier"
-                                    {...register("delivery", { required: "Delivery is required" })}
-                                    autoComplete="off"
-                                />
-                                Courier
-                            </label>
-                            <label htmlFor="nova-poshta" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="nova-poshta"
-                                    value="nova-poshta"
-                                    {...register("delivery", { required: "Delivery is required" })}
-                                    autoComplete="off"
-                                />
-                                Nova Poshta
-                            </label>
-                            <label htmlFor="ukrposhta" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="ukrposhta"
-                                    value="ukrposhta"
-                                    {...register("delivery", { required: "Delivery is required" })}
-                                    autoComplete="off"
-                                />
-                                Ukrposhta
-                            </label>
-                            <label htmlFor="self-pickup" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="self-pickup"
-                                    value="self-pickup"
-                                    {...register("delivery", { required: "Delivery is required" })}
-                                    autoComplete="off"
-                                />
-                                Self-pickup
-                            </label>
-                            {errors.delivery && <p className="text-red-400 text-sm">{errors.delivery.message}</p>}
+
+                        <div className={formBlockCls}>
+                            <label htmlFor="address" className={labelCls}>Delivery</label>
+                            <RadioField name="delivery" options={deliveryOptions} register={register} requiredMessage="Delivery is required" />
+                            <FieldError message={errors.delivery?.message} />
 
                             <input
                                 placeholder='Address..'
@@ -187,52 +103,13 @@ export function PersonalDataForm() {
                                 {...register("address", { required: "Address is required" })}
                                 autoComplete="address-line1"
                             />
-                            {errors.address && <p className="text-red-400 text-sm">{errors.address.message}</p>}
+                            <FieldError message={errors.address?.message} />
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="payment" className={styles.label}>Payment</label>
 
-                            <label htmlFor="Privat24" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="Privat24"
-                                    value="Privat24"
-                                    {...register("payment", { required: "Payment is required" })}
-                                    autoComplete="off"
-                                />
-                                Privat 24
-                            </label>
-                            <label htmlFor="Monobank" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="Monobank"
-                                    value="Monobank"
-                                    {...register("payment", { required: "Payment is required" })}
-                                    autoComplete="off"
-                                />
-                                Monobank
-                            </label>
-                            <label htmlFor="Abank" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="Abank"
-                                    value="Abank"
-                                    {...register("payment", { required: "Payment is required" })}
-                                    autoComplete="off"
-                                />
-                                Abank
-                            </label>
-                            <label htmlFor="Sense Bank" className="flex gap-2">
-                                <input
-                                    type="radio"
-                                    id="Sense Bank"
-                                    value="Sense Bank"
-                                    {...register("payment", { required: "Payment is required" })}
-                                    autoComplete="off"
-                                />
-                                Sense Bank
-                            </label>
-                            {errors.payment && <p className="text-red-400 text-sm">{errors.payment.message}</p>}
+                        <div className={formBlockCls}>
+                            <label htmlFor="payment" className={labelCls}>Payment</label>
+                            <RadioField name="payment" options={paymentOptions} register={register} requiredMessage="Payment is required" />
+                            <FieldError message={errors.payment?.message} />
 
                             <Controller
                                 name="cardNumber"
@@ -258,10 +135,11 @@ export function PersonalDataForm() {
                                     />
                                 )}
                             />
-                            {errors.cardNumber && <p className="text-red-400 text-sm">{errors.cardNumber.message}</p>}
+                            <FieldError message={errors.cardNumber?.message} />
                         </div>
-                        <div className={styles.formBlock}>
-                            <label htmlFor="comment" className={styles.label}>Your comment</label>
+
+                        <div className={formBlockCls}>
+                            <label htmlFor="comment" className={labelCls}>Your comment</label>
 
                             <textarea
                                 placeholder='Comment...'

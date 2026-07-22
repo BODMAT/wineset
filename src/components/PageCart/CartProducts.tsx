@@ -8,7 +8,9 @@ import { usePopupStore } from "../../store/popup";
 import { useAuthStore } from "../../store/auth";
 import { Link } from "react-router-dom";
 import { capitalizeFirstLetter, resolveImageUrl } from "../../utils/utils";
-import styles from "./PageCart.module.scss";
+
+const suptitleCls = "font-inter font-medium text-[14px] leading-[1.4] capitalize text-black/50";
+const titleCls = "font-inter font-medium leading-[1.3] capitalize text-black fluid-text [--fmin:16] [--fmax:18]";
 
 export function CartProducts({ changable = true }: { changable?: boolean }) {
     const { cartProducts } = useCart();
@@ -48,9 +50,9 @@ export function CartProducts({ changable = true }: { changable?: boolean }) {
 
                                     <div className="flex justify-between flex-col">
                                         <div className="flex flex-col">
-                                            <h4 className={styles.suptitle}>Type: {cartItem.kindOfProduct}</h4>
-                                            <h3 className={styles.title}>{cartItem.name}</h3>
-                                            <h4 className={styles.suptitle}>{cartItem.description}</h4>
+                                            <h4 className={suptitleCls}>Type: {cartItem.kindOfProduct}</h4>
+                                            <h3 className={titleCls}>{cartItem.name}</h3>
+                                            <h4 className={suptitleCls}>{cartItem.description}</h4>
                                         </div>
                                         {changable && (
                                             <div className="counterFont bg-[#F9F9FC] max-w-[120px] h-[50px] flex items-center justify-between">

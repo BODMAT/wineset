@@ -33,8 +33,9 @@ Design based on this Figma layout: https://www.figma.com/file/ESg7icZQv5cdTJ9GGt
 | State     | Zustand (client state), TanStack Query (server state & caching) |
 | Backend   | Firebase - Firestore (data), Authentication                     |
 | Forms     | React Hook Form                                                 |
-| Styling   | Tailwind CSS 4, SCSS modules                                    |
-| UI / UX   | Framer Motion, Swiper, React Select, Leaflet                    |
+| Styling   | Tailwind CSS 4 (utility-first, no SCSS)                         |
+| UI kit    | shadcn/ui (Base UI primitives, CVA, tailwind-merge)             |
+| UI / UX   | Framer Motion, Swiper, Leaflet                                  |
 | Email     | EmailJS                                                         |
 | PWA       | vite-plugin-pwa (Workbox)                                       |
 
@@ -85,15 +86,61 @@ npm run lint      # run ESLint
 ```
 src/
   components/     UI and page components (organised by page/feature)
+    ui/           shadcn/ui primitives (button, select, ...)
+    Root/         entry point and global CSS (tailwind.css, nullstyle.css)
+  lib/            helpers shared by the ui primitives (cn)
   store/          Zustand stores (cart, wishlist, bonus, ...)
   api/            data-access helpers
   architecture/   domain models / product classes
   data/           product data
   types/          shared TypeScript types
   utils/          helpers
-  mixins.scss     shared SCSS mixins
 public/           static assets and PWA icons
 ```
+
+## Styling
+
+All styling is Tailwind utility classes written directly in the components -
+there are no SCSS files and no CSS modules. Global CSS lives in
+`src/components/Root/tailwind.css`.
+
+**Custom utilities** (defined in `tailwind.css`):
+
+| Utility        | Purpose                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| `fluid-text`   | Fluid font size. Pair with `[--fmin:30] [--fmax:48]` (px values); interpolates between a 320px and a 1600px viewport. |
+| `myContainer`  | Page container - `max-w-[1600px]`, centred, 15px side padding.             |
+| `transitioned` | The shared 300ms cubic-bezier transition used across the UI.               |
+
+**Brand fonts** are exposed as theme fonts: `font-cormorant` (headings),
+`font-inter` (body), `font-alexbrush` (script accents), `font-roboto`. The
+Google Fonts stylesheet is loaded from `index.html`.
+
+**Cascade layers matter here.** `nullstyle.css` is imported *into the base
+layer* (`@import "./nullstyle.css" layer(base)`). Importing it as plain CSS
+would put it outside any layer, and unlayered rules beat every cascade layer -
+its `h1-h6 { font-size: inherit }` reset would then silently override every
+Tailwind font utility.
+
+**Responsive rule of thumb:** when a property differs between mobile and
+desktop, scope *both* sides (`md:flex` + `max-md:block`) rather than leaving one
+unprefixed. An unprefixed utility competing with a `max-md:` override resolves
+by stylesheet order, which is easy to get wrong.
+
+### shadcn/ui
+
+Components are generated into `src/components/ui/` and owned by this repo, so
+they can be edited freely:
+
+```bash
+npx shadcn@latest add <component>
+```
+
+The theme is mapped to the wine brand at the bottom of `tailwind.css`
+(`--primary: #7a0000`, `--radius: 3px`), so new components match the design
+without extra work. `src/components/ui/button.tsx` adds two project-specific
+variants, `wine` and `wineOutline`, plus a `size="free"` option that skips the
+default height/padding so the call site controls sizing.
 
 ## Deployment
 

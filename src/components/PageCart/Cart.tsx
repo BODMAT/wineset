@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../store/cart";
-import styles from "./PageCart.module.scss";
 
 import { useOpacity } from "../../hooks/useOpacity";
 import { resolveImageUrl } from "../../utils/utils";
@@ -10,6 +9,12 @@ import { CartProducts } from "./CartProducts";
 import { usePopupStore } from "../../store/popup";
 import { useBonusStore } from "../../store/bonus";
 import { BonusPopUp } from "../PopUps/BonusPopUp";
+import { Button } from "@/components/ui/button";
+
+const titleCls = "font-inter font-medium leading-[1.3] capitalize text-black fluid-text [--fmin:16] [--fmax:18]";
+const orderRedPriceCls = "font-inter font-semibold leading-[1.3] capitalize text-center text-[#7a0000] fluid-text [--fmin:16] [--fmax:18]";
+const orderFontCls = "font-inter font-semibold uppercase text-black fluid-text [--fmin:26] [--fmax:32]";
+const priceOrderCls = "font-inter font-semibold leading-[1.3] capitalize text-center text-[#121212] fluid-text [--fmin:16] [--fmax:18]";
 
 export function Cart() {
     const { cartProducts, totalCartDiscount, totalCartPriceWithoutDiscount, totalCartPriceWithDiscount } = useCart();
@@ -34,48 +39,46 @@ export function Cart() {
             ref={blockRef}
             className="relative"
         >
-            <div className={styles.container}>
+            <div className="myContainer">
                 <div className={"flex justify-between items-center gap-10 relative z-2 max-[1070px]:flex-col pt-10 pb-25"}>
                     <div>
-                        <motion.h2 variants={textFromTopAnimation} className={`${styles.cartFont} pb-[50px] border-b-1 border-[#000]`}>
+                        <motion.h2 variants={textFromTopAnimation} className="font-cormorant font-bold uppercase text-[#121212] tracking-[0.05em] fluid-text [--fmin:40] [--fmax:48] pb-[50px] border-b-1 border-[#000]">
                             Cart ({cartProducts.length})
                         </motion.h2>
                         <CartProducts />
                     </div>
                     <motion.div custom={1} variants={blockFromRightAnimation} className="bg-[rgba(164,164,164,0.45)] px-[60px] py-[40px] flex flex-col lg:min-w-[600px]">
                         <div className="border-b-2 border-[rgb(95,95,95)] py-[25px]">
-                            <h3 className={styles.orderTitleFont}>Your Order: </h3>
+                            <h3 className="font-inter font-semibold capitalize text-[#121212] fluid-text [--fmin:22] [--fmax:26]">Your Order: </h3>
                             <div className="flex flex-col gap-[20px] mt-[30px]">
                                 <div className="flex justify-between gap-3">
-                                    <h6 className={styles.title}>Products</h6>
-                                    <h6 className={styles.priceOrder}>{totalCartPriceWithoutDiscount}$</h6>
+                                    <h6 className={titleCls}>Products</h6>
+                                    <h6 className={priceOrderCls}>{totalCartPriceWithoutDiscount}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
-                                    <h6 className={styles.title}>Discount</h6>
-                                    <h6 className={styles.orderRedPrice}>-{totalCartDiscount}$</h6>
+                                    <h6 className={titleCls}>Discount</h6>
+                                    <h6 className={orderRedPriceCls}>-{totalCartDiscount}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
                                     <button
                                         onClick={() => { open("About Bonus System", <BonusPopUp />) }}
-                                        className={`${styles.title} transitioned !text-[#7a0000] hover:underline cursor-pointer text-left`}>Bonuses discount available</button>
-                                    <h6 className={styles.orderRedPrice}>-{bonusesYouCanUse}$</h6>
+                                        className={`${titleCls} transitioned !text-[#7a0000] hover:underline cursor-pointer text-left`}>Bonuses discount available</button>
+                                    <h6 className={orderRedPriceCls}>-{bonusesYouCanUse}$</h6>
                                 </div>
                                 <div className="flex justify-between gap-3">
-                                    <h6 className={styles.title}>Bonuses recieved</h6>
-                                    <h6 className={styles.orderRedPrice}>+{bonusesYouWillReceive}$</h6>
+                                    <h6 className={titleCls}>Bonuses recieved</h6>
+                                    <h6 className={orderRedPriceCls}>+{bonusesYouWillReceive}$</h6>
                                 </div>
                             </div>
                         </div>
                         <div className="border-b-2 border-[rgb(95,95,95)] py-[25px] flex justify-between gap-3">
-                            <h2 className={styles.orderFont}>Total</h2>
-                            <h2 className={styles.orderFont}>{(Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0).toFixed(2))}$</h2>
+                            <h2 className={orderFontCls}>Total</h2>
+                            <h2 className={orderFontCls}>{(Math.max(totalCartPriceWithDiscount - bonusesYouCanUse, 0).toFixed(2))}$</h2>
                         </div>
                         <div className="mt-[80px] flex justify-center">
-                            <button onClick={() => handleLinkWithCheck("/Order")}>
-                                <div className="text-center text-2xl bg-[#7A0000] border-2 border-[#7A0000] font-semibold max-w-[400px] px-[84px] py-[20px] rounded-[3px] text-white transition-all duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)] hover:bg-transparent hover:text-[#7A0000]">
-                                    Place an order
-                                </div>
-                            </button>
+                            <Button variant="wine" size="free" onClick={() => handleLinkWithCheck("/Order")} className="text-center text-2xl font-semibold max-w-[400px] px-[84px] py-[20px] duration-300 ease-[cubic-bezier(0.075,0.82,0.165,1)]">
+                                Place an order
+                            </Button>
                         </div>
                     </motion.div>
                 </div>

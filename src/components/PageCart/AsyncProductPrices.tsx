@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { IProductWithCartQuantity } from "../../architecture/Pruduct"
-import styles from "./PageCart.module.scss"
 import { useCart } from "../../store/cart";
 import { IFullPrice } from "../../types/interfaces";
 
@@ -40,9 +39,9 @@ export function AsyncProductPrices({ cartItem }: { cartItem: IProductWithCartQua
             {price && (
                 <div className="flex flex-col gap-[5px] items-end">
                     {price.crossedPrice !== price.disountedPrice && (
-                        <h5 className={styles.crossedPrice}>{price.crossedPrice}$</h5>
+                        <h5 className="font-inter font-semibold text-[14px] leading-[1.3] capitalize line-through text-center text-black/50">{price.crossedPrice}$</h5>
                     )}
-                    <h5 className={styles.priceCart}>{price.disountedPrice}$</h5>
+                    <h5 className="font-inter font-semibold leading-[1.3] capitalize text-center text-[#7a0000] fluid-text [--fmin:16] [--fmax:18]">{price.disountedPrice}$</h5>
                 </div>
             )}
         </>
